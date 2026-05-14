@@ -81,7 +81,54 @@
   .stat-card.green .stat-num { color: #047857; }
   .stat-card.green .stat-foot b { color: #047857; }
 
-  /* Key highlights - full-width stacked banner cards */
+  /* Highlight cards (3-up grid for 核心进展) */
+  .highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .h-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+  }
+  .h-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: #ecf3ef;
+    color: #1f4d3d;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+  .h-card.green .h-tag { background: #ecfdf5; color: #047857; }
+  .h-card.purple .h-tag { background: #f5f3ff; color: #6d28d9; }
+  .h-card h3 {
+    font-size: 16px;
+    color: #1f4d3d;
+    margin-bottom: 8px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .h-card.green h3 { color: #065f46; }
+  .h-card.purple h3 { color: #5b21b6; }
+  .h-card p {
+    font-size: 13.5px;
+    color: #4b5563;
+    line-height: 1.65;
+  }
+  .h-card .emph {
+    background: #fef3c7;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #78350f;
+    font-weight: 500;
+  }
+
+  /* Key highlights - full-width stacked banner cards (legacy, unused) */
   .highlight-banner {
     background: white; border-radius: 14px;
     box-shadow: 0 3px 14px rgba(31,77,61,0.08);
@@ -497,14 +544,17 @@
   .sb-fold:last-child { margin-bottom: 0; }
   .sb-fold:hover { box-shadow: 0 4px 14px rgba(31,77,61,0.10); }
   .sb-fold[open] { box-shadow: 0 4px 14px rgba(31,77,61,0.10); }
-  .sb-summary {
+  .sb-fold > summary.sb-summary {
     list-style: none;
     cursor: pointer;
     padding: 16px 24px;
     display: flex;
     align-items: center;
     gap: 24px;
+    background: white;
+    color: #1f2937;
   }
+  .sb-fold > summary.sb-summary:hover { background: #faf9f5; }
   .sb-summary::-webkit-details-marker { display: none; }
   .sb-name {
     font-size: 15px;
@@ -823,7 +873,7 @@
     <div class="section-bar">
       <div class="section-num">03</div>
       <div class="section-title">核心关注</div>
-      <span class="section-sub">4 项</span>
+      <span class="section-sub">2 项</span>
     </div>
     <div class="attentions" style="grid-template-columns: 1fr 1fr;">
       <div class="a-card">
@@ -836,16 +886,6 @@
         <div class="desc">W1(M10)、M5 Smart、V3 Pro、V3 四款产品 6–8 月集中上架中国区，叠加常规版本迭代与原子化建设，对测试团队考验极大。</div>
         <div class="action"><b>应对：</b>中心内部协调测试节奏与人力，与开发、测试侧拉通上架中国区标准化提效方案，全力配合 GTM 诉求按期完成。</div>
       </div>
-      <div class="a-card">
-        <div class="a-card-header"><div class="a-num">3</div><h3>原子化设备助手 1.0 节点紧</h3></div>
-        <div class="desc">UI 设计从 5/7 延期到 5/15 仍可能再延；6 月原子化测试同时承担 3 个大需求资源紧张；RN 开发资源集中冲突。</div>
-        <div class="action"><b>应对：</b>压缩开发测试时间勉强赶上 6/16，5/14 面试 3 位 RN 外包扩充资源；与测试负责人协调优先级与人力介入方案。</div>
-      </div>
-      <div class="a-card">
-        <div class="a-card-header"><div class="a-num">4</div><h3>原子化统一组件化 RN 资源冲突</h3></div>
-        <div class="desc">设备助手 1.0/2.0 与设备设置页改版集中安排同一位 RN 开发，6 月大需求并行。</div>
-        <div class="action"><b>应对：</b>引入 RN 外包扩充资源（5/14 面试 3 位），由经验丰富老员工主导开发保证质量；5/19 拉通各业务端完成开发分工。</div>
-      </div>
     </div>
   </div>
 
@@ -854,9 +894,9 @@
     <div class="section-bar">
       <div class="section-num">04</div>
       <div class="section-title">应急响应</div>
-      <span class="section-sub">4 起已闭环</span>
+      <span class="section-sub">3 起已闭环</span>
     </div>
-    <div class="rescue-cards" style="grid-template-columns: 1fr 1fr;">
+    <div class="rescue-cards" style="grid-template-columns: 1fr 1fr 1fr;">
       <div class="rescue-card">
         <div class="rescue-card-header"><div class="rescue-icon">!</div><div class="rescue-title">BM08 iOS 紧急 bug 闭环</div></div>
         <div class="rescue-issue"><strong>问题：</strong>iOS 设备绑定成功但首页列表不展示，1% 概率出现。</div>
@@ -874,12 +914,6 @@
         <div class="rescue-issue"><strong>问题：</strong>温度贴 T31 自研方案 FCC 认证未通过，原计划交付节点告急。</div>
         <div class="rescue-action"><b>响应：</b>紧急切换为涂鸦方案，与涂鸦侧敏捷协同补救，重新对齐固件 + App 联调节奏。</div>
         <div class="rescue-result">整体节点仅延期 5 天，6/16 上架计划保住</div>
-      </div>
-      <div class="rescue-card">
-        <div class="rescue-card-header"><div class="rescue-icon">!</div><div class="rescue-title">Lumi1 整机方案突变即响应</div></div>
-        <div class="rescue-issue"><strong>问题：</strong>光疗坐垫 Lumi1 整机决定"去掉坐垫，仅保留主机 + 绑带"，硬件方案重大调整。</div>
-        <div class="rescue-action"><b>响应：</b>App 当周完成 PRD 重新梳理（5/13 更新），不阻塞下一节点。</div>
-        <div class="rescue-result">5/13 PRD 同步更新到位，5/14 整机计划跟进刷新</div>
       </div>
     </div>
   </div>
