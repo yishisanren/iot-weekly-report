@@ -322,6 +322,170 @@
     padding-top: 24px; border-top: 1px solid #e5e7eb;
   }
 
+  /* Effort bar */
+  .effort-bar {
+    margin-top: 16px;
+    background: white;
+    border-radius: 10px;
+    padding: 14px 22px;
+    font-size: 13px;
+    color: #4b5563;
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 14px; row-gap: 8px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.04);
+  }
+  .effort-bar b { color: #1f4d3d; font-weight: 700; font-size: 16px; }
+  .effort-bar .sep { color: #cbd5e1; }
+  .effort-bar .ef-tag {
+    background: #ecf3ef; color: #1f4d3d;
+    padding: 2px 9px; border-radius: 10px;
+    font-size: 11px; font-weight: 700;
+    margin-right: 4px;
+  }
+
+  /* Timeline */
+  .timeline-wrap {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+    padding: 26px 26px 22px;
+  }
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .tl-day {
+    background: #faf9f5;
+    border-radius: 8px;
+    padding: 14px 12px;
+    min-height: 220px;
+    display: flex; flex-direction: column;
+  }
+  .tl-day.peak {
+    background: linear-gradient(180deg, #e9efeb 0%, #faf9f5 100%);
+    position: relative;
+    box-shadow: 0 2px 8px rgba(31,77,61,0.1);
+  }
+  .tl-day.peak::after {
+    content: "⚡ 高峰日";
+    position: absolute;
+    top: -8px; right: 8px;
+    background: #1f4d3d; color: white;
+    padding: 2px 9px; border-radius: 10px;
+    font-size: 10.5px; font-weight: 700;
+  }
+  .tl-date {
+    font-size: 11.5px; color: #94a3b8;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .tl-date strong {
+    display: block;
+    color: #1f4d3d;
+    font-size: 17px;
+    margin-top: 2px;
+  }
+  .tl-event {
+    font-size: 11.5px;
+    color: #374151;
+    padding: 6px 8px;
+    background: white;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    line-height: 1.45;
+    border-left: 2px solid #cbd5e1;
+  }
+  .tl-event.major {
+    border-left-color: #1f4d3d;
+    font-weight: 600;
+    color: #1f4d3d;
+  }
+  .tl-event.fire {
+    border-left-color: #d97706;
+    color: #92400e;
+    background: #fffbeb;
+    font-weight: 500;
+  }
+  .tl-event.atom {
+    border-left-color: #7c3aed;
+    color: #5b21b6;
+  }
+  .tl-event.deliver {
+    border-left-color: #16a34a;
+    color: #065f46;
+    font-weight: 600;
+  }
+
+  /* Rescue cards */
+  .rescue-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .rescue-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+  }
+  .rescue-card-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .rescue-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rescue-title { font-size: 15px; font-weight: 700; color: #1f4d3d; line-height: 1.4; }
+  .rescue-issue {
+    font-size: 12px; color: #b45309;
+    background: #fef3c7;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .rescue-issue strong { color: #92400e; }
+  .rescue-action {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .rescue-action b { color: #1f4d3d; }
+  .rescue-result {
+    padding: 8px 12px;
+    background: #ecfdf5;
+    border-radius: 5px;
+    font-size: 12.5px;
+    color: #047857;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .rescue-result::before { content: "✓ "; }
+
+  /* Platform value */
+  .platform-value {
+    background: linear-gradient(135deg, #ecf3ef 0%, #f5f3ed 100%);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    font-size: 13.5px;
+    color: #1f4d3d;
+    line-height: 1.7;
+    border-left: 3px solid #2d6650;
+  }
+  .platform-value b { color: #0f172a; }
+
   @media (max-width: 900px) {
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .highlight-banner { grid-template-columns: 60px 1fr; }
@@ -373,12 +537,75 @@
         <div class="stat-foot">V3 Pro 上市冲刺 · 集中上市中国区</div>
       </div>
     </div>
+    <div class="effort-bar">
+      <span class="ef-tag">本周投入</span>
+      <span>完成 <b>8</b> 项关键评审/澄清</span>
+      <span class="sep">·</span>
+      <span>输出 <b>6</b> 份 PRD / UI / 技术方案</span>
+      <span class="sep">·</span>
+      <span>对接 <b>10+</b> 个外部协同团队</span>
+      <span class="sep">·</span>
+      <span>处理 <b>3</b> 起应急 / 硬扛事件</span>
+    </div>
   </div>
 
-  <!-- Section 02: 本周关键事项 (full-width stacked) -->
+  <!-- Section 02: 关键节点时间轴 -->
   <div class="section">
     <div class="section-bar">
       <div class="section-num">02</div>
+      <div class="section-title">本周关键节点时间轴</div>
+      <span class="section-sub">5/8 — 5/14 · 工作日视图</span>
+    </div>
+    <div class="timeline-wrap">
+      <div class="timeline-grid">
+
+        <div class="tl-day">
+          <div class="tl-date">周五<strong>5/8</strong></div>
+          <div class="tl-event deliver">Megg1 游戏版本如期交付</div>
+          <div class="tl-event">Megg1 委外项目测试推进</div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-date">周一<strong>5/11</strong></div>
+          <div class="tl-event deliver">BW05S EVT App 测试包交付</div>
+          <div class="tl-event">Remom1 三元组信息确认</div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-date">周二<strong>5/12</strong></div>
+          <div class="tl-event fire">BM08 iOS 紧急 bug 当天定位+上架</div>
+          <div class="tl-event major">母乳分析仪项目启动</div>
+          <div class="tl-event">Megg1 委外 Android 回归完成</div>
+          <div class="tl-event atom">设备主页统一组件化 UI 评审</div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-date">周三<strong>5/13</strong></div>
+          <div class="tl-event major">Megg1 美国 ABC 展开始（5/13–15）</div>
+          <div class="tl-event fire">Lumi1 整机方案突变即响应</div>
+          <div class="tl-event">调奶器 FD04 整机板子到位</div>
+        </div>
+
+        <div class="tl-day peak">
+          <div class="tl-date">周四<strong>5/14</strong></div>
+          <div class="tl-event deliver">吸奶器 V3 上市版本提审</div>
+          <div class="tl-event atom">原子化配网体验优化上线</div>
+          <div class="tl-event atom">原子化动态配置（V3/M10）上线</div>
+          <div class="tl-event atom">配网失败异常监控告警上线</div>
+          <div class="tl-event deliver">M5 Pro 新硬件适配测试完成</div>
+          <div class="tl-event">BM04M/BM05/BM08S 设计澄清</div>
+          <div class="tl-event">M8 Pro 固件 SRD V0.5 初评</div>
+          <div class="tl-event">V3 Pro 夜灯/光感需求初评</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 03: 本周核心进展 (full-width stacked) -->
+  <div class="section">
+    <div class="section-bar">
+      <div class="section-num">03</div>
       <div class="section-title">本周核心进展</div>
       <span class="section-sub">3 项</span>
     </div>
@@ -411,10 +638,52 @@
     </div>
   </div>
 
-  <!-- Section 03: 需要关注 -->
+  <!-- Section 04: 救火与止损 -->
   <div class="section">
     <div class="section-bar">
-      <div class="section-num">03</div>
+      <div class="section-num">04</div>
+      <div class="section-title">本周救火与止损</div>
+      <span class="section-sub">3 起应急响应已闭环</span>
+    </div>
+    <div class="rescue-cards">
+
+      <div class="rescue-card">
+        <div class="rescue-card-header">
+          <div class="rescue-icon">!</div>
+          <div class="rescue-title">BM08 iOS 紧急 bug 闭环</div>
+        </div>
+        <div class="rescue-issue"><strong>问题：</strong>iOS 设备绑定成功但首页列表不展示，1% 概率出现，VOC 反馈强烈。</div>
+        <div class="rescue-action"><b>响应：</b>5/12 当天定位根因（原子化配网代码缺 extid 参数），完成新旧设备配网全流程及功能主流程测试，紧急上架；产品侧并行每日跟进 VOC 客诉。</div>
+        <div class="rescue-result">当天定位 + 当天紧急上架，近期暂无新增客诉</div>
+      </div>
+
+      <div class="rescue-card">
+        <div class="rescue-card-header">
+          <div class="rescue-icon">!</div>
+          <div class="rescue-title">WN08 蓝牙配网闪退止血</div>
+        </div>
+        <div class="rescue-issue"><strong>问题：</strong>白噪音 WN08 用户体验版蓝牙配网出现闪退，影响用户体验交付。</div>
+        <div class="rescue-action"><b>响应：</b>定位根因后采用旧版本包先保住用户体验交付节奏，开发侧并行修复，保障 4/21 用户体验版按期落地。</div>
+        <div class="rescue-result">用户体验版未受影响如期交付，根因修复并行推进</div>
+      </div>
+
+      <div class="rescue-card">
+        <div class="rescue-card-header">
+          <div class="rescue-icon">!</div>
+          <div class="rescue-title">T31 体温贴方案紧急切换</div>
+        </div>
+        <div class="rescue-issue"><strong>问题：</strong>温度贴 T31 自研方案 FCC 认证未通过，原计划交付节点告急。</div>
+        <div class="rescue-action"><b>响应：</b>紧急切换为涂鸦方案，与涂鸦侧敏捷协同补救，重新对齐固件+ App 联调节奏。</div>
+        <div class="rescue-result">整体节点仅延期 5 天，6/16 上架计划保住</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 05: 需要关注 -->
+  <div class="section">
+    <div class="section-bar">
+      <div class="section-num">05</div>
       <div class="section-title">本周核心关注</div>
       <span class="section-sub">2 项</span>
     </div>
@@ -438,10 +707,10 @@
     </div>
   </div>
 
-  <!-- Section 04: 项目清单 -->
+  <!-- Section 06: 项目清单 -->
   <div class="section">
     <div class="section-bar">
-      <div class="section-num">04</div>
+      <div class="section-num">06</div>
       <div class="section-title">项目清单</div>
       <span class="section-sub">点击展开查看详情</span>
     </div>
@@ -1333,6 +1602,10 @@
           <span class="group-count">9 个</span>
         </summary>
         <div class="group-body">
+
+          <div class="platform-value">
+            <b>本周原子化能力为整机线带来的实际复用</b>：腰腹按摩仪 Remom1、光疗坐垫 Lumi1 通过动态配网直接验证 OK 接入；调奶器 FD04 原子化配网适配开发中；M5 Pro 完成新硬件适配。<b>这不是单设备功能，是平台级复用资产——单设备接入周期目标下降 50%，组件复用率 ≥ 70%，配网失败监控时效从 T+1 提升到小时级。</b>
+          </div>
 
           <!-- 配网能力 -->
           <div class="atom-cat">
