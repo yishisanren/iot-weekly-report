@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>App 生态中心 IoT 项目周报 · 2026/5/8 – 5/14</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f5f3ed;
+    color: #1f2937;
+    line-height: 1.6;
+    padding: 0 0 60px;
+  }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #1f4d3d 0%, #2d6650 100%);
+    color: #f5f3ed;
+    padding: 44px 0 38px;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -60px; right: 120px;
+    width: 120px; height: 120px; border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-block; padding: 4px 12px;
+    background: rgba(255,255,255,0.15); border-radius: 4px;
+    font-size: 12px; letter-spacing: 1px; margin-bottom: 14px; font-weight: 500;
+  }
+  .hero h1 { font-size: 30px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .hero .hero-meta { font-size: 14px; color: rgba(255,255,255,0.75); }
+
+  /* Section */
+  .section { margin-top: 48px; }
+  .section-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+  .section-num {
+    width: 32px; height: 32px; background: #1f4d3d; color: #fff;
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+  }
+  .section-title { font-size: 20px; font-weight: 700; color: #1f4d3d; }
+  .section-sub { color: #6b7280; font-size: 13px; font-weight: 400; }
+
+  /* Stats - 4 cards top */
+  .stats-grid {
+    display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .stat-card {
+    background: white; border-radius: 12px; padding: 24px 26px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+  }
+  .stat-label { font-size: 13px; color: #6b7280; font-weight: 500; margin-bottom: 12px; }
+  .stat-num {
+    font-size: 48px; font-weight: 800; color: #1f4d3d;
+    line-height: 1; display: flex; align-items: baseline; gap: 10px;
+  }
+  .stat-unit { font-size: 16px; color: #94a3b8; font-weight: 500; }
+  .stat-foot {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 12.5px; color: #4b5563;
+  }
+  .stat-foot b { color: #1f4d3d; font-weight: 600; }
+  .stat-card.amber .stat-num { color: #b45309; }
+  .stat-card.amber .stat-foot b { color: #b45309; }
+  .stat-card.blue .stat-num { color: #1e40af; }
+  .stat-card.blue .stat-foot b { color: #1e40af; }
+  .stat-card.green .stat-num { color: #047857; }
+  .stat-card.green .stat-foot b { color: #047857; }
+
+  /* Key highlights - full-width stacked banner cards */
+  .highlight-banner {
+    background: white; border-radius: 14px;
+    box-shadow: 0 3px 14px rgba(31,77,61,0.08);
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 80px 1fr 140px;
+    gap: 24px;
+    align-items: center;
+  }
+  .highlight-banner:last-child { margin-bottom: 0; }
+  .hb-num {
+    font-size: 60px; font-weight: 800; color: #1f4d3d;
+    line-height: 1; opacity: 0.85;
+  }
+  .hb-num.green { color: #16a34a; }
+  .hb-num.purple { color: #7c3aed; }
+  .hb-body { }
+  .hb-title {
+    font-size: 22px; font-weight: 700; color: #0f172a;
+    margin-bottom: 8px; line-height: 1.3;
+  }
+  .hb-desc { font-size: 14.5px; color: #4b5563; line-height: 1.7; }
+  .hb-desc .emph { background: #fef3c7; padding: 1px 6px; border-radius: 3px; color: #78350f; font-weight: 500; }
+  .hb-tag {
+    display: inline-block; padding: 6px 14px;
+    border-radius: 6px; font-size: 12px; font-weight: 600;
+    background: #ecf3ef; color: #1f4d3d; text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .hb-tag.green { background: #ecfdf5; color: #047857; }
+  .hb-tag.purple { background: #f5f3ff; color: #6d28d9; }
+
+  /* Attention cards - no borders */
+  .attentions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .a-card {
+    background: white; border-radius: 12px;
+    padding: 24px 26px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+  }
+  .a-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .a-num {
+    width: 28px; height: 28px;
+    background: #d97706; color: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .a-card h3 { font-size: 17px; color: #1f4d3d; font-weight: 700; }
+  .a-card .desc {
+    font-size: 14px; color: #4b5563; margin-bottom: 14px; line-height: 1.7;
+  }
+  .a-card .action {
+    font-size: 13.5px; color: #1f2937;
+    background: #f8f7f0; padding: 12px 16px; border-radius: 8px;
+    line-height: 1.65;
+  }
+  .a-card .action b { color: #1f4d3d; font-weight: 700; }
+
+  /* Scope overview */
+  .scope-overview {
+    background: white; border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+    margin-bottom: 22px;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+  }
+  .scope-item {
+    text-align: center; padding: 6px 4px;
+    border-right: 1px solid #f1f5f9;
+  }
+  .scope-item:last-child { border-right: none; }
+  .scope-num { font-size: 34px; font-weight: 800; color: #1f4d3d; line-height: 1; }
+  .scope-name { font-size: 13.5px; color: #374151; margin-top: 8px; font-weight: 600; }
+  .scope-line { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+
+  /* Collapsible group (details) */
+  .group-wrap {
+    background: white; border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  details > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 18px 24px;
+    background: #1f4d3d;
+    color: #f5f3ed;
+    display: flex; align-items: center; gap: 12px;
+    transition: background 0.2s;
+  }
+  details > summary:hover { background: #2d6650; }
+  details > summary::-webkit-details-marker { display: none; }
+  .group-title { font-size: 16px; font-weight: 700; color: #fff; flex: 1; }
+  .group-count {
+    background: rgba(255,255,255,0.18); color: #fff;
+    padding: 3px 12px; border-radius: 12px; font-size: 12.5px; font-weight: 700;
+  }
+  .chevron {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-right: 2px solid #f5f3ed;
+    border-bottom: 2px solid #f5f3ed;
+    transform: rotate(-45deg);
+    transition: transform 0.3s;
+    margin-right: 4px;
+  }
+  details[open] .chevron { transform: rotate(45deg); margin-top: -6px; }
+  .group-body { padding: 24px; }
+
+  /* Project detail cards */
+  .proj-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .proj-card {
+    background: #faf9f5;
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .proj-card-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .proj-name {
+    font-size: 16px; font-weight: 700; color: #1f4d3d;
+    flex: 1;
+  }
+  .proj-level {
+    font-size: 11px; padding: 2px 8px;
+    background: #1f4d3d; color: white; border-radius: 4px; font-weight: 700;
+  }
+  .proj-level.a { background: #4a7c5f; }
+  .proj-level.b { background: #94a3b8; }
+
+  .proj-meta-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px; padding: 12px 14px;
+    background: white; border-radius: 8px; margin-bottom: 14px;
+  }
+  .meta-item .meta-label {
+    font-size: 11px; color: #94a3b8; font-weight: 500;
+    margin-bottom: 4px; letter-spacing: 0.2px;
+  }
+  .meta-item .meta-val {
+    font-size: 12.5px; color: #1f2937; line-height: 1.55;
+  }
+  .meta-item .meta-val b { color: #1f4d3d; font-weight: 600; }
+  .meta-item .meta-val .old { color: #94a3b8; text-decoration: line-through; font-size: 11.5px; }
+
+  .proj-progress { font-size: 13px; line-height: 1.7; color: #374151; }
+  .proj-progress .label {
+    font-size: 11.5px; color: #94a3b8; font-weight: 600;
+    letter-spacing: 0.4px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .proj-progress p { margin-bottom: 6px; }
+  .proj-progress p:last-child { margin-bottom: 0; }
+  .proj-progress b { color: #1f4d3d; }
+
+  .proj-risk {
+    margin-top: 12px; padding: 10px 14px;
+    background: #fef3c7; border-radius: 6px;
+    font-size: 12.5px; color: #78350f; line-height: 1.65;
+  }
+  .proj-risk b { color: #92400e; font-weight: 700; }
+
+  /* Status pill */
+  .pill {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 12px; font-size: 11.5px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .pill.normal { background: #ecfdf5; color: #047857; }
+  .pill.risk { background: #fef3c7; color: #b45309; }
+  .pill.done { background: #dbeafe; color: #1e40af; }
+  .pill.pending { background: #f1f5f9; color: #64748b; }
+  .pill.new { background: #ede9fe; color: #6d28d9; }
+
+  /* App optimize table */
+  table.opt-table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: white; border-radius: 8px; overflow: hidden; }
+  table.opt-table thead th {
+    background: #faf9f5; color: #1f4d3d;
+    font-weight: 700; text-align: left;
+    padding: 12px 16px; font-size: 12.5px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  table.opt-table tbody td {
+    padding: 14px 16px; border-bottom: 1px solid #f1f5f9;
+    color: #374151; vertical-align: top; line-height: 1.65;
+  }
+  table.opt-table tbody tr:last-child td { border-bottom: none; }
+  .opt-name { font-weight: 600; color: #1f4d3d; width: 240px; }
+  .opt-status { width: 100px; }
+  .opt-time { width: 130px; color: #6b7280; }
+
+  /* Atomic category groups */
+  .atom-cat { margin-bottom: 22px; }
+  .atom-cat:last-child { margin-bottom: 0; }
+  .atom-cat-title {
+    font-size: 14.5px; color: #1f4d3d; font-weight: 700;
+    margin-bottom: 12px; padding-left: 10px;
+    border-left: 3px solid #2d6650;
+  }
+  .atom-cat-title .count {
+    display: inline-block; background: #ecf3ef; color: #1f4d3d;
+    padding: 1px 8px; border-radius: 10px; font-size: 12px; margin-left: 8px;
+  }
+  .atom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .atom-card {
+    background: #faf9f5;
+    border-radius: 10px; padding: 18px 20px;
+  }
+  .atom-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  }
+  .atom-title { font-size: 15px; font-weight: 700; color: #1f4d3d; flex: 1; }
+  .atom-goal {
+    background: white; border-radius: 6px;
+    padding: 10px 14px; margin-bottom: 12px;
+  }
+  .atom-goal .glabel { font-size: 11px; color: #94a3b8; font-weight: 600; letter-spacing: 0.3px; margin-bottom: 4px; }
+  .atom-goal .gtext { font-size: 13px; color: #374151; line-height: 1.6; }
+  .atom-info-row {
+    display: flex; gap: 16px; font-size: 12.5px;
+    color: #4b5563; margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .atom-info-row span.k { color: #94a3b8; margin-right: 4px; }
+  .atom-info-row span.v { color: #1f4d3d; font-weight: 600; }
+  .atom-progress { font-size: 13px; color: #374151; line-height: 1.65; }
+  .atom-progress .label { font-size: 11px; color: #94a3b8; font-weight: 600; letter-spacing: 0.3px; margin-bottom: 4px; }
+
+  .footer {
+    margin-top: 50px; text-align: center;
+    color: #94a3b8; font-size: 12px;
+    padding-top: 24px; border-top: 1px solid #e5e7eb;
+  }
+
+  /* Effort bar */
+  .effort-bar {
+    margin-top: 16px;
+    background: white;
+    border-radius: 10px;
+    padding: 14px 22px;
+    font-size: 13px;
+    color: #4b5563;
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 14px; row-gap: 8px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.04);
+  }
+  .effort-bar b { color: #1f4d3d; font-weight: 700; font-size: 16px; }
+  .effort-bar .sep { color: #cbd5e1; }
+  .effort-bar .ef-tag {
+    background: #ecf3ef; color: #1f4d3d;
+    padding: 2px 9px; border-radius: 10px;
+    font-size: 11px; font-weight: 700;
+    margin-right: 4px;
+  }
+
+  /* Timeline */
+  .timeline-wrap {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+    padding: 26px 26px 22px;
+  }
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .tl-day {
+    background: #faf9f5;
+    border-radius: 8px;
+    padding: 14px 12px;
+    min-height: 220px;
+    display: flex; flex-direction: column;
+  }
+  .tl-day.peak {
+    background: linear-gradient(180deg, #e9efeb 0%, #faf9f5 100%);
+    position: relative;
+    box-shadow: 0 2px 8px rgba(31,77,61,0.1);
+  }
+  .tl-date {
+    font-size: 11.5px; color: #94a3b8;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .tl-date strong {
+    display: block;
+    color: #1f4d3d;
+    font-size: 17px;
+    margin-top: 2px;
+  }
+  .tl-event {
+    font-size: 11.5px;
+    color: #374151;
+    padding: 6px 8px;
+    background: white;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    line-height: 1.45;
+    border-left: 2px solid #cbd5e1;
+  }
+  .tl-event.major {
+    border-left-color: #1f4d3d;
+    font-weight: 600;
+    color: #1f4d3d;
+  }
+  .tl-event.fire {
+    border-left-color: #d97706;
+    color: #92400e;
+    background: #fffbeb;
+    font-weight: 500;
+  }
+  .tl-event.atom {
+    border-left-color: #7c3aed;
+    color: #5b21b6;
+  }
+  .tl-event.deliver {
+    border-left-color: #16a34a;
+    color: #065f46;
+    font-weight: 600;
+  }
+
+  /* Rescue cards */
+  .rescue-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .rescue-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 10px rgba(31,77,61,0.06);
+  }
+  .rescue-card-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .rescue-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rescue-title { font-size: 15px; font-weight: 700; color: #1f4d3d; line-height: 1.4; }
+  .rescue-issue {
+    font-size: 12px; color: #b45309;
+    background: #fef3c7;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .rescue-issue strong { color: #92400e; }
+  .rescue-action {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .rescue-action b { color: #1f4d3d; }
+  .rescue-result {
+    padding: 8px 12px;
+    background: #ecfdf5;
+    border-radius: 5px;
+    font-size: 12.5px;
+    color: #047857;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .rescue-result::before { content: "✓ "; }
+
+  /* Platform value */
+  .platform-value {
+    background: linear-gradient(135deg, #ecf3ef 0%, #f5f3ed 100%);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    font-size: 13.5px;
+    color: #1f4d3d;
+    line-height: 1.7;
+    border-left: 3px solid #2d6650;
+  }
+  .platform-value b { color: #0f172a; }
+
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .highlight-banner { grid-template-columns: 60px 1fr; }
+    .highlight-banner .hb-tag { grid-column: 2; margin-top: 8px; }
+    .attentions { grid-template-columns: 1fr; }
+    .scope-overview { grid-template-columns: 1fr 1fr; }
+    .proj-grid { grid-template-columns: 1fr; }
+    .atom-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="container hero-inner">
+    <h1>App 生态中心 · IoT 项目周报</h1>
+    <div class="hero-meta">本期范围：2026/05/08 — 2026/05/14</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Section 01: 总览 -->
+  <div class="section" style="margin-top: 0;">
+    <div class="section-bar">
+      <div class="section-num">01</div>
+      <div class="section-title">整体盘点</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">并行项目</div>
+        <div class="stat-num">45<span class="stat-unit">个</span></div>
+        <div class="stat-foot">整机 <b>27</b> ｜ App 优化 <b>9</b> ｜ 原子化 <b>9</b></div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">并行研发整机</div>
+        <div class="stat-num">27<span class="stat-unit">台</span></div>
+        <div class="stat-foot">吸奶器 <b>8</b> ｜ 孕产康 <b>6</b> ｜ 产品中心 <b>13</b></div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">本周交付项目</div>
+        <div class="stat-num">6<span class="stat-unit">个</span></div>
+        <div class="stat-foot">V3 上市 · Megg1 游戏版 · <b>3 项原子化</b> · BM08 优化</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-label">应急响应</div>
+        <div class="stat-num">3<span class="stat-unit">起</span></div>
+        <div class="stat-foot">BM08 iOS · WN08 闪退 · T31 涂鸦切换</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 02: 核心进展 -->
+  <div class="section">
+    <div class="section-bar">
+      <div class="section-num">02</div>
+      <div class="section-title">核心进展</div>
+      <span class="section-sub">3 项</span>
+    </div>
+
+    <div class="highlight-banner">
+      <div class="hb-num">01</div>
+      <div class="hb-body">
+        <div class="hb-title">吸奶器 V3 上市版本如期交付</div>
+        <div class="hb-desc">固件和 App 已完成全部 bug fix，<span class="emph">App 已于 5/14 提审发版</span>。公司核心 S 级产品按原定计划落地。</div>
+      </div>
+      <div class="hb-tag">吸奶器线 · S 级</div>
+    </div>
+
+    <div class="highlight-banner">
+      <div class="hb-num green">02</div>
+      <div class="hb-body">
+        <div class="hb-title">Megg1 游戏版本支撑美国 ABC 展演示</div>
+        <div class="hb-desc">盆底肌修复仪 Megg1 游戏版本 5/8 如期交付，<span class="emph">本周配合 5/13–15 美国 ABC 展演示</span>提供技术支持。孕产康产品线首次在海外大型展会亮相。</div>
+      </div>
+      <div class="hb-tag green">孕产康线 · S 级</div>
+    </div>
+
+    <div class="highlight-banner">
+      <div class="hb-num purple">03</div>
+      <div class="hb-body">
+        <div class="hb-title">3 项原子化能力同步上线</div>
+        <div class="hb-desc"><span class="emph">配网体验优化、动态配置（V3/M10）、配网失败异常监控告警</span>三项能力同步上线。新设备接入不再依赖 App 发版，配网失败监控时效由 T+1 提升至小时级。这是 App 平台沉淀的可复用能力，对后续整机接入提速作用明显。</div>
+      </div>
+      <div class="hb-tag purple">App 平台能力</div>
+    </div>
+  </div>
+
+  <!-- Section 03: 核心关注 -->
+  <div class="section">
+    <div class="section-bar">
+      <div class="section-num">03</div>
+      <div class="section-title">核心关注</div>
+      <span class="section-sub">2 项</span>
+    </div>
+    <div class="attentions">
+      <div class="a-card">
+        <div class="a-card-header">
+          <div class="a-num">1</div>
+          <h3>吸奶器 V3 Pro 上市冲刺</h3>
+        </div>
+        <div class="desc">设备 UI、固件 OTA、需求输出三方时间窗高度耦合：设备 UI 5/15 评审、固件资源 OTA 开发至 6/5、系统主题皮肤需求受产品请假影响延期。TR5 评审节点存在不确定性（用户体验版功能不完整，可能不过 TR5）。</div>
+        <div class="action"><b>应对：</b>已拉通固件与 App 整体开发计划调整任务顺序，把联调部分提前并行；与硬件侧及产品中心持续对齐节点，全力保障用户体验版（5/21）与上市版（6/16）交付。</div>
+      </div>
+      <div class="a-card">
+        <div class="a-card-header">
+          <div class="a-num">2</div>
+          <h3>吸奶器集中上市中国区</h3>
+        </div>
+        <div class="desc">W1(M10)、M5 Smart、V3 Pro、V3 四款产品 6–8 月集中上架中国区，叠加常规版本迭代与原子化能力建设，对测试团队考验极大。</div>
+        <div class="action"><b>应对：</b>中心内部正在协调测试节奏与人力分配，与开发、测试侧拉通上架中国区标准化提效方案，全力配合 GTM 诉求按期完成。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 04: 应急响应 -->
+  <div class="section">
+    <div class="section-bar">
+      <div class="section-num">04</div>
+      <div class="section-title">应急响应</div>
+      <span class="section-sub">3 起应急响应已闭环</span>
+    </div>
+    <div class="rescue-cards">
+
+      <div class="rescue-card">
+        <div class="rescue-card-header">
+          <div class="rescue-icon">!</div>
+          <div class="rescue-title">BM08 iOS 紧急 bug 闭环</div>
+        </div>
+        <div class="rescue-issue"><strong>问题：</strong>iOS 设备绑定成功但首页列表不展示，1% 概率出现。</div>
+        <div class="rescue-action"><b>响应：</b>5/12 当天定位根因，完成新旧设备配网全流程及功能主流程测试，紧急上架。</div>
+        <div class="rescue-result">当天定位 + 当天紧急上架，近期暂无新增客诉</div>
+      </div>
+
+      <div class="rescue-card">
+        <div class="rescue-card-header">
+          <div class="rescue-icon">!</div>
+          <div class="rescue-title">WN08 蓝牙配网闪退止血</div>
+        </div>
+        <div class="rescue-issue"><strong>问题：</strong>白噪音 WN08 用户体验版蓝牙配网出现闪退，影响用户体验交付。</div>
+        <div class="rescue-action"><b>响应：</b>定位根因后采用旧版本包先保住用户体验交付节奏，开发侧并行修复，保障 4/21 用户体验版按期落地。</div>
+        <div class="rescue-result">用户体验版未受影响如期交付，根因修复并行推进</div>
+      </div>
+
+      <div class="rescue-card">
+        <div class="rescue-card-header">
+          <div class="rescue-icon">!</div>
+          <div class="rescue-title">T31 体温贴方案紧急切换</div>
+        </div>
+        <div class="rescue-issue"><strong>问题：</strong>温度贴 T31 自研方案 FCC 认证未通过，原计划交付节点告急。</div>
+        <div class="rescue-action"><b>响应：</b>紧急切换为涂鸦方案，与涂鸦侧敏捷协同补救，重新对齐固件+ App 联调节奏。</div>
+        <div class="rescue-result">整体节点仅延期 5 天，6/16 上架计划保住</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 05: 关键节点时间轴 -->
+  <div class="section">
+    <div class="section-bar">
+      <div class="section-num">05</div>
+      <div class="section-title">关键节点时间轴</div>
+      <span class="section-sub">5/8 — 5/14 · 工作日视图</span>
+    </div>
+    <div class="timeline-wrap">
+      <div class="timeline-grid">
+
+        <div class="tl-day">
+          <div class="tl-date">周五<strong>5/8</strong></div>
+          <div class="tl-event deliver">Megg1 游戏版本如期交付</div>
+          <div class="tl-event">Megg1 委外项目测试推进</div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-date">周一<strong>5/11</strong></div>
+          <div class="tl-event deliver">BW05S EVT App 测试包交付</div>
+          <div class="tl-event">Remom1 三元组信息确认</div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-date">周二<strong>5/12</strong></div>
+          <div class="tl-event fire">BM08 iOS 紧急 bug 当天定位+上架</div>
+          <div class="tl-event major">母乳分析仪项目启动</div>
+          <div class="tl-event">Megg1 委外 Android 回归完成</div>
+          <div class="tl-event atom">设备主页统一组件化 UI 评审</div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-date">周三<strong>5/13</strong></div>
+          <div class="tl-event major">Megg1 美国 ABC 展开始（5/13–15）</div>
+          <div class="tl-event fire">Lumi1 整机方案突变即响应</div>
+          <div class="tl-event">调奶器 FD04 整机板子到位</div>
+        </div>
+
+        <div class="tl-day peak">
+          <div class="tl-date">周四<strong>5/14</strong></div>
+          <div class="tl-event deliver">吸奶器 V3 上市版本提审</div>
+          <div class="tl-event atom">原子化配网体验优化上线</div>
+          <div class="tl-event atom">原子化动态配置（V3/M10）上线</div>
+          <div class="tl-event atom">配网失败异常监控告警上线</div>
+          <div class="tl-event deliver">M5 Pro 新硬件适配测试完成</div>
+          <div class="tl-event">BM04M/BM05/BM08S 设计澄清</div>
+          <div class="tl-event">M8 Pro 固件 SRD V0.5 初评</div>
+          <div class="tl-event">V3 Pro 夜灯/光感需求初评</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 06: 项目清单 -->
+  <div class="section">
+    <div class="section-bar">
+      <div class="section-num">06</div>
+      <div class="section-title">项目清单</div>
+      <span class="section-sub">点击展开查看详情</span>
+    </div>
+
+    <div class="scope-overview">
+      <div class="scope-item">
+        <div class="scope-num">8</div>
+        <div class="scope-name">吸奶器整机</div>
+        <div class="scope-line">吸奶器线</div>
+      </div>
+      <div class="scope-item">
+        <div class="scope-num">6</div>
+        <div class="scope-name">孕产康整机</div>
+        <div class="scope-line">孕产康线</div>
+      </div>
+      <div class="scope-item">
+        <div class="scope-num">13</div>
+        <div class="scope-name">产品中心整机</div>
+        <div class="scope-line">睡眠看护 + 婴童健康</div>
+      </div>
+      <div class="scope-item">
+        <div class="scope-num">9</div>
+        <div class="scope-name">App 优化</div>
+        <div class="scope-line">跨业务线</div>
+      </div>
+      <div class="scope-item">
+        <div class="scope-num">9</div>
+        <div class="scope-name">原子化能力</div>
+        <div class="scope-line">App 平台</div>
+      </div>
+    </div>
+
+    <!-- 吸奶器整机 -->
+    <div class="group-wrap">
+      <details open>
+        <summary>
+          <span class="chevron"></span>
+          <span class="group-title">吸奶器整机项目</span>
+          <span class="group-count">8 个</span>
+        </summary>
+        <div class="group-body">
+          <div class="proj-grid">
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">吸奶器 V3</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 4/14</span><br><b>最新 6/12</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><span class="old">原 3/17</span><br><b>最新 5/14</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>测试中</b><br>DVT</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>固件侧：</b>4/25 已交付，配合 App 修复 bug 完成，已打包给整机品质侧一同验证。</p>
+                <p><b>App 侧（交付目标 5/14）：</b>产品/设计已完成；开发 bug fix 完成；测试在预发布、生产环境、渠道包冒烟验证中，<b>计划 5/14 提审上市</b>。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">吸奶器 V3 Pro</span>
+                <span class="proj-level">S</span>
+                <span class="pill risk">有风险</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 5/30</span><br><b>最新 6/30</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><span class="old">原 5/30</span><br><b>最新 6/16</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>DVT</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>用户体验版（计划 5/21 交付）：</b>固件 4/30 已交付；App 测试中，计划 5/21 完成测试和 bug fix。</p>
+                <p><b>上市版本（计划 6/16 交付）：</b>设备 UI 5/15 与老板评审；固件交付时间 TBD；App 产品 5/14 完成夜灯/光感自适应需求初评；设计已对齐范围（设置页-夜灯、亮度调节、主题皮肤一期）。</p>
+                <div class="proj-risk"><b>风险：</b>设备 UI 存在审核改动风险、固件 OTA 至 6/5 与 App 联调时间紧、系统主题皮肤需求受产品请假延期 1 周以上；TR5 评审存在不过节点风险（缺夜灯功能）。</div>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">吸奶器 M8</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 7/31</span><br><b>最新 10/19</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><span class="old">原 7/15</span><br><b>最新 7/18</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>ES</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT App 版本（计划 6/16）：</b>固件计划 6/11，开发中，计划 5/26–6/4 先与 App 联调；嵌软测试 TBD。</p>
+                <p><b>App 侧：</b>产品需求已输出，UI 无变更，开发/测试待启动。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">吸奶器 M8 Pro</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 8/31</span><br><b>最新 2027/1/17</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><span class="old">原 8/15</span><br><b>最新 11/20</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>ES</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT App 版本（计划 6/30）：</b>固件计划 TBD；本周与整机侧对齐奶量、防溢、防漏的需求逻辑；固件 SRD V0.5 版本 5/14 初评。</p>
+                <p><b>App 侧：</b>产品需求计划 5/21 输出。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">上架中国区 W1（M10）</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2026 年 7 月</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><span class="old">原 6/30</span><br><b>最新 6/16</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>MP</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>上市版本（计划 6/16 交付）：</b>App 产品已提需求单；设计/开发/测试待启动。</p>
+                <div class="proj-risk"><b>测试人力风险：</b>测试 6 月人力饱和，无法排入。中心内部正与开发、测试对齐上架中国区标准化提效方案。</div>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">上架中国区 M5 Smart</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2026 年 7 月</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><b>原 6/30</b><br>最新 6/30</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>MP</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>上市版本（计划 6/30 交付）：</b>App 产品已提需求单；设计/开发/测试待启动。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">上架中国区 V3 Pro</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2026/8/30</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><span class="old">原 8/30</span><br><b>最新 8/11</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>DVT</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>上市版本（计划 8/11 交付）：</b>App 等待开发测试排期。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">上架中国区 V3</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2026/9/30</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><span class="old">原 9/30</span><br><b>最新 8/25</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>PVT</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>上市版本（计划 8/25 交付）：</b>App 等待开发测试排期。</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- 孕产康整机 -->
+    <div class="group-wrap">
+      <details>
+        <summary>
+          <span class="chevron"></span>
+          <span class="group-title">孕产康整机项目</span>
+          <span class="group-count">6 个</span>
+        </summary>
+        <div class="group-body">
+          <div class="proj-grid">
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">盆底肌修复仪 Megg1</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2027/12/8</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">游戏版 5/8 <b>已交付</b><br>迭代版 TBD</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>EVT2</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>游戏 P0 版本（5/8）：</b>已如期交付。</p>
+                <p><b>5/8 参展版本：</b>已交付，<b>本周配合 5/13–15 美国 ABC 展演示</b>提供技术支持。</p>
+                <p><b>迭代优化版（TBD）：</b>产品撰写需求，预计 5/15 完成初稿；开发优化代码中。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">盆底肌修复仪 Megg1 委外</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>TBD</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><b>TBD</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>测试中</b><br>EVT</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>长期跟进版：</b>整机质量侧根据对方反馈跟进；测试 Android 端 5/12 已完成回归。</p>
+                <p>后续可能有新版本需确认测试排期。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">光疗坐垫 Lumi1</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2026/5/30</b><br><span style="color:#94a3b8; font-size:11px;">(计划调整中)</span></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">原子化版 4/30 <b>已交付</b><br>优化版 TBD</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>测试中</b><br>计划阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>优化需求版（TBD）：</b>整机方案调整（去掉坐垫，仅保留主机 + 绑带），优化需求 PRD 5/13 更新，整机计划预计 5/14 更新。</p>
+                <p><b>App 产品：</b>需求梳理中。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">电疗坐垫 PluseCare1</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2027/2/28</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">iOS/Android demo <b>已交付</b><br>一期 5/29</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>概念阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>一期需求版（计划 5/29）：</b>整机原定 5/25 上会时间调整至 7 月。</p>
+                <p><b>App 开发：</b>预计 5/15 部分提测，剩余功能待自测充分后转测。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">腰腹按摩仪 Remom1</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2027/2/28</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">演示版 6/4<br>一期 6/22</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>概念阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>演示版（计划 6/4）：</b>整机 5/6 提供板子，含三元组信息 5/11 确认。</p>
+                <p><b>App 开发：</b>开发中，预计 5/20 提测，原子化配网已验证 OK（新设备使用动态配网验证）。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">母乳分析仪</span>
+                <span class="pill new">本周新启动</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>TBD</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><b>TBD</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b></div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>5/12 项目正式启动，</b>需求对接中。</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- 产品中心整机 -->
+    <div class="group-wrap">
+      <details>
+        <summary>
+          <span class="chevron"></span>
+          <span class="group-title">产品中心整机项目</span>
+          <span class="group-count">13 个</span>
+        </summary>
+        <div class="group-body">
+          <div class="proj-grid">
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">吸奶器 Q1 大主机</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>原 2026/7/10</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><b>原 2026/7/1</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>ES</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>DVT 版本（计划 6/5）：</b>产品/设计参与开发转测提出问题；开发计划 5/20 提测，功能开发中；测试计划 5/29 完成一轮测试和 BUG 回归。</p>
+                <p><b>生产提审上架：</b>计划 8/11。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">白噪音音箱 WN08</span>
+                <span class="proj-level a">A</span>
+                <span class="pill done">用户体验版已交付</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>最新 2026/8/5</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">用户体验版 4/17 <b>已交付</b><br>视觉改版 6/15</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>已交付</b><br>DVT3</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>用户体验版（已交付）：</b>整机硬测在做高温可靠性测试；合规依据认证情况整改，预计 5/15 反馈结果。</p>
+                <p><b>App 开发：</b>偶现"设备已绑定但首页不展示"bug（概率 1%），已定位根因修复中；上位机增加产测功能，5/15 完成。</p>
+                <p><b>上市版本（计划 6/30）：</b>视觉改版延期到 5/15，由新开发接手需重新评估工时。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">婴儿监视器 BM04M</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>最新 2026/12/15</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">EVT-P0 6/15<br>DVT 8/30<br>体验版 9/15</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>计划阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT1 P0 功能版（6/15）：</b>App 完成配网流程、核心功能接口整合、RN 模块部分能力（设备控制、设备管理），完成直播全屏、安抚音乐、相册的 UI 开发；测试 5 月底前完成 P0 测试用例设计及评审。</p>
+                <p><b>DVT1 P0/P1 版本（8/30）：</b>产品 & 设计完成全量 UXUI 修改对齐，5/14 澄清；开发待确认 P1/P2 feature 工时排期。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">婴儿监视器 BM05</span>
+                <span class="proj-level a">A</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>最新 2026/8/30</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">EVT-P0 5/30<br>体验版 7/15<br>上架 8/13</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>计划阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT1 P0 功能版（5/30）：</b>App 完成配网流程、核心功能接口整合、RN 模块部分能力，完成直播全屏、安抚音乐、相册 UI 开发；测试 5 月底完成 P0 用例设计及评审。</p>
+                <p><b>用户体验版（7/15）：</b>产品 & 设计完成全量 UXUI 修改对齐，5/14 澄清。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">婴儿监视器 BM08S</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>最新 2027/3/30</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><b>待定</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>UX 中</b><br>计划阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p>整机计划 TBD（待跟产品中心确认）。</p>
+                <p><b>App 产品 & 设计：</b>已完成一期 PRD 的全量 UXUI，5/14 完成设计澄清。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">调奶器 FD04</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 2026/12/30</span><br><b>最新 2027/1/18</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">立项 demo 5/29<br>海外体验版 8/28</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>EVT2</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>立项评审 App 演示 demo 版（5/29）：</b>整机 5/13 提供 2 块板子（还缺 2 块板子和 2 个样机）。</p>
+                <p><b>App 设计：</b>5/7 完成调奶器 1.0 需求全功能 UI 评审。<b>开发：</b>原子化配网适配开发中，预计 5/18 提测；其他功能预计 5/20 提测。<b>测试：</b>预计 5/18 完成测试用例评审，5/21 启动测试。</p>
+                <p><b>海外用户体验版（8/28）：</b>产品预计 5/20 反馈调奶器 2.0 需求 PRD 输出计划。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">温度贴 T31 + 网关</span>
+                <span class="proj-level b">B</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 2026/5/30</span><br><b>最新 2026/6/28</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><b>2026/6/16</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>测试中</b><br>DVT</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>生产提审上架（计划 6/16）：</b>开发跟进 BUG 修复，计划 5/15 完成一轮品质 BUG 修复；品质测试中，计划 5/15 完成品质测试。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">智能清洗机 BW05S</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>最新 2026/11/3</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">EVT 5/11 <b>已交付</b><br>DVT 6/30<br>体验版 7/25</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>EVT1</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT App 版本（5/11，已交付）：</b>整机 TR4A 评审结论不通过，待硬件/结构/固件严重 bug 解决后再发起；产品计划 5/15 发起 PRD 变更评审；App 完成全量功能开发联调及自测，提供 EVT 版 App 测试包；测试本周开始用例设计。</p>
+                <p><b>DVT App 版本（6/20）：</b>开发进行 OTA 功能开发及联调，计划本周完成；测试需确保 6/8 前完成全功能测试。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">毛巾加热桶 TW03</span>
+                <span class="proj-level b">B</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><b>最新 2026/9/20</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">完整功能 6/30</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>计划阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT 版（TBD）：</b>整机面板 UE 还在设计中，预计 5/25 给新 EVT 样机，待确认整机计划。</p>
+                <p><b>App 开发：</b>本周进行遗留 bug 修复（配网稳定性相关）。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">婴儿体重秤 AZ02</span>
+                <span class="proj-level b">B</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 2026/8/25</span><br><b>最新 2027/3/31</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val"><b>TBD</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>PRD 评审</b><br>ES</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT 版（TBD）：</b>产品完成需求澄清；设计/开发/测试计划 TBD。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">智能空气净化器 AP01</span>
+                <span class="proj-level a">A</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 2026/9/30</span><br><b>最新 2026/9/14</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">DVT 6/23<br>体验 7/6<br>PVT 8/25</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>开发中</b><br>概念阶段</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>DVT 版本（计划 6/23）：</b>产品完成需求澄清；设计完成 UI/UX 澄清；开发中，计划 5/29 完成开发；测试计划 TBD。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">智能婴儿床 BD010</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 2027/4/30</span><br><b>最新 TBD</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">EVT1 5/19</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>TR2</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT1 版本（计划 5/19）：</b>App 产品已完成一期需求澄清；二期需求进行中，计划 6/5 完成；三期需求规划中。</p>
+                <p><b>设计：</b>基于一期需求计划 5/20 启动设计，5/30 前完成设计及中心评审；基于二期需求计划 6/30 前完成设计及中心评审。</p>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-name">智能婴儿床 BS-C1</span>
+                <span class="proj-level">S</span>
+                <span class="pill normal">正常</span>
+              </div>
+              <div class="proj-meta-row">
+                <div class="meta-item">
+                  <div class="meta-label">整机上市</div>
+                  <div class="meta-val"><span class="old">原 2027/4/30</span><br><b>最新 TBD</b></div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">软件交付</div>
+                  <div class="meta-val">EVT1 7/10</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">当前阶段</div>
+                  <div class="meta-val"><b>需求对接中</b><br>TR2</div>
+                </div>
+              </div>
+              <div class="proj-progress">
+                <div class="label">本周达成情况</div>
+                <p><b>EVT1 版本（计划 7/10）：</b>App 产品已完成一期需求澄清；二期需求进行中，计划 6/5 完成；三期需求规划中。</p>
+                <p><b>设计：</b>基于一期需求计划 5/20 启动设计，5/30 前完成设计及中心评审。</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- App 优化 -->
+    <div class="group-wrap">
+      <details>
+        <summary>
+          <span class="chevron"></span>
+          <span class="group-title">App 优化项目</span>
+          <span class="group-count">9 个</span>
+        </summary>
+        <div class="group-body">
+          <table class="opt-table">
+            <thead>
+              <tr>
+                <th class="opt-name">项目</th>
+                <th class="opt-status">状态</th>
+                <th class="opt-time">交付时间</th>
+                <th>本周进展</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="opt-name">吸奶器 M10 App 优化 V1.1</td>
+                <td><span class="pill normal">正常</span></td>
+                <td>TBD</td>
+                <td>需求已过中心评审会；固件已投入开发，计划 5/20 提测；App 暂未开发。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">吸奶器 M5 Pro 新硬件适配</td>
+                <td><span class="pill normal">正常</span></td>
+                <td>6/2</td>
+                <td>5/14 完成老设备 + 新固件 + 新 App 测试，无问题则推动整机品质验证后推送 OTA 升级；6/2 完成新设备 + 新固件 + 新 App 测试。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">瑜伽球项目优化</td>
+                <td><span class="pill normal">正常</span></td>
+                <td>P0 已上线<br>完整版 6/2</td>
+                <td>P0 应急版本 5/7 已上线；完整优化版（6/2）：产品完成完整需求（含埋点）；开发联调中预计 5/15 提测；5/18 启动测试 5/22 完成，跟随 6.02 版本转预发布上线。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">白噪音 WN02 新旧模组兼容</td>
+                <td><span class="pill normal">正常</span></td>
+                <td>6/16</td>
+                <td>产品计划本周完成新模组兼容需求澄清；项目侧已基本确认开发测试排期。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">温度贴 T31 bug 迭代优化</td>
+                <td><span class="pill pending">待启动</span></td>
+                <td>6/2</td>
+                <td>5/19 前输出 App 迭代计划，整机产品侧预期 6/2 版本完成优化迭代。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">BM08 App 优化（V2.2.9）</td>
+                <td><span class="pill done">已交付</span></td>
+                <td>5/14</td>
+                <td>已打生产包，已完成生产环境 bug 修复及测试。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">BM08 iOS 紧急 bug 修复</td>
+                <td><span class="pill done">已交付</span></td>
+                <td>5/12</td>
+                <td>定位根因（原子化配网代码增加 extid 参数），完成新旧设备配网全流程及功能主流程测试后紧急上架；产品每日跟进 VOC 客诉，近期暂无新增。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">BM04 App 优化</td>
+                <td><span class="pill done">已交付</span></td>
+                <td>4/29</td>
+                <td>已交付。</td>
+              </tr>
+              <tr>
+                <td class="opt-name">BM08 App 优化（V2.2.7）</td>
+                <td><span class="pill done">已交付</span></td>
+                <td>4/23</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <!-- 原子化 -->
+    <div class="group-wrap">
+      <details>
+        <summary>
+          <span class="chevron"></span>
+          <span class="group-title">原子化能力建设</span>
+          <span class="group-count">9 个</span>
+        </summary>
+        <div class="group-body">
+
+          <div class="platform-value">
+            <b>本周原子化能力为整机线带来的实际复用</b>：腰腹按摩仪 Remom1、光疗坐垫 Lumi1 通过动态配网直接验证 OK 接入；调奶器 FD04 原子化配网适配开发中；M5 Pro 完成新硬件适配。<b>这不是单设备功能，是平台级复用资产——单设备接入周期目标下降 50%，组件复用率 ≥ 70%，配网失败监控时效从 T+1 提升到小时级。</b>
+          </div>
+
+          <!-- 配网能力 -->
+          <div class="atom-cat">
+            <div class="atom-cat-title">配网能力<span class="count">4 个</span></div>
+            <div class="atom-grid">
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">原子化配网体验优化</span>
+                  <span class="pill normal">正常</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">在添加设备页面，统一待配网的设备呈现及体验，避免突兀的弹窗吓到用户。</div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">测试中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">5/14 V2.2.9</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  预发布环境测试完成，5/14 启动正式环境测试上线。
+                </div>
+              </div>
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">原子化配网动态配置（V3、M10）</span>
+                  <span class="pill normal">正常</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">设备配网信息在后台配置，新设备接入时无需 App 发版，减少设备研发对 App 的依赖。<b>覆盖比例 ≥ 70%</b></div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">测试中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">5/14 V2.2.9</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  预发布环境测试完成，5/14 启动正式环境测试上线。
+                </div>
+              </div>
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">原子化配网失败异常监控告警</span>
+                  <span class="pill normal">正常</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">实时监控原子化配网全流程的失败异常。<b>告警时效由 T+1 提升到小时级，监控覆盖率 ≥ 98%。</b></div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">交付中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">不跟版本</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  告警推送已配置调通，5/14 推送到生产环境，可完成交付。
+                </div>
+              </div>
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">原子化配网 bug 修复</span>
+                  <span class="pill normal">正常</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">支持用户配置 2 对以上的同型号吸奶器（之前 App 不支持）。</div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">开发中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">6/2 V2.2.9</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  预计 5/20 提测；测试预计 5/18 完成测试用例二次评审。
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 统一组件化 -->
+          <div class="atom-cat">
+            <div class="atom-cat-title">统一组件化<span class="count">3 个</span></div>
+            <div class="atom-grid">
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">吸奶器控制面板统一组件化</span>
+                  <span class="pill normal">正常</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">建立统一的吸奶器 App 功能组件，新设备接入时可快速复制。<b>新设备接入周期下降 50%，组件复用率 ≥ 70%。</b></div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">开发中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">不跟版本</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  数据组：固件版本更新追踪看板已交付；吸奶器使用分析看板做数据清洗中（数据质量问题跟进），预计 6 月底交付。
+                </div>
+              </div>
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">设备主页统一组件化</span>
+                  <span class="pill normal">正常</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">建立统一的 App 设备控制入口体验，让 momcozy 设备在 App 上使用体验统一。<b>多设备 UI 一致性覆盖率 ≥ 90%。</b></div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">开发中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">6/30 V3.0.0</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  设计 5/12 完成 UI 评审；开发预计 5/21 输出技术方案、业务接口依赖项，拉通各业务端完成开发分工。
+                </div>
+              </div>
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">设备设置页统一组件化</span>
+                  <span class="pill risk">有风险</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">建立统一的 App 设备设置体验，区分设备独特功能设置和 App 通用设置。<b>设置页组件复用率 ≥ 70%，新设置功能接入效率提升 50%。</b></div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">开发中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">6/16 V2.2.10</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  开发：RN 开发人力评估中；5/14 面试 3 位 RN 外包，5/19 拉通各业务端完成开发分工。
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 设备助手 -->
+          <div class="atom-cat">
+            <div class="atom-cat-title">设备助手<span class="count">2 个</span></div>
+            <div class="atom-grid">
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">设备助手 1.0</span>
+                  <span class="pill risk">有风险</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">通过交互式新手指引为用户带来零门槛的吸奶器上手和操作体验。<b>设备助手使用渗透率 ≥ 30%，自助解决率 ≥ 60%，客服咨询量下降 20%。</b></div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">UI 中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">6/16 V2.2.10</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  设计 UI 设计中，计划 5/15 UI 评审；开发已根据交互稿完成欢迎页、完成页、二次回访目录页开发，详情页开发中。
+                </div>
+                <div class="proj-risk"><b>风险：</b>UI 设计延期至 5/15 可能再延，开发测试时间被压缩；6 月原子化测试同时承担 3 个大需求，测试资源紧张；V3/V3Pro 素材输出计划未反馈；RN 开发资源冲突。</div>
+              </div>
+
+              <div class="atom-card">
+                <div class="atom-head">
+                  <span class="atom-title">设备助手 2.0</span>
+                  <span class="pill normal">正常</span>
+                </div>
+                <div class="atom-goal">
+                  <div class="glabel">目标</div>
+                  <div class="gtext">产品百科组件（FAQ）：统一设备常见问答（App 使用、功能说明、故障处理），云端可更新。</div>
+                </div>
+                <div class="atom-info-row">
+                  <div><span class="k">当前阶段：</span><span class="v">需求对接中</span></div>
+                  <div><span class="k">上线版本：</span><span class="v">7/14 V3.0.1</span></div>
+                </div>
+                <div class="atom-progress">
+                  <div class="label">本周进展</div>
+                  产品预计 5/15 输出需求 PRD。
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </details>
+    </div>
+
+  </div>
+
+  <div class="footer">本周报由 App 生态中心整理 · 数据截至 2026/05/14</div>
+</div>
+</body>
+</html>
