@@ -1,1217 +1,389 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>App 生态中心 · IoT 项目周报 · W33</title>
-  <script>
-    (() => {
-      let savedTheme = null;
-      try { savedTheme = localStorage.getItem("iot-weekly-theme"); } catch (_) {}
-      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
-    })();
-  </script>
-  <style>
-    :root {
-      color-scheme: light;
-      --gray-0: #FFFFFF;
-      --gray-50: #F9F7F5;
-      --gray-100: #F0EEEF;
-      --gray-150: #E9E8E7;
-      --gray-200: #E4E2E3;
-      --gray-600: #9F969B;
-      --gray-900: #240F1B;
-      --mom-50: #FFF7F8;
-      --mom-75: #FFF1F3;
-      --mom-100: #FFDDE1;
-      --mom-700: #770523;
-      --care-100: #F4F2FF;
-      --care-700: #552C95;
-      --parenting-50: #FEFBF1;
-      --parenting-700: #7E451F;
-      --family-100: #F0F9F0;
-      --family-700: #1A5140;
-      --status-danger: #D20307;
-      --status-danger-soft: rgba(210, 3, 7, 0.08);
-      --status-danger-border: rgba(210, 3, 7, 0.24);
-      --status-warning: #B55A19;
-      --status-warning-soft: rgba(243, 130, 69, 0.10);
-      --status-warning-border: rgba(243, 130, 69, 0.28);
-      --status-success: #007A30;
-      --status-success-soft: rgba(0, 158, 61, 0.10);
-      --status-danger-label: #7F1114;
-      --status-warning-label: #774019;
-      --surface-page: var(--gray-50);
-      --surface-card: var(--gray-0);
-      --text-primary: var(--gray-900);
-      --text-secondary: #5F535A;
-      --text-tertiary: var(--gray-600);
-      --border-default: var(--gray-200);
-      --border-subtle: var(--gray-100);
-      --report-accent: var(--mom-700);
-      --on-accent-muted: rgba(255, 255, 255, 0.78);
-      --on-accent-soft: rgba(255, 255, 255, 0.16);
-      --on-accent-border: rgba(255, 255, 255, 0.20);
-      --family-border: #DDEBDD;
-      --parenting-border: #EEDFCC;
-      --parenting-fill: #F4E6D5;
-      --font-brand: "Exposure[-10]", "Iowan Old Style", "Songti SC", "STSong", Georgia, serif;
-      --font-sans: "Aeonik Soft Pro", "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
-      --type-heading-xl-size: 32px;
-      --type-heading-xl-line: 38px;
-      --type-heading-l-size: 24px;
-      --type-heading-l-line: 30px;
-      --type-title-l-size: 18px;
-      --type-title-l-line: 26px;
-      --type-title-m-size: 16px;
-      --type-title-m-line: 22px;
-      --type-body-l-size: 15px;
-      --type-body-l-line: 24px;
-      --type-body-m-size: 14px;
-      --type-body-m-line: 22px;
-      --type-body-s-size: 12px;
-      --type-body-s-line: 18px;
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-8: 32px;
-      --space-10: 40px;
-      --space-12: 48px;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-      --shadow-card: 0 10px 30px rgba(36, 15, 27, 0.05);
-    }
-
-    html[data-theme="dark"] {
-      color-scheme: dark;
-      --gray-0: #1C1C1E;
-      --gray-50: #000000;
-      --gray-100: #1E1C1E;
-      --gray-150: #2E2C2E;
-      --gray-200: #3C3A3C;
-      --gray-600: #938E93;
-      --gray-900: #F7F3F6;
-      --mom-50: #291316;
-      --mom-75: #33191D;
-      --mom-100: #3D1E23;
-      --mom-700: #DA5876;
-      --care-100: #2C2145;
-      --care-700: #9871D5;
-      --parenting-50: #261700;
-      --parenting-700: #CD7032;
-      --family-100: #0B3121;
-      --family-700: #329A7A;
-      --status-danger: #FF6669;
-      --status-danger-soft: rgba(255, 102, 105, 0.14);
-      --status-danger-border: rgba(255, 102, 105, 0.30);
-      --status-warning: #F3A36D;
-      --status-warning-soft: rgba(243, 163, 109, 0.14);
-      --status-warning-border: rgba(243, 163, 109, 0.30);
-      --status-success: #48C979;
-      --status-success-soft: rgba(72, 201, 121, 0.14);
-      --status-danger-label: #FFB4B5;
-      --status-warning-label: #F2C3A1;
-      --text-secondary: #BDB7BA;
-      --on-accent-muted: rgba(28, 28, 30, 0.72);
-      --on-accent-soft: rgba(28, 28, 30, 0.14);
-      --on-accent-border: rgba(28, 28, 30, 0.20);
-      --family-border: #2F6B50;
-      --parenting-border: #7A5615;
-      --parenting-fill: #392400;
-      --shadow-card: 0 12px 36px rgba(0, 0, 0, 0.28);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--surface-page);
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      font-size: var(--type-body-l-size);
-      line-height: var(--type-body-l-line);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    momcozy-icon {
-      display: inline-grid;
-      flex: 0 0 auto;
-      place-items: center;
-      color: currentColor;
-      line-height: 0;
-      vertical-align: middle;
-    }
-
-    .page {
-      width: min(1180px, calc(100% - 64px));
-      margin: 0 auto;
-      padding: var(--space-10) 0 var(--space-12);
-    }
-
-    .masthead {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: var(--space-8);
-      padding-bottom: var(--space-6);
-      border-bottom: 1px solid var(--border-default);
-    }
-
-    .eyebrow {
-      margin: 0 0 var(--space-2);
-      color: var(--report-accent);
-      font-size: var(--type-body-s-size);
-      font-weight: 600;
-      line-height: var(--type-body-s-line);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    h1, h2, h3, p { margin-top: 0; }
-
-    h1 {
-      margin-bottom: 0;
-      font-family: var(--font-brand);
-      font-size: var(--type-heading-xl-size);
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      line-height: var(--type-heading-xl-line);
-    }
-
-    .period {
-      flex: 0 0 auto;
-      color: var(--text-tertiary);
-      font-size: var(--type-body-s-size);
-      line-height: var(--type-body-s-line);
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    .masthead-tools {
-      display: grid;
-      justify-items: end;
-      gap: var(--space-3);
-    }
-
-    .page-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-
-    .theme-icon-button {
-      display: inline-grid;
-      width: 36px;
-      height: 36px;
-      place-items: center;
-      padding: 0;
-      border: 1px solid var(--border-default);
-      border-radius: 999px;
-      background: var(--surface-card);
-      color: var(--text-primary);
-      cursor: pointer;
-    }
-
-    .theme-icon-button:hover { background: var(--gray-100); }
-    .theme-icon-button:focus-visible { outline: 2px solid var(--report-accent); outline-offset: 2px; }
-    .theme-icon-light { display: none; }
-    html[data-theme="dark"] .theme-icon-dark { display: none; }
-    html[data-theme="dark"] .theme-icon-light { display: inline-grid; }
-
-    .toast[hidden] { display: none; }
-
-    .intro {
-      margin: var(--space-6) 0 0;
-      color: var(--text-secondary);
-      font-size: var(--type-body-m-size);
-      line-height: var(--type-body-m-line);
-    }
-
-    .report-index {
-      margin-top: var(--space-8);
-      padding: var(--space-2);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      background: var(--surface-card);
-    }
-
-    .index-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: var(--space-2);
-    }
-
-    .index-link {
-      display: grid;
-      grid-template-columns: 28px minmax(0, 1fr);
-      gap: var(--space-2);
-      align-items: center;
-      min-height: 58px;
-      padding: var(--space-3);
-      border-radius: var(--radius-md);
-      color: var(--text-primary);
-      text-decoration: none;
-    }
-
-    .index-link:hover { background: var(--gray-50); }
-    .index-link:focus-visible { outline: 2px solid var(--report-accent); outline-offset: 2px; }
-
-    .index-num {
-      display: grid;
-      place-items: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      background: var(--mom-75);
-      color: var(--mom-700);
-    }
-
-    .index-copy { display: grid; gap: 1px; min-width: 0; }
-    .index-copy strong { font-size: 13px; font-weight: 600; line-height: 18px; }
-    .index-copy span { overflow: hidden; color: var(--text-tertiary); font-size: 11px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
-
-    .section { margin-top: var(--space-12); }
-
-    .section-heading {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      grid-template-rows: auto auto;
-      column-gap: var(--space-6);
-      row-gap: var(--space-1);
-      margin-bottom: var(--space-6);
-      padding-bottom: var(--space-4);
-      border-bottom: 1px solid var(--border-default);
-    }
-
-    .section-index {
-      grid-column: 1;
-      grid-row: 1;
-      color: var(--report-accent);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      line-height: 14px;
-    }
-
-    .section-heading h2 {
-      grid-column: 1;
-      grid-row: 2;
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      margin: 0;
-      font-family: var(--font-brand);
-      font-size: var(--type-heading-l-size);
-      font-weight: 500;
-      line-height: var(--type-heading-l-line);
-    }
-
-    .section-heading h2 momcozy-icon { color: var(--report-accent); }
-
-    .section-note {
-      grid-column: 2;
-      grid-row: 1 / 3;
-      align-self: end;
-      padding-bottom: 4px;
-      color: var(--text-tertiary);
-      font-size: var(--type-body-s-size);
-      line-height: var(--type-body-s-line);
-    }
-
-    .overview {
-      display: grid;
-      gap: var(--space-4);
-    }
-
-    .overview-main {
-      display: grid;
-      grid-template-columns: minmax(250px, 0.9fr) minmax(0, 2.1fr);
-      gap: var(--space-4);
-    }
-
-    .total {
-      display: flex;
-      min-height: 230px;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: var(--space-8);
-      border-radius: var(--radius-lg);
-      background: var(--report-accent);
-      color: var(--gray-0);
-      box-shadow: var(--shadow-card);
-    }
-
-    .total-label { font-size: 13px; font-weight: 600; }
-
-    .total-value {
-      display: flex;
-      align-items: baseline;
-      gap: var(--space-2);
-      font-size: 68px;
-      font-weight: 500;
-      line-height: 1;
-      letter-spacing: -0.05em;
-    }
-
-    .total-delta {
-      display: inline-flex;
-      align-items: center;
-      margin-left: var(--space-2);
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: var(--on-accent-soft);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0;
-    }
-
-    .total-unit { font-size: 16px; font-weight: 600; letter-spacing: 0; }
-    .total-caption { color: var(--mom-100); font-size: 13px; }
-    .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
-
-    .metric {
-      min-height: 115px;
-      padding: var(--space-6);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      background: var(--surface-card);
-      box-shadow: var(--shadow-card);
-    }
-
-    .metric-label { display: flex; align-items: center; gap: var(--space-2); color: var(--text-tertiary); font-size: 13px; font-weight: 500; }
-    .metric-label momcozy-icon { color: var(--report-accent); }
-    .metric-value { margin-top: var(--space-2); font-size: 34px; font-weight: 600; line-height: 1.1; }
-    .metric-value small { margin-left: var(--space-1); color: var(--text-secondary); font-size: 13px; font-weight: 500; }
-    .metric.is-closed .metric-value { color: var(--status-success); }
-
-    .metric-delta {
-      display: inline-flex;
-      margin-left: var(--space-2);
-      padding: 4px 7px;
-      border-radius: 999px;
-      background: var(--status-success-soft);
-      color: var(--status-success);
-      font-size: 11px;
-      font-weight: 600;
-      vertical-align: middle;
-    }
-
-    .metric-delta.down { background: var(--status-danger-soft); color: var(--status-danger); }
-
-    .breakdown {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      padding: var(--space-5) var(--space-6);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      background: var(--surface-card);
-    }
-
-    .breakdown-label { margin-right: var(--space-1); color: var(--text-secondary); font-size: 13px; font-weight: 600; }
-
-    .completion {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--space-3);
-      padding: var(--space-4) var(--space-6);
-      border-top: 1px solid var(--border-subtle);
-      background: var(--status-success-soft);
-      color: var(--text-secondary);
-      font-size: 13px;
-    }
-
-    .completion strong { color: var(--status-success); }
-
-    .chip, .tag {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-    .chip { padding: 8px 11px; }
-    .tag { padding: 6px 9px; }
-    .tone-pump { background: var(--mom-75); color: var(--mom-700); }
-    .tone-care { background: var(--care-100); color: var(--care-700); }
-    .tone-parenting { background: var(--parenting-50); color: var(--parenting-700); }
-    .tone-family { background: var(--family-100); color: var(--family-700); }
-    .tone-center { background: var(--gray-100); color: var(--gray-900); }
-    .tone-risk { background: var(--status-danger-soft); color: var(--status-danger); }
-    .tone-watch { background: var(--status-warning-soft); color: var(--status-warning); }
-    .tone-success { background: var(--status-success-soft); color: var(--status-success); }
-
-    .focus-list {
-      display: grid;
-      gap: var(--space-4);
-    }
-
-    .focus-item {
-      display: grid;
-      grid-template-columns: 64px minmax(0, 1fr);
-      gap: var(--space-6);
-      padding: var(--space-6);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      background: var(--surface-card);
-    }
-
-    .focus-number {
-      display: grid;
-      align-self: stretch;
-      align-content: start;
-      width: 64px;
-      min-height: 44px;
-      padding-top: 3px;
-      border-right: 1px solid var(--border-subtle);
-      color: var(--report-accent);
-      font-family: var(--font-brand);
-      font-size: 22px;
-      font-weight: 400;
-      line-height: 28px;
-    }
-
-    .focus-topline {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      min-height: 30px;
-    }
-
-    .focus-title { margin-right: var(--space-1); font-size: var(--type-title-l-size); font-weight: 600; line-height: var(--type-title-l-line); }
-    .focus-summary { margin: var(--space-2) 0 0; color: var(--text-secondary); font-size: var(--type-body-m-size); line-height: var(--type-body-m-line); }
-    .focus-summary strong { color: var(--text-primary); }
-
-    .facts {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-2);
-      margin-top: var(--space-4);
-    }
-
-    .fact {
-      display: grid;
-      grid-template-columns: 78px minmax(0, 1fr);
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-sm);
-      background: var(--gray-50);
-    }
-
-    .fact-label { color: var(--text-tertiary); font-size: 12px; font-weight: 500; }
-    .fact-value { color: var(--text-primary); font-size: 13px; font-weight: 600; }
-
-    .risk-line, .watch-line {
-      margin-top: var(--space-4);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      line-height: 1.65;
-    }
-
-    .risk-line { border: 1px solid var(--status-danger-border); background: var(--status-danger-soft); color: var(--status-danger-label); }
-    .watch-line { border: 1px solid var(--status-warning-border); background: var(--status-warning-soft); color: var(--status-warning-label); }
-    .risk-line strong, .watch-line strong { font-weight: 600; }
-
-    .platform-list {
-      display: grid;
-      gap: var(--space-3);
-    }
-
-    .platform-item {
-      display: grid;
-      grid-template-columns: 72px minmax(0, 1fr);
-      gap: var(--space-6);
-      padding: var(--space-6);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      background: var(--surface-card);
-    }
-
-    .platform-marker {
-      display: grid;
-      align-content: start;
-      justify-items: start;
-      gap: var(--space-2);
-      min-height: 72px;
-      padding-right: var(--space-5);
-      border-right: 1px solid var(--border-subtle);
-    }
-
-    .platform-marker momcozy-icon { color: var(--report-accent); }
-    .platform-ordinal { color: var(--text-tertiary); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; line-height: 14px; }
-    .platform-content { min-width: 0; }
-    .platform-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-5); }
-    .platform-top h3 { margin: var(--space-1) 0 0; font-size: var(--type-title-l-size); font-weight: 600; line-height: var(--type-title-l-line); }
-    .platform-kicker { color: var(--report-accent); font-size: var(--type-body-s-size); font-weight: 600; line-height: var(--type-body-s-line); }
-    .platform-content > p { max-width: 920px; margin: var(--space-3) 0 0; color: var(--text-secondary); font-size: var(--type-body-m-size); line-height: var(--type-body-m-line); }
-
-    .milestone-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin-top: var(--space-4); }
-    .milestone { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); background: var(--gray-50); }
-    .milestone-label { color: var(--text-tertiary); font-size: 12px; font-weight: 500; }
-    .milestone-value { color: var(--text-primary); font-size: 13px; font-weight: 600; }
-
-    .network-brief {
-      display: grid;
-      gap: var(--space-4);
-    }
-
-    .network-goal,
-    .network-progress,
-    .network-next {
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-card);
-    }
-
-    .network-goal {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: var(--space-8);
-      align-items: end;
-      padding: var(--space-8);
-      background: var(--report-accent);
-      color: var(--gray-0);
-    }
-
-    .network-band-label {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      width: fit-content;
-      margin-bottom: var(--space-3);
-      color: var(--report-accent);
-      font-size: var(--type-body-s-size);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      line-height: var(--type-body-s-line);
-    }
-
-    .network-goal .network-band-label { color: var(--mom-100); }
-
-    .network-goal h3,
-    .network-progress h3,
-    .network-next h3 {
-      margin: 0;
-      font-size: var(--type-title-l-size);
-      font-weight: 600;
-      line-height: var(--type-title-l-line);
-    }
-
-    .network-goal p {
-      max-width: 780px;
-      margin: var(--space-3) 0 0;
-      color: var(--on-accent-muted);
-      font-size: var(--type-body-m-size);
-      line-height: var(--type-body-m-line);
-    }
-
-    .network-goal-metric {
-      display: grid;
-      min-width: 148px;
-      padding-left: var(--space-8);
-      border-left: 1px solid var(--on-accent-border);
-      text-align: right;
-    }
-
-    .network-goal-metric strong {
-      font-size: 52px;
-      font-weight: 500;
-      letter-spacing: -0.04em;
-      line-height: 1;
-    }
-
-    .network-goal-metric span { margin-top: var(--space-2); color: var(--mom-100); font-size: var(--type-body-s-size); }
-
-    .network-progress {
-      overflow: hidden;
-      background: var(--surface-card);
-    }
-
-    .network-progress-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: var(--space-5);
-      padding: var(--space-6) var(--space-8) var(--space-5);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .network-progress-head .network-band-label { margin-bottom: var(--space-2); }
-    .network-progress-head > span { color: var(--text-tertiary); font-size: var(--type-body-s-size); }
-
-    .network-progress-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .network-progress-item {
-      display: grid;
-      align-content: start;
-      gap: var(--space-2);
-      min-height: 188px;
-      padding: var(--space-6) var(--space-8);
-      border-right: 1px solid var(--border-subtle);
-    }
-
-    .network-progress-item:last-child { border-right: 0; }
-
-    .network-progress-icon {
-      display: grid;
-      place-items: center;
-      width: 36px;
-      height: 36px;
-      margin-bottom: var(--space-2);
-      border-radius: var(--radius-md);
-      background: var(--mom-75);
-      color: var(--report-accent);
-    }
-
-    .network-progress-kicker { color: var(--report-accent); font-size: var(--type-body-s-size); font-weight: 600; }
-    .network-progress-item strong { font-size: var(--type-title-m-size); font-weight: 600; line-height: var(--type-title-m-line); }
-    .network-progress-item p { margin: 0; color: var(--text-secondary); font-size: 13px; line-height: 20px; }
-
-    .network-deliveries {
-      display: grid;
-      grid-template-columns: 124px minmax(0, 1fr);
-      gap: var(--space-5);
-      align-items: start;
-      padding: var(--space-5) var(--space-8);
-      border-top: 1px solid var(--border-subtle);
-      background: var(--gray-50);
-    }
-
-    .network-deliveries .network-band-label { margin: 2px 0 0; color: var(--family-700); }
-
-    .delivery-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-    }
-
-    .delivery-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
-      border: 1px solid var(--family-border);
-      border-radius: 999px;
-      background: var(--family-100);
-      color: var(--family-700);
-      font-size: var(--type-body-s-size);
-      font-weight: 500;
-      line-height: var(--type-body-s-line);
-    }
-
-    .network-next {
-      display: grid;
-      grid-template-columns: 44px minmax(0, 1fr);
-      gap: var(--space-4);
-      padding: var(--space-6) var(--space-8);
-      border-color: var(--parenting-border);
-      background: var(--parenting-50);
-    }
-
-    .network-next-icon {
-      display: grid;
-      place-items: center;
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-md);
-      background: var(--parenting-fill);
-      color: var(--parenting-700);
-    }
-
-    .network-next .network-band-label { margin-bottom: var(--space-2); color: var(--parenting-700); }
-    .network-next p { margin: var(--space-2) 0 0; color: var(--text-secondary); font-size: var(--type-body-m-size); line-height: var(--type-body-m-line); }
-
-    .empty-state {
-      padding: var(--space-8);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      background: var(--surface-card);
-      box-shadow: var(--shadow-card);
-      text-align: center;
-    }
-
-    .empty-state strong { display: block; margin-bottom: var(--space-2); color: var(--status-success); font-size: 18px; }
-    .empty-state p { margin: 0; color: var(--text-secondary); }
-
-    .source-link {
-      display: inline-flex;
-      margin-top: var(--space-4);
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: var(--report-accent);
-      color: var(--gray-0);
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .project-fold {
-      overflow: hidden;
-      margin-bottom: var(--space-4);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      background: var(--surface-card);
-    }
-
-    .project-fold summary {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: var(--space-4);
-      padding: var(--space-5) var(--space-6);
-      cursor: pointer;
-      list-style: none;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .project-fold summary::-webkit-details-marker { display: none; }
-    .project-fold summary > span { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; }
-    .project-fold summary momcozy-icon { color: var(--report-accent); }
-    .project-fold summary::after { content: "展开"; padding: 6px 10px; border: 1px solid var(--border-default); border-radius: 999px; background: var(--gray-0); color: var(--text-secondary); font-size: 12px; font-weight: 500; }
-    .project-fold[open] summary::after { content: "收起"; }
-    .project-fold[open] summary { border-bottom: 1px solid var(--border-subtle); }
-    .project-fold.tone-mom summary { background: var(--mom-50); }
-    .project-fold.tone-care summary { background: var(--care-100); }
-    .project-fold.tone-app summary { background: var(--parenting-50); }
-    .project-fold.tone-atom summary { background: var(--family-100); }
-    .project-fold.tone-care summary momcozy-icon { color: var(--care-700); }
-    .project-fold.tone-app summary momcozy-icon { color: var(--parenting-700); }
-    .project-fold.tone-atom summary momcozy-icon { color: var(--family-700); }
-    .project-fold-count { margin-left: var(--space-2); color: var(--text-tertiary); font-size: 12px; font-weight: 600; }
-    .project-items { display: grid; }
-
-    .project-item {
-      display: grid;
-      gap: var(--space-3);
-      padding: var(--space-5) var(--space-6);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .project-item:last-child { border-bottom: 0; }
-    .project-item-head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
-    .project-item-title { color: var(--text-primary); font-size: 14px; font-weight: 600; }
-    .project-item-meta { display: flex; flex-wrap: wrap; gap: var(--space-3); color: var(--text-tertiary); font-size: 12px; }
-    .project-item-progress { color: var(--text-secondary); font-size: 13px; line-height: 1.75; white-space: pre-line; }
-
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      gap: var(--space-4);
-      margin-top: var(--space-10);
-      padding-top: var(--space-5);
-      border-top: 1px solid var(--border-default);
-      color: var(--text-tertiary);
-      font-size: 12px;
-    }
-
-    @media (max-width: 760px) {
-      .page { width: min(100% - 32px, 1180px); padding: var(--space-6) 0 var(--space-8); }
-      .masthead { align-items: flex-start; flex-direction: column; gap: var(--space-3); }
-      .masthead-tools { width: 100%; justify-items: start; }
-      .period { text-align: left; white-space: normal; }
-      .page-actions { width: auto; }
-      h1 { font-size: 25px; }
-      .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .section { margin-top: var(--space-10); }
-      .section-heading { grid-template-columns: 1fr; }
-      .section-note { display: none; }
-      .overview-main { grid-template-columns: 1fr; }
-      .total { min-height: 190px; }
-      .focus-item { grid-template-columns: 38px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-5) var(--space-4); }
-      .focus-number { width: 38px; min-height: 36px; font-size: 18px; line-height: 24px; }
-      .focus-topline { min-height: 30px; }
-      .facts { grid-template-columns: 1fr; }
-      .fact { grid-template-columns: 72px minmax(0, 1fr); }
-      .platform-item { grid-template-columns: 42px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-5); }
-      .platform-marker { min-height: 52px; padding-right: var(--space-3); }
-      .platform-top { align-items: flex-start; flex-direction: column; gap: var(--space-2); }
-      .milestone-list { grid-template-columns: 1fr; }
-      .network-goal { grid-template-columns: 1fr; gap: var(--space-5); padding: var(--space-6) var(--space-5); }
-      .network-goal-metric { min-width: 0; padding: var(--space-5) 0 0; border-top: 1px solid var(--on-accent-border); border-left: 0; text-align: left; }
-      .network-goal-metric strong { font-size: 44px; }
-      .network-progress-head { align-items: flex-start; flex-direction: column; gap: var(--space-2); padding: var(--space-5); }
-      .network-progress-grid { grid-template-columns: 1fr; }
-      .network-progress-item { min-height: 0; padding: var(--space-5); border-right: 0; border-bottom: 1px solid var(--border-subtle); }
-      .network-progress-item:last-child { border-bottom: 0; }
-      .network-deliveries { grid-template-columns: 1fr; gap: var(--space-3); padding: var(--space-5); }
-      .network-next { grid-template-columns: 36px minmax(0, 1fr); padding: var(--space-5); }
-      .network-next-icon { width: 36px; height: 36px; }
-      .project-fold summary, .project-item { padding-left: var(--space-4); padding-right: var(--space-4); }
-      .footer { flex-direction: column; }
-    }
-
-    @media print {
-      body { background: var(--gray-0); }
-      .page { width: 100%; padding: 20px; }
-      .overview, .focus-item { box-shadow: none; break-inside: avoid; }
-      .page-actions { display: none !important; }
-    }
-  </style>
-  <script src="_assets/momcozy-report-icons.js" defer></script>
-  <script src="_assets/report-interactions.js" defer></script>
-</head>
-<body>
-  <main class="page">
-    <header class="masthead">
-      <div>
-        <p class="eyebrow">IoT Project Weekly · W33</p>
-        <h1>App 生态中心 · IoT 项目周报</h1>
+<!doctype html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>App 生态中心 · IoT 项目周报</title>
+    <script>(function(){try{var t=localStorage.getItem('iot-weekly-theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}})()</script>
+    <style>
+@font-face{font-family:"Exposure[-10]";src:local("Exposure[-10]");font-display:swap}
+@font-face{font-family:"Aeonik Soft Pro";src:local("Aeonik Soft Pro");font-display:swap}
+:root{color-scheme:light;--font-brand:"Exposure[-10]","Songti SC",serif;--font-plain:"Aeonik Soft Pro","PingFang SC",system-ui,sans-serif;--bg:#F9F7F5;--surface:#FFFFFF;--surface-soft:#F0EEEF;--text:#240F1B;--muted:#746A70;--border:#E4E2E3;--mom:#770523;--mom-soft:#FFF1F3;--mom-label:#FFFFFF;--care:#552C95;--care-soft:#F4F2FF;--parent:#7E451F;--parent-soft:#FEFBF1;--family:#1A5140;--family-soft:#F0F9F0;--danger:#B42318;--danger-soft:#FFF0EE;--success:#146C43;--success-soft:#EAF7EF;--ring:#770523;--radius-xl:12px;--radius-2xl:16px;--radius-3xl:24px;--radius-4xl:32px;--shadow:0 12px 40px rgba(36,15,27,.06)}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#000;--surface:#1C1C1E;--surface-soft:#2E2C2E;--text:#F7F3F6;--muted:#B5AEB2;--border:#3C3A3C;--mom:#DA5876;--mom-soft:#3D1E23;--mom-label:#1C1C1E;--care:#9871D5;--care-soft:#2C2145;--parent:#CD7032;--parent-soft:#392400;--family:#329A7A;--family-soft:#0B3121;--danger:#FF8A80;--danger-soft:#3B1F1C;--success:#6DD5A5;--success-soft:#143A2A;--ring:#DA5876;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"Aeonik Soft Pro","PingFang SC",system-ui,sans-serif;font-size:15px;line-height:1.65}.page{width:min(1180px,calc(100% - 40px));margin:0 auto;padding:28px 0 72px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.brand{font-size:12px;letter-spacing:.16em;color:var(--mom);font-weight:600}.theme-toggle{width:42px;height:42px;border:1px solid var(--border);border-radius:50%;background:var(--surface);color:var(--text);display:grid;place-items:center;cursor:pointer}.theme-toggle:hover{background:var(--surface-soft)}.theme-toggle:focus-visible,summary:focus-visible{outline:3px solid color-mix(in srgb,var(--mom) 30%,transparent);outline-offset:3px}.theme-toggle .sun{display:none}:root[data-theme="dark"] .theme-toggle .sun{display:block}:root[data-theme="dark"] .theme-toggle .moon{display:none}.hero{background:var(--mom);color:#fff;border-radius:28px;padding:48px;position:relative;overflow:hidden}.hero:after{content:"34";position:absolute;right:26px;bottom:-92px;font:400 250px/1 "Exposure[-10]",serif;color:rgba(255,255,255,.09)}.hero-meta{display:flex;justify-content:space-between;position:relative;z-index:1;color:rgba(255,255,255,.76);font-size:13px;letter-spacing:.08em}.hero h1{font:400 44px/1.18 "Exposure[-10]","Songti SC",serif;max-width:760px;margin:84px 0 18px;position:relative;z-index:1}.hero p{max-width:760px;margin:0;position:relative;z-index:1;color:rgba(255,255,255,.82);font-size:17px}.metrics{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:12px;margin:18px 0 56px}.metric{display:grid;grid-template-rows:auto minmax(48px,auto) 1fr;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px;min-height:150px}.metric.primary{background:var(--text);color:var(--surface)}.metric p{margin:0 0 14px;color:var(--muted);font-size:13px}.metric.primary p,.metric.primary small{color:color-mix(in srgb,var(--surface) 68%,transparent)}.metric-value{display:flex;align-items:baseline;gap:6px;min-height:48px}.metric-value strong{font:400 42px/1 "Exposure[-10]",serif}.metric-value>span{font-size:13px}.metric small{display:block;align-self:end;color:var(--muted);margin-top:14px}.badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:4px 9px;font-size:12px;line-height:1.2;font-weight:600;white-space:nowrap;background:var(--surface-soft);color:var(--muted)}.badge.up,.badge.progress{background:var(--success-soft);color:var(--success)}.badge.down,.badge.risk{background:var(--danger-soft);color:var(--danger)}.badge.flat{background:var(--surface-soft);color:var(--muted)}.section{margin-top:56px}.section-head{display:grid;grid-template-columns:130px 1fr;border-bottom:1px solid var(--border);padding-bottom:20px;margin-bottom:22px}.section-label{color:var(--mom);font-size:11px;letter-spacing:.18em;font-weight:600;padding-top:7px}.section-title{display:flex;gap:12px;align-items:flex-start}.section-title>momcozy-icon{color:var(--mom);margin-top:4px}.section-title h2{font:400 30px/1.25 "Exposure[-10]","Songti SC",serif;margin:0}.section-title p{margin:5px 0 0;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.project-card,.info-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow)}.project-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--mom);margin:0 0 6px}.tone-care .eyebrow{color:var(--care)}.tone-parent .eyebrow{color:var(--parent)}.tone-family .eyebrow{color:var(--family)}.project-card h3,.info-card h3{font-size:19px;line-height:1.35;margin:0}.project-summary{margin:14px 0 0;color:var(--muted)}.risk-box{margin-top:18px;background:var(--danger-soft);border-radius:14px;padding:14px 16px;color:var(--danger)}.risk-box>div{display:flex;align-items:center;gap:7px}.risk-box p{margin:6px 0 0;color:var(--text)}.milestone-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}.milestone-strip div{background:var(--surface-soft);border-radius:12px;padding:12px}.milestone-strip span{display:block;color:var(--muted);font-size:12px}.milestone-strip strong{display:block;margin-top:2px}.decision{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:28px}.decision h3{font:400 24px/1.3 "Exposure[-10]",serif;margin:0 0 14px}.decision>p{margin:0;color:var(--muted)}.decision-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}.decision-grid article{background:var(--surface-soft);border-radius:14px;padding:16px}.decision-grid h4{margin:0 0 7px;font-size:14px}.decision-grid p{margin:0;color:var(--muted);font-size:14px}.timeline{display:flex;gap:12px;margin-top:16px}.timeline div{flex:1;border:1px solid var(--border);border-radius:14px;padding:14px}.timeline span{color:var(--mom);font-size:12px;font-weight:600}.timeline strong{display:block;margin-top:3px}.inventory-fold{background:var(--surface);border:1px solid var(--border);border-radius:18px;margin-bottom:12px;overflow:hidden}.inventory-fold summary{list-style:none;display:flex;justify-content:space-between;align-items:center;padding:20px 22px;cursor:pointer}.inventory-fold summary::-webkit-details-marker{display:none}.inventory-fold summary>span:first-child{display:flex;align-items:center;gap:10px}.inventory-fold small{color:var(--muted);font-weight:400}.fold-action{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:13px}.inventory-fold[open] .fold-action momcozy-icon{transform:rotate(90deg)}.inventory-list{border-top:1px solid var(--border)}.inventory-row{display:grid;grid-template-columns:minmax(220px,36%) 1fr;gap:24px;padding:17px 22px;border-bottom:1px solid var(--border)}.inventory-row:last-child{border-bottom:0}.inventory-row h4{margin:0;font-size:14px}.inventory-row p{margin:3px 0 0;color:var(--muted);font-size:13px}.inventory-row>div:last-child{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.inventory-row>div:last-child p{color:var(--text);margin:0}.summary-band{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.summary-band article{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px}.summary-band strong{font-size:22px}.summary-band p{margin:6px 0 0;color:var(--muted)}footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted);font-size:12px}momcozy-icon{display:inline-flex;flex:0 0 auto}.note{color:var(--muted);font-size:13px;margin-top:12px}
+body{font-family:var(--font-plain)}.theme-toggle{width:44px;height:44px;border-radius:999px}.theme-toggle:focus-visible,summary:focus-visible{outline-color:color-mix(in srgb,var(--ring) 30%,transparent)}.hero{color:var(--mom-label);border-radius:var(--radius-4xl)}.hero:after{font-family:var(--font-brand);color:color-mix(in srgb,currentColor 9%,transparent)}.hero-meta{color:color-mix(in srgb,currentColor 76%,transparent)}.hero h1{font-family:var(--font-brand);margin-top:72px}.hero p{color:color-mix(in srgb,currentColor 82%,transparent)}.metric,.project-card,.info-card,.module-dimension,.workstream-block{min-width:0}.metric{border-radius:var(--radius-2xl)}.metric-value{font-variant-numeric:tabular-nums}.metric-value strong,.section-title h2,.decision h3,.provisioning-subhead span,.net-data-head h4,.provisioning-direction h3,.workstream-label span,.module-lead h3,.module-dimension>span,.module-kpi b{font-family:var(--font-brand)}.badge{min-height:28px;padding:5px 10px;line-height:18px}.section{margin-top:64px}.section-head{grid-template-columns:112px minmax(0,1fr);gap:16px;padding-bottom:18px;margin-bottom:24px}.section-title{min-width:0}.grid{gap:16px}.project-card,.info-card{border-radius:var(--radius-3xl)}.project-top>div{min-width:0}.project-card h3,.info-card h3{font-size:18px;line-height:1.4;overflow-wrap:anywhere}.risk-box,.milestone-strip div{border-radius:var(--radius-xl)}.inventory-fold{border-radius:var(--radius-2xl)}.inventory-fold summary{min-height:64px;padding-top:18px;padding-bottom:18px}.inventory-row{grid-template-columns:minmax(220px,36%) minmax(0,1fr)}.inventory-row h4,.inventory-row p{overflow-wrap:anywhere}.inventory-row>div:last-child{min-width:0}footer{margin-top:64px}
+.metrics.five{grid-template-columns:2fr repeat(4,1fr)}
+.metrics.three{grid-template-columns:2fr repeat(2,1fr)}
+.metrics.five.boss-metrics{grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:1fr;margin-bottom:12px}.boss-metrics .metric{height:100%;grid-template-rows:auto auto;align-content:center;justify-items:center;text-align:center;padding:24px 18px}.boss-metrics .metric p{min-height:0;margin:0 0 12px}.boss-metrics .metric-value{justify-content:center;min-height:0}.boss-metrics .metric small{display:none}
+.weekly-new{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:20px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 20px;margin:0 0 56px}.weekly-new>strong{font-size:13px;color:var(--text);white-space:nowrap}.weekly-new-content{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.weekly-new-content>span{color:var(--muted);font-size:13px}.weekly-new-content b{color:var(--text);font-weight:600}.weekly-new-divider{width:1px;height:20px;background:var(--border);margin:0 4px}.weekly-new-label{color:var(--mom)!important;font-weight:600}.weekly-new-item{background:var(--mom-soft);color:var(--mom)!important;border-radius:999px;padding:5px 11px;font-weight:600}
+.project-card.wide,.product-group{grid-column:1/-1}.product-group-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.product-group-item{background:var(--surface-soft);border-radius:14px;padding:18px}.product-group-item h4{margin:0;font-size:17px}.product-group-item p:last-child{margin:13px 0 0;color:var(--muted)}.product-group-item.family .eyebrow{color:var(--family)}.product-group-item.parent .eyebrow{color:var(--parent)}
+.provisioning-shell{background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}.provisioning-data{padding:28px}.provisioning-subhead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}.provisioning-subhead>div{display:flex;align-items:baseline;gap:12px}.provisioning-subhead span{color:var(--mom);font:400 24px/1 "Exposure[-10]",serif}.provisioning-subhead h3{margin:0;font-size:18px}.provisioning-subhead small{color:var(--muted)}.net-data-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.net-data-card{background:var(--surface-soft);border-radius:16px;padding:20px}.net-data-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.net-data-head p{margin:0 0 5px;color:var(--muted);font-size:13px}.net-data-head h4{font:400 36px/1 "Exposure[-10]",serif;margin:0}.net-data-head h4 span{font:500 13px/1 "Aeonik Soft Pro","PingFang SC",sans-serif}.net-data-rate{text-align:right}.net-data-rate strong{display:block;font-size:24px;line-height:1.2}.net-data-rate span{display:block;color:var(--muted);font-size:12px}.net-data-trend{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:18px;color:var(--muted);font-size:12px}.net-data-trend i{font-style:normal;color:var(--border)}.net-data-trend b{font-weight:600}.net-data-trend .down{color:var(--danger)}.net-data-trend .up{color:var(--success)}.net-data-card>p{margin:12px 0 0;color:var(--muted)}.net-data-note{margin:14px 0 0;color:var(--muted);font-size:12px}.provisioning-direction{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;padding:28px;background:var(--mom);color:var(--surface)}.provisioning-direction .direction-label{font-size:11px;letter-spacing:.14em;font-weight:600;padding-top:4px}.provisioning-direction h3{font:400 24px/1.4 "Exposure[-10]","Songti SC",serif;margin:0}.provisioning-direction p{margin:9px 0 0;color:color-mix(in srgb,var(--surface) 78%,transparent)}.workstream-list{padding:0 28px}.workstream{display:grid;grid-template-columns:140px minmax(0,1fr);gap:24px;padding:26px 0;border-bottom:1px solid var(--border)}.workstream:last-child{border-bottom:0}.workstream-label span{display:block;color:var(--mom);font:400 28px/1 "Exposure[-10]",serif}.workstream-label strong{display:block;margin-top:8px;font-size:15px}.workstream-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}.workstream-block h4{margin:0 0 10px;font-size:13px;color:var(--muted);font-weight:600}.workstream-block p{margin:0;color:var(--text)}.workstream-block ul{margin:0;padding-left:18px}.workstream-block li{margin-top:9px;color:var(--muted)}.workstream-block li:first-child{margin-top:0}.workstream-block strong{color:var(--text)}.dev-lanes{display:grid;gap:10px}.dev-lane{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px}.dev-lane span{color:var(--mom);font-size:12px;font-weight:600}.test-result{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--surface-soft);color:var(--muted)}.test-result strong{color:var(--text)}
+.provisioning-shell{border-radius:var(--radius-3xl)}.net-data-card{border:1px solid var(--border);border-radius:var(--radius-2xl)}.net-data-head h4,.net-data-rate strong{font-variant-numeric:tabular-nums}.provisioning-direction{grid-template-columns:250px minmax(0,1fr);align-items:center;padding:20px 28px;color:var(--mom-label)}.direction-heading{display:flex;align-items:baseline;gap:12px;min-width:0}.direction-heading span{font:400 24px/1 var(--font-brand)}.direction-heading h3{font:600 18px/1.35 var(--font-plain);margin:0}.provisioning-direction>p{font:400 20px/1.35 var(--font-brand);margin:0;color:inherit}.workstream{grid-template-columns:112px minmax(0,1fr);gap:28px;padding:28px 0}.workstream-content{gap:32px}.workstream-block h4{color:var(--mom);letter-spacing:.04em}.test-result{border-radius:var(--radius-xl)}
+.module-panel{background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}.module-panel+.module-panel{margin-top:16px}.module-lead{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding:28px}.module-lead .eyebrow{margin-bottom:8px}.module-lead h3{font:400 24px/1.35 "Exposure[-10]","Songti SC",serif;margin:0}.module-lead p:last-child{max-width:850px;margin:10px 0 0;color:var(--muted)}.module-scope{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.module-scope div{background:var(--surface-soft);padding:18px 28px}.module-scope span{display:block;color:var(--muted);font-size:12px}.module-scope strong{display:block;margin-top:4px;font-size:15px}.module-dimensions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border)}.module-dimensions.supplier-conclusions{grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--border)}.module-dimension{display:grid;grid-template-columns:42px minmax(0,1fr);gap:14px;background:var(--surface);padding:24px 28px}.module-dimension>span{color:var(--mom);font:400 25px/1 "Exposure[-10]",serif}.module-dimension h4{margin:0 0 7px;font-size:15px}.module-dimension p{margin:0;color:var(--muted);font-size:14px}.module-acceptance{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));align-items:stretch;gap:1px;background:var(--border);border-top:1px solid var(--border)}.module-acceptance>strong{display:flex;align-items:center;background:var(--mom);color:#fff;padding:18px 22px;font-size:13px}.module-kpi{background:var(--surface-soft);padding:16px 20px}.module-kpi b{display:block;font:400 24px/1.1 "Exposure[-10]",serif}.module-kpi span{display:block;margin-top:5px;color:var(--muted);font-size:12px}.module-delivery{display:flex;gap:10px;align-items:center;padding:16px 28px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}.module-delivery strong{color:var(--text)}
+.module-panel{border-radius:var(--radius-3xl)}.module-dimension h4{font-size:16px}.module-acceptance>strong{color:var(--mom-label)}.module-kpi b{font-variant-numeric:tabular-nums}
+.change-lines span{display:block;margin-top:5px}.change-lines span:first-child{margin-top:0}.risk-change-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.risk-change-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px}.risk-change-card h3{display:flex;align-items:center;gap:9px;margin:0 0 14px;font-size:18px}.risk-change-card ul{margin:0;padding-left:20px}.risk-change-card li{margin-top:10px;color:var(--muted)}.risk-change-card li:first-child{margin-top:0}.risk-change-card strong{color:var(--text)}
+@media(max-width:980px){.metrics,.metrics.five,.metrics.three,.metrics.five.boss-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.boss-metrics .metric:first-child{grid-column:1/-1}}
+@media(max-width:820px){.page{width:min(100% - 24px,1180px)}.hero{padding:30px 24px}.hero h1{font-size:34px;margin-top:60px}.grid,.decision-grid,.summary-band,.risk-change-grid,.product-group-list,.net-data-grid,.provisioning-direction,.workstream,.workstream-content,.module-scope,.module-dimensions,.module-dimensions.supplier-conclusions,.module-acceptance{grid-template-columns:1fr}.section-head{grid-template-columns:1fr;gap:6px}.section-label{padding:0}.inventory-row{grid-template-columns:1fr;gap:8px}.timeline{flex-direction:column}.provisioning-subhead{align-items:flex-start;flex-direction:column;gap:5px}.provisioning-direction{gap:8px}.workstream{gap:16px}.workstream-label{display:flex;align-items:baseline;gap:10px}.workstream-label strong{margin-top:0}.module-acceptance>strong{justify-content:center}.module-lead{flex-direction:column}.module-lead .badge{order:-1}}
+@media(max-width:520px){.metrics,.metrics.five,.metrics.three,.metrics.five.boss-metrics{grid-template-columns:1fr}.hero-meta{flex-direction:column;gap:4px}.project-top{flex-direction:column}.milestone-strip{grid-template-columns:1fr}.inventory-fold summary{align-items:flex-start}.fold-action{font-size:0}.fold-action momcozy-icon{margin-top:3px}.weekly-new{grid-template-columns:1fr;gap:8px}.weekly-new-content{align-items:flex-start}.weekly-new-divider{display:none}.weekly-new-label{flex-basis:100%}.module-lead,.module-dimension,.module-scope div,.module-delivery{padding-left:20px;padding-right:20px}.module-delivery{align-items:flex-start;flex-direction:column;gap:3px}}
+</style><script src="_assets/momcozy-report-icons.js" defer></script><script src="_assets/report-interactions.js" defer></script></head>
+    <body><main class="page"><div class="topbar"><div class="brand">MOMCOZY · APP 生态中心</div><button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换深浅色模式"><span class="moon"><momcozy-icon name="themeDark" size="20" aria-hidden="true"></momcozy-icon></span><span class="sun"><momcozy-icon name="themeLight" size="20" aria-hidden="true"></momcozy-icon></span></button></div>
+    <header class="hero"><div class="hero-meta"><span>W34</span><span>2026/08/17 - 2026/08/21</span></div><h1>App 生态中心 · IoT 项目周报</h1></header><section class="metrics five boss-metrics"><article class="metric primary">
+      <p>进行中项目</p><div class="metric-value"><strong>70</strong><span>项</span><span class="badge up">+4</span></div>
+      </article><article class="metric default">
+      <p>整机项目</p><div class="metric-value"><strong>46</strong><span>项</span><span class="badge up">+1</span></div>
+      </article><article class="metric default">
+      <p>App 优化</p><div class="metric-value"><strong>7</strong><span>项</span><span class="badge up">+1</span></div>
+      </article><article class="metric default">
+      <p>原子化能力</p><div class="metric-value"><strong>17</strong><span>项</span><span class="badge up">+2</span></div>
+      </article><article class="metric default">
+      <p>累计完成</p><div class="metric-value"><strong>43</strong><span>项</span><span class="badge up">+1</span></div>
+      </article></section><div class="weekly-new"><strong>整机项目概览</strong><div class="weekly-new-content"><span>吸奶器 <b>17</b></span><span>孕产康 <b>7</b></span><span>产品中心 <b>22</b></span><span class="weekly-new-divider" aria-hidden="true"></span><span class="weekly-new-label">本周新增</span><span class="weekly-new-item">冰淇淋机</span><span class="weekly-new-item">CM04 带电冻奶壶</span></div></div><section class="section"><header class="section-head">
+      <div class="section-label">SECTION 01</div>
+      <div class="section-title"><momcozy-icon name="focus" size="24" aria-hidden="true"></momcozy-icon><div><h2>IoT 核心产品进展与风险</h2></div></div>
+    </header><div class="grid"><article class="project-card tone-mom ">
+      <div class="project-top"><div><p class="eyebrow">上市版本测试</p><h3>吸奶器 V3</h3></div><span class="badge progress">8 月 27 日</span></div>
+      <p class="project-summary">上市交付版测试中，8 月 21 日封代码，8 月 27 日交付。</p>
+    </article><article class="project-card tone-mom ">
+      <div class="project-top"><div><p class="eyebrow">风险已解除</p><h3>Wellness Warm</h3></div><span class="badge progress">8 月 27 日</span></div>
+      <p class="project-summary">上周产品改名带来的排期风险已解除，App 随 8 月 27 日版本交付；中国区与其他区域同步交付。</p>
+    </article><article class="project-card tone-care ">
+      <div class="project-top"><div><p class="eyebrow">App 转测 / 平板 MVP</p><h3>BM08S</h3></div><span class="badge progress">9 月 2 日体验版本</span></div>
+      <p class="project-summary">App 二期功能预计 8 月 20 日转测；平板 MVP 设计与主流程开发推进中。</p>
+    </article><article class="project-card tone-care ">
+      <div class="project-top"><div><p class="eyebrow">固件与 App 联调</p><h3>BM04S</h3></div><span class="badge risk">9 月 30 日</span></div>
+      <p class="project-summary">新 PID 适配完成，固件问题继续收敛，上架目标按 9 月 30 日推进。</p><div class="risk-box"><div><momcozy-icon name="focus" size="16" aria-hidden="true"></momcozy-icon><strong>风险</strong></div><p>固件与蓝牙配网方案尚未稳定，可能压缩 App 联调和测试时间。</p></div>
+    </article><article class="project-card product-group tone-family">
+      <div class="project-top"><div><p class="eyebrow">产品中心</p><h3>智能清洗机与智能调奶器</h3></div><span class="badge progress">用户体验版本</span></div>
+      <div class="product-group-list">
+        <section class="product-group-item family">
+          <div class="project-top"><div><p class="eyebrow">智能清洗机</p><h4>BW05P</h4></div><span class="badge progress">9 月 8 日</span></div>
+          <p>用户体验版本计划 9 月 8 日交付。当前仍有重启后 Wi-Fi 与蓝牙回连慢等问题，配网攻坚小组正在定位和修复。</p>
+        </section>
+        <section class="product-group-item parent">
+          <div class="project-top"><div><p class="eyebrow">智能调奶器</p><h4>FD04</h4></div><span class="badge progress">9 月 28 日</span></div>
+          <p>App 与 Web 进入开发联调，海外完整功能版计划 9 月 28 日交付。用户体验版本的配网 Bug 已进入修复与验证。</p>
+        </section>
       </div>
-      <div class="masthead-tools">
-        <div class="period">2026.08.10 至 2026.08.14</div>
-        <div class="page-actions" aria-label="页面工具">
-          <button class="theme-icon-button" id="theme-toggle" type="button" aria-label="切换为暗黑模式" title="切换为暗黑模式" aria-pressed="false">
-            <momcozy-icon class="theme-icon theme-icon-dark" name="themeDark" size="20" aria-hidden="true"></momcozy-icon>
-            <momcozy-icon class="theme-icon theme-icon-light" name="themeLight" size="20" aria-hidden="true"></momcozy-icon>
-          </button>
+    </article><article class="project-card tone-mom wide">
+      <div class="project-top"><div><p class="eyebrow">用户体验版已交付</p><h3>盆底肌修复仪</h3></div><span class="badge risk">8 月 20 日</span></div>
+      <p class="project-summary">Lumi1 国内用户体验包已于 8 月 20 日交付，含埋点版本计划 8 月 25 日交付；Megg1 Pro EVT 迭代 3 已完成需求澄清。</p><div class="risk-box"><div><momcozy-icon name="focus" size="16" aria-hidden="true"></momcozy-icon><strong>风险</strong></div><p>外采 Megg1 供应商合同较原计划延迟 13 天，后续计划受影响。</p></div>
+    </article></div></section><section class="section"><header class="section-head">
+      <div class="section-label">SECTION 02</div>
+      <div class="section-title"><momcozy-icon name="provisioning" size="24" aria-hidden="true"></momcozy-icon><div><h2>IoT 配网攻坚</h2></div></div>
+    </header><div class="provisioning-shell">
+      <section class="provisioning-data">
+        <header class="provisioning-subhead"><div><span>01</span><h3>本周 IoT 配网数据情况</h3></div><small>8 月 14–20 日</small></header>
+        <div class="net-data-grid">
+          <article class="net-data-card">
+            <div class="net-data-head"><div><p>蓝牙设备（BLE）</p><h4>17,868 <span>次配网</span></h4></div><div class="net-data-rate"><strong>93.33%</strong><span>一次配网成功率</span></div></div>
+          </article>
+          <article class="net-data-card">
+            <div class="net-data-head"><div><p>Wi-Fi 设备</p><h4>288 <span>次配网</span></h4></div><div class="net-data-rate"><strong>60.07%</strong><span>一次配网成功率</span></div></div>
+          </article>
         </div>
+      </section>
+      <header class="provisioning-direction"><div class="direction-heading"><span>02</span><h3>本周攻坚方向</h3></div><p>主攻线上 BM04 配网全链路，同时快速解决在研产品问题</p></header>
+      <div class="workstream-list">
+        <article class="workstream"><div class="workstream-label"><span>01</span><strong>产品</strong></div><div class="workstream-content">
+          <section class="workstream-block"><h4>发现的问题</h4><ul><li>Wi-Fi 配网错误主要集中在密码输入。</li><li>BM04 强绑定场景下，用户不知道设备已被其他账号绑定，也不清楚后续处理路径。</li></ul></section>
+          <section class="workstream-block"><h4>本周动作</h4><ul><li>密码输入增加复制、格式提示和提交前二次确认。</li><li>BM04 新引导增加“是否使用过”确认、联系客服解绑入口，并补充撕镜头膜、接电源、长按配网键及确认蓝灯闪烁等步骤。</li></ul></section>
+        </div></article>
+        <article class="workstream"><div class="workstream-label"><span>02</span><strong>开发</strong></div><div class="workstream-content">
+          <section class="workstream-block"><h4>三组分工</h4><div class="dev-lanes"><div class="dev-lane"><span>第一组</span><p>全面排查配网公共代码中的 Bug。</p></div><div class="dev-lane"><span>第二组</span><p>配合产品实现可快速上线的迭代优化。</p></div><div class="dev-lane"><span>第三组</span><p>专项处理调奶器、清洗机等在研产品的配网问题。</p></div></div></section>
+          <section class="workstream-block"><h4>本周进展</h4><ul><li>发现 Mesh 共性问题此前只在产品分支修复，公共层未同步；已整理共性问题并制定公共层分阶段修复计划。</li><li>Wi-Fi 密码优化计划下周五提测，BM04 新配网引导同步进入实现。</li><li>FD04 配网 Bug 进入修复；BW05P 正验证重启后 Wi-Fi 与蓝牙回连慢问题。</li></ul></section>
+        </div></article>
+        <article class="workstream"><div class="workstream-label"><span>03</span><strong>测试</strong></div><div class="workstream-content">
+          <section class="workstream-block"><h4>VOC 复查范围</h4><ul><li>BM08 配网卡在 63%–68% 的客诉场景。</li><li>BM04 解绑异常和二维码扫码失败。</li></ul></section>
+          <section class="workstream-block"><h4>定位结论</h4><p><strong>BM08：</strong>已通过用户录屏确认 63%–68% 卡点，历史工单标记为服务端临时异常；本周测试记录未形成新的本地复现结论，继续结合日志验证。</p><div class="test-result"><strong>BM04：</strong>二维码扫码失败初步定位为设备无线网口初始化失败，已提单并推进供应商修复。</div></section>
+        </div></article>
+        <article class="workstream"><div class="workstream-label"><span>04</span><strong>数据</strong></div><div class="workstream-content">
+          <section class="workstream-block"><h4>发现的问题</h4><ul><li>部分关键埋点缺失，导致错误码无法归因到具体配网环节。</li><li>自研模组的错误码链路不完整，影响上线后的快速定位。</li></ul></section>
+          <section class="workstream-block"><h4>本周动作</h4><ul><li>已搭建配网 5 环节漏斗初版和一次配网成功率看板，优化 PostHog 漏斗并核对结束事件埋点。</li><li>埋点补齐方案已输出，计划 8 月 22 日完成开发、下周合入主线。</li><li>BM04 错误码上报已与爱培科初步确认可行性，同步推进涂鸦沟通和自研模组错误码链路测试。</li></ul></section>
+        </div></article>
       </div>
-    </header>
-
-    <p class="intro">本周聚焦整机交付里程碑、关键风险、IoT 平台能力与配网专项；完整项目数据收录于附录。</p>
-
-    <nav class="report-index" aria-label="本期内容索引">
-      <div class="index-grid">
-        <a class="index-link" href="#section-01"><span class="index-num"><momcozy-icon name="overview" size="16" aria-hidden="true"></momcozy-icon></span><span class="index-copy"><strong>整体盘点</strong><span>66 项，较上周 +4</span></span></a>
-        <a class="index-link" href="#section-02"><span class="index-num"><momcozy-icon name="focus" size="16" aria-hidden="true"></momcozy-icon></span><span class="index-copy"><strong>核心进展与风险</strong><span>项目维度同步</span></span></a>
-        <a class="index-link" href="#section-03"><span class="index-num"><momcozy-icon name="provisioning" size="16" aria-hidden="true"></momcozy-icon></span><span class="index-copy"><strong>配网攻坚</strong><span>首批阶段性交付</span></span></a>
-        <a class="index-link" href="#section-04"><span class="index-num"><momcozy-icon name="platform" size="16" aria-hidden="true"></momcozy-icon></span><span class="index-copy"><strong>平台能力</strong><span>机制与原子化</span></span></a>
-        <a class="index-link" href="#section-05"><span class="index-num"><momcozy-icon name="inventory" size="16" aria-hidden="true"></momcozy-icon></span><span class="index-copy"><strong>项目清单</strong><span>66 项折叠明细</span></span></a>
+    </div></section><section class="section"><header class="section-head">
+      <div class="section-label">SECTION 03</div>
+      <div class="section-title"><momcozy-icon name="platform" size="24" aria-hidden="true"></momcozy-icon><div><h2>IoT 平台能力与机制保障</h2></div></div>
+    </header><div class="grid"><article class="project-card tone-mom ">
+      <div class="project-top"><div><p class="eyebrow">已上线</p><h3>IoT 设备接入平台线上内容变更的审批流程上线</h3></div><span class="badge progress">本周完成</span></div>
+      <p class="project-summary">IoT 设备的上架、下架及线上基础信息修改，统一经审批后生效。</p>
+    </article><article class="project-card tone-mom ">
+      <div class="project-top"><div><p class="eyebrow">需求对接中</p><h3>IoT 设备接入平台产品经理及运维人员线上环境权限收敛与治理</h3></div><span class="badge progress">9 月</span></div>
+      <p class="project-summary">每位产品经理只拥有自己负责的产品配置及修改权限。</p>
+    </article><article class="project-card tone-mom ">
+      <div class="project-top"><div><p class="eyebrow">开发中</p><h3>IoT 平台监控指标数据采集</h3></div><span class="badge risk">8 月</span></div>
+      <p class="project-summary">聚焦设备连接稳定性和风控指标，8 月 12 日已完成方案澄清，后端正在评估替代方案。</p><div class="risk-box"><div><momcozy-icon name="focus" size="16" aria-hidden="true"></momcozy-icon><strong>风险</strong></div><p>数据团队暂无资源支持，需要由后端进一步明确技术方案。</p></div>
+    </article><article class="project-card tone-mom ">
+      <div class="project-top"><div><p class="eyebrow">计划阶段</p><h3>线上配置先灰度验证再发布</h3></div><span class="badge progress">11 月</span></div>
+      <p class="project-summary">线上环境配置修改后小范围生效，待测试全面验收后全网发布。</p>
+    </article></div></section><section class="section"><header class="section-head">
+      <div class="section-label">SECTION 04</div>
+      <div class="section-title"><momcozy-icon name="testing" size="24" aria-hidden="true"></momcozy-icon><div><h2>IoT 模组与供应商合作情况</h2></div></div>
+    </header><div class="module-panel">
+      <header class="module-lead">
+        <div><p class="eyebrow">01 · 模组质量验证</p><h3>联合品质启动 Wi-Fi 模组兼容性与稳定性专项测试</h3><p>针对研发中的自研 Wi-Fi 模组，以及已上线 BM04、BM08 等 Wi-Fi 设备，统一验证配网、连接、恢复和长时运行能力，提前暴露模组与路由器、手机及具体产品的适配问题。</p></div>
+        <span class="badge progress">专项测试已启动</span>
+      </header>
+      <div class="module-scope">
+        <div><span>研发侧测试对象</span><strong>自研 Wi-Fi 模组</strong></div>
+        <div><span>线上产品验证对象</span><strong>BM04、BM08 等 Wi-Fi 设备</strong></div>
       </div>
-    </nav>
-
-    <section class="section" id="section-01" aria-labelledby="overview-title">
-      <div class="section-heading">
-        <span class="section-index">SECTION 01</span>
-        <h2 id="overview-title"><momcozy-icon name="overview" size="20" aria-hidden="true"></momcozy-icon><span>整体盘点</span></h2>
-        <span class="section-note">较上周对比</span>
+      <div class="module-dimensions">
+        <article class="module-dimension"><span>01</span><div><h4>路由器与终端兼容</h4><p>覆盖 TP-Link、小米、华为、华硕等品牌，验证 2.4G/5G、WPA2/WPA3/无加密、双频同名、特殊 SSID/密码及 iOS/Android 机型适配。</p></div></article>
+        <article class="module-dimension"><span>02</span><div><h4>配网流程与失败反馈</h4><p>验证正常配网及中途断电、关蓝牙、路由器断电、App 杀进程、密码错误和连接超时等场景，确保错误码与用户提示明确。</p></div></article>
+        <article class="module-dimension"><span>03</span><div><h4>长稳运行与自动恢复</h4><p>覆盖 12/24 小时运行、断电/断网/服务器断连恢复、反复绑定解绑、弱信号、信号抖动、同频干扰与 BLE/Wi-Fi 共存。</p></div></article>
+        <article class="module-dimension"><span>04</span><div><h4>性能与整机适配</h4><p>通过空旷/隔墙拉距、吞吐量、丢包率和延迟测试确认通信边界，并在多类 Wi-Fi 整机上复用基础用例验证模组适配性。</p></div></article>
       </div>
-
-      <div class="overview">
-        <div class="overview-main">
-          <div class="total">
-            <span class="total-label">当前正在进行</span>
-            <div class="total-value">66 <span class="total-unit">项</span><span class="total-delta">+4</span></div>
-            <span class="total-caption">整机、App 优化、原子化项目合计</span>
-          </div>
-
-          <div class="metric-grid">
-            <div class="metric">
-              <div class="metric-label"><momcozy-icon name="wholeMachine" size="16" aria-hidden="true"></momcozy-icon><span>整机项目</span></div>
-              <div class="metric-value">45<small>项</small><span class="metric-delta">+4</span></div>
-            </div>
-            <div class="metric">
-              <div class="metric-label"><momcozy-icon name="appOptimization" size="16" aria-hidden="true"></momcozy-icon><span>App 优化</span></div>
-              <div class="metric-value">6<small>项</small><span class="metric-delta down">-1</span></div>
-            </div>
-            <div class="metric">
-              <div class="metric-label"><momcozy-icon name="atomization" size="16" aria-hidden="true"></momcozy-icon><span>原子化项目</span></div>
-              <div class="metric-value">15<small>项</small><span class="metric-delta">+1</span></div>
-            </div>
-            <div class="metric is-closed">
-              <div class="metric-label"><momcozy-icon name="archived" size="16" aria-hidden="true"></momcozy-icon><span>累计已完成归档</span></div>
-              <div class="metric-value">42<small>项</small><span class="metric-delta">+1</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="breakdown">
-          <span class="breakdown-label">整机项目分布</span>
-          <span class="chip tone-pump">吸奶器 17</span>
-          <span class="chip tone-center">产品中心 20</span>
-          <span class="chip tone-care">孕产康 8</span>
-        </div>
+      <div class="module-acceptance">
+        <strong>通过标准</strong>
+        <div class="module-kpi"><b>≥98%</b><span>iOS / Android 配网成功率，各连续测试 50 次</span></div>
+        <div class="module-kpi"><b>12h / 24h</b><span>长时运行无断连、重启或死机</span></div>
+        <div class="module-kpi"><b>100%</b><span>功能用例通过，失败场景均有明确错误码和提示</span></div>
       </div>
-    </section>
-
-    <section class="section" id="section-02" aria-labelledby="focus-title">
-      <div class="section-heading">
-        <span class="section-index">SECTION 02</span>
-        <h2 id="focus-title"><momcozy-icon name="focus" size="20" aria-hidden="true"></momcozy-icon><span>本周核心进展与风险</span></h2>
-        <span class="section-note">按项目同步阶段、里程碑与风险</span>
+      <div class="module-delivery"><strong>交付件</strong><span>测试报告、缺陷清单、测试用例及风险评估</span></div>
+    </div>
+    <div class="module-panel">
+      <header class="module-lead">
+        <div><p class="eyebrow">02 · 供应商沟通结论</p><h3>明确配网问题的技术责任与配合方案</h3><p>本周围绕 BM04 配网、自研 Wi-Fi 模组错误码和设备日志补传，与相关供应商完成沟通并形成明确结论。</p></div>
+        <span class="badge progress">3 项结论确认</span>
+      </header>
+      <div class="module-dimensions supplier-conclusions">
+        <article class="module-dimension"><span>01</span><div><h4>BM04 扫码配网</h4><p>App 侧已完成排查；后续由爱培科负责设备固件问题、涂鸦负责云端问题，技术责任已明确。</p></div></article>
+        <article class="module-dimension"><span>02</span><div><h4>自研模组错误码</h4><p>霄雷已提供支持错误码的新固件，可通过 OTA 开展验证，补充配网失败的定位依据。</p></div></article>
+        <article class="module-dimension"><span>03</span><div><h4>设备日志补传</h4><p>爱培科确认 MCU 暂存错误码及日志、设备联网后补传的方案技术可行，后续配合固件开发。</p></div></article>
       </div>
-
-      <div class="focus-list">
-        <article class="focus-item">
-          <div class="focus-number">01</div>
-          <div>
-            <div class="focus-topline">
-              <div class="focus-title">吸奶器 V3</div>
-              <span class="tag tone-pump">吸奶器</span>
-              <span class="tag tone-success">正常</span>
-            </div>
-            <p class="focus-summary">上市交付软件版本测试中，当前按计划推进。</p>
-            <div class="facts">
-              <div class="fact"><span class="fact-label">App 状态</span><span class="fact-value">V3.4.0 上市交付版测试中</span></div>
-              <div class="fact"><span class="fact-label">软件交付</span><span class="fact-value">8 月 27 日</span></div>
-              <div class="fact"><span class="fact-label">整机上市</span><span class="fact-value">预计 9 月 5 日</span></div>
-              <div class="fact"><span class="fact-label">当前状态</span><span class="fact-value">按计划推进</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="focus-item">
-          <div class="focus-number">02</div>
-          <div>
-            <div class="focus-topline">
-              <div class="focus-title">Wellness Warm</div>
-              <span class="tag tone-pump">吸奶器</span>
-              <span class="tag tone-center">推进中</span>
-            </div>
-            <p class="focus-summary">上市交付版开发中，计划与其他区域同步在中国区上市。</p>
-            <div class="facts">
-              <div class="fact"><span class="fact-label">App 状态</span><span class="fact-value">8 月 14 日提测，8 月 21 日封版</span></div>
-              <div class="fact"><span class="fact-label">软件交付</span><span class="fact-value">8 月 27 日 · App V3.4.0</span></div>
-              <div class="fact"><span class="fact-label">整机上市</span><span class="fact-value">预计 8 月 30 日，含中国区</span></div>
-              <div class="fact"><span class="fact-label">当前阶段</span><span class="fact-value">开发中</span></div>
-            </div>
-            <div class="watch-line"><strong>关注：</strong>产品从 W1 Lite 改名增加约 1 天开发工作量；若无法完整纳入 8 月 27 日主版本，计划在 8 月 31 日前后加塞补充版本。</div>
-          </div>
-        </article>
-
-        <article class="focus-item">
-          <div class="focus-number">03</div>
-          <div>
-            <div class="focus-topline">
-              <div class="focus-title">婴儿监视器 BM08S</div>
-              <span class="tag tone-care">BBM</span>
-              <span class="tag tone-success">正常</span>
-            </div>
-            <div class="facts">
-              <div class="fact"><span class="fact-label">近期节点</span><span class="fact-value">8 月 20 日 EVT 迭代</span></div>
-              <div class="fact"><span class="fact-label">体验里程碑</span><span class="fact-value">9 月 2 日国内用户体验版（暂定）</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="focus-item">
-          <div class="focus-number">04</div>
-          <div>
-            <div class="focus-topline">
-              <div class="focus-title">智能清洗机 BW05P</div>
-              <span class="tag tone-family">清洗机</span>
-              <span class="tag tone-center">推进中</span>
-            </div>
-            <p class="focus-summary">海外用户体验版本开发与稳定性测试并行，当前围绕配网体验和成功率集中收口。</p>
-            <div class="facts">
-              <div class="fact"><span class="fact-label">App 状态</span><span class="fact-value">开发与稳定性测试中</span></div>
-              <div class="fact"><span class="fact-label">iOS 交付</span><span class="fact-value">9 月 4 日</span></div>
-              <div class="fact"><span class="fact-label">Android</span><span class="fact-value">9 月 8 日</span></div>
-              <div class="fact"><span class="fact-label">体验样机</span><span class="fact-value">9 月 10 日海外外送</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="focus-item">
-          <div class="focus-number">05</div>
-          <div>
-            <div class="focus-topline">
-              <div class="focus-title">调奶器 FD04</div>
-              <span class="tag tone-parenting">调奶器</span>
-              <span class="tag tone-success">正常</span>
-            </div>
-            <p class="focus-summary">双 MCU 方案进入开发与联调准备，0.2 版本及 OTA 功能同步推进品质提测。</p>
-            <div class="facts">
-              <div class="fact"><span class="fact-label">App 状态</span><span class="fact-value">双 MCU 方案开发中，8 月 18 日启动联调</span></div>
-              <div class="fact"><span class="fact-label">品质节点</span><span class="fact-value">0.2 版本及 OTA 功能 8 月 17 日提测</span></div>
-              <div class="fact"><span class="fact-label">Web 节点</span><span class="fact-value">8 月 21 日联调，8 月 25 日提测</span></div>
-              <div class="fact"><span class="fact-label">用户体验版</span><span class="fact-value">9 月 28 日交付</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="focus-item">
-          <div class="focus-number">06</div>
-          <div>
-            <div class="focus-topline">
-              <div class="focus-title">婴儿监视器 BM04 新 UI</div>
-              <span class="tag tone-care">BBM</span>
-              <span class="tag tone-risk">交付风险</span>
-            </div>
-            <p class="focus-summary">新 UI 用户体验版与正式交付版分阶段推进。</p>
-            <div class="facts">
-              <div class="fact"><span class="fact-label">用户体验版</span><span class="fact-value">8 月 27 日</span></div>
-              <div class="fact"><span class="fact-label">正式交付</span><span class="fact-value">9 月 17 日</span></div>
-            </div>
-            <div class="risk-line"><strong>风险：</strong>若用户体验反馈要求在正式上线前全部完成，而修改与验证时间不足，9 月 17 日交付存在延期风险。</div>
-          </div>
-        </article>
-
-        <article class="focus-item">
-          <div class="focus-number">07</div>
-          <div>
-            <div class="focus-topline">
-              <div class="focus-title">委外盆底肌修复仪 Megg1</div>
-              <span class="tag tone-pump">孕产康</span>
-              <span class="tag tone-risk">送检风险</span>
-            </div>
-            <p class="focus-summary">供应商云端接入暂停，App 团队待完整技术资料到位后重新评估认证接入方案与排期。</p>
-            <div class="facts">
-              <div class="fact"><span class="fact-label">当前阶段</span><span class="fact-value">等待供应商完整技术资料，尚未启动接入</span></div>
-              <div class="fact"><span class="fact-label">送检版本</span><span class="fact-value">排期待定</span></div>
-              <div class="fact"><span class="fact-label">目标版本</span><span class="fact-value">10 月</span></div>
-              <div class="fact"><span class="fact-label">协同重点</span><span class="fact-value">重新评估认证接入方案</span></div>
-            </div>
-            <div class="risk-line"><strong>风险：</strong>供应商技术资料延迟且接入方案可能调整，10 月版本存在无法按期提供的风险。</div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="section-03" aria-labelledby="network-title">
-      <div class="section-heading">
-        <span class="section-index">SECTION 03</span>
-        <h2 id="network-title"><momcozy-icon name="provisioning" size="20" aria-hidden="true"></momcozy-icon><span>IoT 设备配网攻坚</span></h2>
-        <span class="section-note">全链路治理与首批阶段性交付</span>
-      </div>
-
-      <div class="network-brief">
-        <article class="network-goal">
-          <div>
-            <div class="network-band-label"><momcozy-icon name="goal" size="16" aria-hidden="true"></momcozy-icon><span>目标方向</span></div>
-            <h3>从单点问题修复走向配网全链路治理</h3>
-            <p>覆盖自研、觅睿及涂鸦全量 Wi-Fi 设备，统一数据归因、问题诊断、测试准入和 VOC 闭环机制，从根本上提升配网稳定性与问题解决效率。</p>
-          </div>
-          <div class="network-goal-metric"><strong>75%</strong><span>一次配网成功率目标</span></div>
-        </article>
-
-        <article class="network-progress">
-          <div class="network-progress-head">
-            <div>
-              <div class="network-band-label"><momcozy-icon name="progress" size="16" aria-hidden="true"></momcozy-icon><span>当前进展</span></div>
-              <h3>问题基线已初步形成，首批优化进入验证阶段</h3>
-            </div>
-            <span>本周推进至“定位完成 → 方案验证”</span>
-          </div>
-
-          <div class="network-progress-grid">
-            <section class="network-progress-item">
-              <span class="network-progress-icon"><momcozy-icon name="analytics" size="20" aria-hidden="true"></momcozy-icon></span>
-              <span class="network-progress-kicker">产品与数据</span>
-              <strong>完成问题基线初步梳理</strong>
-              <p>完成现有配网流程与 Android 权限问题梳理，识别入口埋点不完整、过程数据缺失等问题，并已推动补充埋点。</p>
-            </section>
-            <section class="network-progress-item">
-              <span class="network-progress-icon"><momcozy-icon name="app" size="20" aria-hidden="true"></momcozy-icon></span>
-              <span class="network-progress-kicker">App 与后端</span>
-              <strong>首批方案进入测试验证</strong>
-              <p>BM08 配网优化版本已提测，配网诊断 Agent 已部署测试环境；M5 Smart 成功率下降问题已完成定位。</p>
-            </section>
-            <section class="network-progress-item">
-              <span class="network-progress-icon"><momcozy-icon name="testing" size="20" aria-hidden="true"></momcozy-icon></span>
-              <span class="network-progress-kicker">测试与 VOC</span>
-              <strong>高频问题完成定位复现</strong>
-              <p>已覆盖二维码、Wi-Fi 权限异常、设备发现失败及 App 更新后配网异常；WN08 Mesh 数据丢失问题持续排查。</p>
-            </section>
-          </div>
-
-          <div class="network-deliveries">
-            <div class="network-band-label"><momcozy-icon name="milestone" size="16" aria-hidden="true"></momcozy-icon><span>阶段性交付</span></div>
-            <div class="delivery-list">
-              <span class="delivery-item"><momcozy-icon name="testing" size="16" aria-hidden="true"></momcozy-icon>BM08 优化版本已提测</span>
-              <span class="delivery-item"><momcozy-icon name="testing" size="16" aria-hidden="true"></momcozy-icon>诊断 Agent 已部署测试环境</span>
-              <span class="delivery-item"><momcozy-icon name="testing" size="16" aria-hidden="true"></momcozy-icon>M5 Smart 问题完成定位</span>
-              <span class="delivery-item"><momcozy-icon name="testing" size="16" aria-hidden="true"></momcozy-icon>高频 VOC 完成定位复现</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="network-next">
-          <span class="network-next-icon"><momcozy-icon name="next" size="20" aria-hidden="true"></momcozy-icon></span>
-          <div>
-            <div class="network-band-label"><span>下一阶段重点</span></div>
-            <h3>推动专项从“问题定位”进入“修复验证与指标改善”</h3>
-            <p>重点完成 BM08 优化效果验证、配网全链路数据基线建设，以及 Wi-Fi／Mesh 统一测试标准。</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="section-04" aria-labelledby="platform-title">
-      <div class="section-heading">
-        <span class="section-index">SECTION 04</span>
-        <h2 id="platform-title"><momcozy-icon name="platform" size="20" aria-hidden="true"></momcozy-icon><span>IoT 平台能力与机制保障</span></h2>
-        <span class="section-note">权限治理、监控与原子化能力</span>
-      </div>
-
-      <div class="platform-list">
-        <article class="platform-item">
-          <div class="platform-marker"><span class="platform-ordinal">ITEM 01</span><momcozy-icon name="platform" size="24" aria-hidden="true"></momcozy-icon></div>
-          <div class="platform-content">
-            <div class="platform-top">
-              <div><span class="platform-kicker">权限治理</span><h3>产品详情及上下架变更权限控制</h3></div>
-              <span class="tag tone-watch">8 月目标</span>
-            </div>
-            <p>针对产品上下架及线上基础信息变更建立审批控制，本周完成技术方案讨论，并结合资源确定 MVP 范围。</p>
-            <div class="milestone-list">
-              <div class="milestone"><span class="milestone-label">当前阶段</span><span class="milestone-value">开发中</span></div>
-              <div class="milestone"><span class="milestone-label">目标节点</span><span class="milestone-value">8 月完成 MVP 能力</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="platform-item">
-          <div class="platform-marker"><span class="platform-ordinal">ITEM 02</span><momcozy-icon name="analytics" size="24" aria-hidden="true"></momcozy-icon></div>
-          <div class="platform-content">
-            <div class="platform-top">
-              <div><span class="platform-kicker">监控建设</span><h3>IoT 平台监控指标数据采集</h3></div>
-              <span class="tag tone-risk">需要支持</span>
-            </div>
-            <p>聚焦设备连接稳定性及风控指标，8 月 12 日完成方案澄清；当前数据团队暂无资源，后端正在评估替代方案。</p>
-            <div class="milestone-list">
-              <div class="milestone"><span class="milestone-label">当前阶段</span><span class="milestone-value">开发方案确认中</span></div>
-              <div class="milestone"><span class="milestone-label">风险</span><span class="milestone-value">资源缺口可能影响 8 月目标</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="platform-item">
-          <div class="platform-marker"><span class="platform-ordinal">ITEM 03</span><momcozy-icon name="milestone" size="24" aria-hidden="true"></momcozy-icon></div>
-          <div class="platform-content">
-            <div class="platform-top">
-              <div><span class="platform-kicker">原子化能力</span><h3>本周能力交付与验证</h3></div>
-              <span class="tag tone-success">阶段性交付</span>
-            </div>
-            <p>Oz 单位奶量精度调整为 0.01 已随 App V3.3.0 交付；吸奶器聚合卡片优化于 8 月 13 日提测；用户反馈上下文采集已完成后端接口开发并进入多端联调。</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="section-05" aria-labelledby="appendix-title">
-      <div class="section-heading">
-        <span class="section-index">SECTION 05</span>
-        <h2 id="appendix-title"><momcozy-icon name="inventory" size="20" aria-hidden="true"></momcozy-icon><span>项目清单</span></h2>
-        <span class="section-note">66 项完整明细 · 默认收起</span>
-      </div>
-      <!-- PROJECT_APPENDIX_START -->
-      <details class="project-fold tone-mom"><summary><span>整机项目 · 吸奶器<span class="project-fold-count">17 项</span></span></summary><div class="project-items"><article class="project-item"><div class="project-item-head"><span class="project-item-title">吸奶器 V3</span><span class="tag tone-center">测试中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/04/14最新预估时间：2026/09/05</span><span>软件交付：原定时间：2026/03/17最新预估时间：2026/08/27</span><span>App 版本：【26.08.27】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、上市更新版（8/27交付）【APP侧】产品：需求已输出设计：已输出；开发：开发中，已8/11先提供一版给内部测试和品质测试；测试：测试中；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">吸奶器 V3 Pro</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/05/30最新预估时间：XXXXX</span><span>软件交付：原定时间：2026/05/30最新预估时间：2026/08/27</span><span>App 版本：【26.08.25】V3.0.4</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、DVT2用户体验版（与整机对齐，预计8月中下旬可能用户体验，APP需先准备着）【固件端】固件：待定；（V3 固件释放后1周左右）【APP侧】产品：已粗评；设计：计划8/13；开发：待定；测试：待定；二、上市版（待定）【固件侧】1、范围和计划待定；【APP侧】1、范围和计划待定；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">吸奶器 M5 Ultra</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/07/31最新预估时间：2026/10/19</span><span>软件交付：原定时间：2026/07/15最新预估时间：2026/08/27</span><span>App 版本：【26.08.27】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、DVT1用户体验更新版（8/14交付）【APP侧】1、品质问题都已review，开发8/12再提测一版，8/13内部测试完成，8/14交付品质测试；二、PVT量产上市版（8/27交付）【固件侧】1、已对齐，已联调完固件；【APP侧】1、产品：已澄清；2、设计：已输出；3、开发：开发中，8/13提测；4、测试：8/21封代码提交；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【上架中国区】M5 Ultra</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/09/15最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：/</span><span>App 版本：【26.08.27】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>与M5 Ultra 8月上架版一起上；@黄致伟@李雪平</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【上架中国区】M5 Smart</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026年7月底最新预估时间：2026/9/1</span><span>软件交付：原定时间：2026/7/15最新预估时间：2026/8/27</span><span>App 版本：【26.08.27】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、上市版(8/27版本上市)1、已提测，8/14完成一轮测试，产品和设计走查中；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【上架中国区】V3 pro</span><span class="tag tone-center">需求对接中</span><span class="tag tone-watch">有风险</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026年8月30日最新预估时间：2026年9月25日</span><span>软件交付：原定时间：2026/8/30最新预估时间：2026/9/17</span><span>App 版本：【26.09.17】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>1、上架中国区暂无计划，原因在于V3 pro的整机计划暂无，依赖V3；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【上架中国区】V3</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026年9月30日最新预估时间：2026年9月25日</span><span>软件交付：原定时间：2026/9/30最新预估时间：2026/9/17</span><span>App 版本：【26.09.17】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>已对齐 9/17版本上线；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">Wellness Warm</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/9/30最新预估时间：2026/08/30</span><span>软件交付：原定时间：2026/09/30最新预估时间：2026/08/27</span><span>App 版本：【26.08.27】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、DVT版本调整为上市版（8/27交付），8月中旬出一个内部体验版给整机侧体验；1、产品：已输出需求；2、设计：已输出；3、开发：开发中，因改名影响，8/14提测；4、测试：8/21封代码提交；（存在1天的工作量差异，待加班或与整机沟通消化）</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【上架中国区】Wellness Warm</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/10/15最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：/</span><span>App 版本：【26.08.27】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>与Wellness Warm 8月上架版一起上；@黄致伟@李雪平</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【老品翻新】M9</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/08/14最新预估时间：</span><span>软件交付：原定时间：7/16最新预估时间：/</span><span>App 版本：【26.08.13】V3.3.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、上市版（8/13交付）产品：需求已澄清；设计：开发：已提测；测试：8/6提交品质测试，8/13交付；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【老品翻新】Air1</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/08/21最新预估时间：</span><span>软件交付：原定时间：7/17最新预估时间：/</span><span>App 版本：【26.08.13】V3.3.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、上市版（8/13交付）产品：需求已澄清；设计：开发：已提测；测试：8/6提交品质测试，8/13交付；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">Air 2</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/6/30最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：/</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、PDCP阶段（计划8/31交付）1、产品内部对齐中，8/18 业务专家外审；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">W2</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/6/30最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：/</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、CDCP阶段（计划8/13交付）1、SRS 预计8/13评审；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【老品治理】M9</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：2026/8/13</span><span>App 版本：【26.08.13】V3.3.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、第一期OTA版本（计划7/24交付固件OTA、8/13交付APP版本）1、固件有bug，8/5已提测，8/12测试完成并发报告，8/13 APP版本发布；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【老品治理】Air 1</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：2026/8/13</span><span>App 版本：【26.08.13】V3.3.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、第一期OTA版本（APP版本 8/13交付；）【固件侧】1、已交付；【APP】1、APP计划调整：7/30提测，APP 8/6提交给品质，APP 8/13版本交付，8/14 品质输出报告；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【老品治理】M10</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：2026/8/13</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、第一期OTA版本1、固件埋点已开发、错误码待开发，待与APP联调，APP8月份无人力支持，待9月份确认；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">【老品治理】M5 Smart</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：最新预估时间：</span><span>软件交付：原定时间：待定最新预估时间：2026/8/13</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>未填写</div></article></div></details>
-      <details class="project-fold tone-care"><summary><span>整机项目 · 产品中心<span class="project-fold-count">20 项</span></span></summary><div class="project-items"><article class="project-item"><div class="project-item-head"><span class="project-item-title">吸奶器 Q1大主机</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：首单上架：2027/4/30</span><span>软件交付：EVT：2026/8/17立项评审：2026/10/12DVT：2026/12/21下单评审：2027/3/8PVT：2027/3/30上市前评审：2027/7/1</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>EVT版本交付（8月17日交付）：进度正常整机侧主要改动：双泵改单泵；产品/UI：进行UI界面适配新的3.0主页风格修改；开发：完成开发（完成功能开发，等待新版UI澄清）；测试：//；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">血氧仪</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：TBD</span><span>软件交付：TBD</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>1. 整机：8月11日项目启动2. 产品：进行需求对接</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">白噪音音箱 WN08</span><span class="tag tone-center">测试中</span><span class="tag tone-watch">有风险</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：TBD</span><span>软件交付：第三次用户体验版本：4/17（已完成）第四次用户体验版本版本：8月19日（暂定）</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>第四次用户体验版本-海外（待定，预计9月中旬）【整机】产品：待确认正式的变更计划（8月10日进行MCP评审）；项目：7月29日 提供3台新按键样机【APP】8月19日开发： 新UI基本开发完成，7月29日 转测 背景图，7月31日 转测 多语言（翻译返回延迟）、冷色灯，8月7日已转测 WIFI上下行异步， 8月7日 已转测 首页卡片，8月12日 已转测 埋点，计划 8月22日 转测，给第二轮品质测试： A 第一轮功能测试，计划8月7日完成 B 第二轮功能测试，进行中，计划8月11日-14日 C 预发布测试，计划8月17日-8月18日 D 稳定性测试，计划8月19日-8月28日 E 埋点测试，计划8月26日-8月28日 F 多语言测试，计划8月31日-9月2日版本输出：计划 8月19日品质验收：第一轮计划 8月20日-8月29日第二轮 8月30日-9月9日</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">婴儿监视器 BM05（已更名BM01P）</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：2026/11/30（暂定）</span><span>软件交付：EVT-P0：5/30（已完成）EVT-完整功能：7/20（已完成）用户体验版本：待定App上架应用商店：11/10（待收到最新整机计划后调整App用户体验版本计划）</span><span>App 版本：待确认版本号</span></div><div class="project-item-progress"><strong>本周进展：</strong>暂无进展</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">婴儿监视器 BM04M极小化低功率</span><span class="tag tone-center">开发中</span><span class="tag tone-watch">有风险</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：2026/12/15（暂定）</span><span>软件交付：EVT-P0：6/15（已完成）DVT版本：8/30（暂定）用户体验版本：9/15</span><span>App 版本：待确认版本号</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、EVT1 P0功能版本（计划5/30交付，已完成付）二、EVT 全功能版本（待定，内部研发团队已完成）【整机侧】本周进度：仍在进行硬件测试&amp;天线调优，定版样机预计延期到8月底提供&quot;【App侧】本周进度：1. App开发：需等8月底拿到EVT样机后进行调试（原定8月中）三、用户体验版本（待定）</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">婴儿监视器 BM04S</span><span class="tag tone-center">测试中</span><span class="tag tone-watch">有风险</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：2026/11/15（暂定）</span><span>软件交付：App上架应用商店：跟随激进计划，改成9/30前</span><span>App 版本：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>【整机侧】本周进度：黑盒，暂未补充App上架应用商店（计划9/30,，待正式确认）&quot;【App侧】本周进度：1. App开发：完成新PID适配，修复3个P0bug；计划上架前完成新UI接入；2. 测试：本周完成第二版固件测试，5个P0及5个P2的固件bug待本周提供第三版固件后进行测试；3. 产品&amp;项目：设备暂不支持蓝牙配网，整机想要首单出货不带蓝牙配网，第二批出货带上，但App无法完成两种配网方式的兼容，故带蓝牙配网的首单排期待重新明确</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">婴儿监视器 BM08S</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：2027/3/30</span><span>软件交付：整机侧按双周迭代方式跑：EVT-迭代版本：0728、0820（进行中）、0908、0929；国内用户体验版本：9月2日（暂定）</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>【App侧】平板端本周进度：1、产品：补充MVP版本的需求细节；2、设计：MVP版本UXUI设计（实时看护&amp;事件回放）澄清；MVP版本UX设计（控制中心&amp;设备管理），进度50%；3、测试：梳理平板端的测试分工，待拿到硬件规格后明确关键节点准出标准 App本周进度：1、App开发：基于二期需求，完成呼吸心率分析、睡眠时间轴功能开发及联调；持续音视频性能优化；合入主线3.3.0代码，进行底层接口开发； 2、研发测试：持续性能稳定性测试；3、App测试：完成BM08S App 功能测试，问题主要集中在固件内存无法拉流，直播拉流稳定性差、按键控制异常，待拿到新的扩内存的板子后再进行测试</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">调奶器 FD04</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2026/12/30最新预估时间：2027/01/18</span><span>软件交付：海外用户体验版本交付：2026.8.28（全功能）</span><span>App 版本：待确认</span></div><div class="project-item-progress"><strong>本周进展：</strong>海外用户体验版本（计划交付时间：2026.9.28）APP产品：//APP设计：//APP开发：8.12完成双MCU技术方案评审，双MCU方案开发中，预计8.18启动联调web端开发：双MCU方案预计8.17启动，8.21启动联调，8.25提测，9.10测试完成APP测试：0.2版本需求及OTA功能预计8.17交付给品质提测0.3版本（计划交付时间：2026.9.28）云平台产品：//APP产品：//APP设计：8.21完成0.3需求UIAPP开发：//APP测试：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">调奶器FD06</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/08/24最新预估时间：2027/08/24</span><span>软件交付：国内用户体验版本交付：2026.8.28（核心功能）</span><span>App 版本：待确认</span></div><div class="project-item-progress"><strong>本周进展：</strong>国内用户体验版本（计划交付时间：2026.8.28）APP产品：8.14完成第一版APP需求澄清@卢智智--调整到8.18APP设计：8.28完成屏幕端UI澄清APP开发：整机8月初提供板子调整到8.24，启动开发APP测试：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能清洗机 BW05S</span><span class="tag tone-center">测试中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：2027/1/27</span><span>软件交付：EVT-完整功能：5/11（已完成）EVT-App国内用户体验版本：7/15（已完成）DVT1：10月12日DVT2-海外用户体验：11月7日APP上架：1月27日</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>一、EVT1 APP版本（计划5/11，已交付）二、EVT2 APP版本（计划7/15，已交付）三、DVT APP版本【整机侧】结构、工艺、合规、硬件层遗留S级问题，7月20日 TR4A评审不通过；整机关键里程碑：7月13日样机专家评审通过；7月16日入户测试；7月27日立项决策评审（预计延期到8月24日）；【App侧】DVT版本-10月12日1、设计：动效、离线状态功能，计划TBD2、开发：新UI开发中 90%3、测试：TBD</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能清洗机 BW05P</span><span class="tag tone-center">开发中</span><span class="tag tone-watch">有风险</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：2026/11/15</span><span>软件交付：DVT1-完整功能：（海外用户体验）iOS：2026/09/04安卓：2026/09/08DVT2-完整功能：2026/09/29</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>【整机】（9月10日 海外用户体验样机送出）8月7日提供3套样机（不可碰水），8月10日已提供4台样机【APP】海外用户体验版本- iOS9月4日 安卓9月8日设计：动效设计中，计划 8月19日完成产品：多语言送翻 8月5日、埋点需求 8月7日 埋点方案已输出，计划8月14日评审开发：1、离线状态，8月5日 完成转测2、加强洗（固件8月6日完成），8月7日已转测3、多语音，预计8月14日送翻回来，计划 8月17日 转测4、模式切换时的动效，计划 8月21日 转测5、埋点需求，计划8月21日转测6、耗材管理，TBD测试（英语）： iOS测试1：进行中，8月14日安卓测试1：进行中，8月10日-8月24日稳定性测试：进行中，8月10日-8月18日多语言测试：待启动，8月17日-8月18日埋点测试：待启动，8月24日-8月26日品质：iOS测试：8月19日开始安卓测试：8月27日开始版本输出：iOS：9月4日安卓：9月8日</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能清洗机 BW06</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：TBD</span><span>软件交付：EVT版本：TBDDVT（国内体验）:TBDDVT（海外体验）:TBD</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>BW06智能清洗机_EVT版本（TBD）产品：需求对接中</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">毛巾加热桶 TW03</span><span class="tag tone-center">UI 设计中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：最新预估时间：TBD</span><span>软件交付：EVT版本：9月22日DVT（国内体验）:TBDDVT（海外体验）:TBD</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>TW03毛巾加热桶_EVT版本（9月22日）产品：8月4日已输出需求设计：功能UI：8月5日-8月12日设计完成，计划8月15日评审开发：开发（2周）：计划8月15日-8月28日（调试板子3套：8月14日）联调（1周）：计划8月31日-9月4日测试：主线代码同步、冒烟测试：8月10日-8月11日已完成测试用例评审：计划8月24日测试+回归1轮（2周）：计划9月7日-9月21日（整机样机：8月25日）版本输出给品质：9月22日</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">尿布台体重秤 AZ03</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原计划：2027/4/22最新时间：2027/9/30</span><span>软件交付：EVT（国内体验）-全功能：原定 2026/8/3最新 2026/9/16DVT（国内体验）：2026/10/29DVT（海外体验）：2026/11/13最新 2027/1/24</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>【整机】EVT （样机计划8月20日）ID设计完成，PRD/UX文档完成7月20日 TR2/TR3评审 带风险通过。【APP】EVT版本（9月16日）产品：6月2日 需求中心评审完成 7月29日 输出埋点需求设计：6月18日 设计主流程评审完成 6月30日 用研完成，7月6日设计澄清完成开发：7月2日 和供应商对齐通讯协议 7月13日 技术方案评审完成 功能开发90%、剩余OTA功能，计划8月19日完成。联调：IOS配网联调完成、安卓进行中，计划8月30日完成。测试：测试方案，8月6日评审通过 测试用例，计划8月14日评审 功能测试，计划9月1日-9月15日【依赖8月20日样机】版本输出：计划 9月16日</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能空气净化器 AP01 Pro</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：计划入中仓：2026/9/14上架时间：2026/9/30</span><span>软件交付：DVT全功能：2026/6/23用户体验：2026/7/7PVT提审：2026/8/25</span><span>App 版本：【26.09.17】V3.4.0</span></div><div class="project-item-progress"><strong>本周进展：</strong>PVT版本交付（8月25日交付）：进度正常。目标：8月14日TR5评审产品：//开发：问题修复中（错误码正在联调；息屏功能开发中，本周提测）。测试：跟进测试。品质测试：等待验收。</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能婴儿床 BD010</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/04/30最新预估时间：TBD</span><span>软件交付：整机侧按双周迭代方式跑：EVT-迭代版本：0728（已完成）、0820（进行中）、0908、0929；国内用户体验版本：暂定9月20日</span><span>App 版本：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>【App侧】本周进度：产品：完成智能床三期需求澄清；App开发：优化婴儿床自定义运动曲线采集功能，开始合入8月主线代码（包含宝宝信息和推荐页）；项目：已确认物料数量，待拿到EVT 板子后细化测试计划；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能婴儿床 BS-C1</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/04/30最新预估时间：TBD</span><span>软件交付：待明确</span><span>App 版本：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>未填写</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">医院级V4大主机吸奶器</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：2028/6/15</span><span>软件交付：EVT版本：11月9日DVT（国内体验）:TBDDVT（海外体验）:TBD</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>【整机侧】计划9月20日8月3日 概念决策评审 通过EVT样机：计划9月20日【APP侧】EVT版本 11月9日产品：7月21日输出 概念决策评审材料，8月3日概念决策评审通过，已确认医院端APP需求不做。 计划 9月14日输出 demo（for计划评审） 计划 8月21日北极星评审、8月25日APP中心评审。设计：计划 8月26日-9月11日开发：计划 9月14日-10月16日【依赖9月20日样机】测试：计划 10月19日-11月9日版本输出：11月9日品质：计划 11月10日-11月25日体验版本输出：11月26日内部用户体验：计划 11月26日-12月5日临床测试：计划 12月5日-12月25日【彩屏】设计 9月11日主流程设计：8月11日-8月25日全量UI：8月31日-9月11日设计走查：TBD用户体验优化：TBD</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能空气净化器 AP02</span><span class="tag tone-center">待启动</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：计划入中仓：2027/8/3</span><span>软件交付：TR3-概要设计评审：2026/9/15EVT：2026/11/30DVT：2027/3/11</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>EVT版本交付（11月30日）：进度正常产品：整机产品经理换人，等待双方产品对齐；内部PRD正常推进；设计：/开发：/测试：/</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">智能空气净化器 AP03</span><span class="tag tone-center">待启动</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：计划入中仓：2027/9/7</span><span>软件交付：TR3-概要设计评审：2026/9/30EVT：2026/12/9DVT：2027/4/13</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>EVT版本交付（12月9日）：进度正常产品：整机产品经理换人，等待双方产品对齐；内部PRD正常推进；设计：/开发：/测试：/</div></article></div></details>
-      <details class="project-fold tone-mom"><summary><span>整机项目 · 孕产康<span class="project-fold-count">8 项</span></span></summary><div class="project-items"><article class="project-item"><div class="project-item-head"><span class="project-item-title">盆底肌修复仪 Megg1 Pro</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/6/28</span><span>软件交付：EVT bug修复版本：8月7日已交付EVT 迭代3版本：排期待确认</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>EVT bug修复版本（8月7日已交付）EVT 迭代3版本（排期待确认）1. 产品：预计周五进行需求初稿2. 设计：/3. 开发：/4. 测试：/</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">（委外）盆底肌修复仪 Megg1</span><span class="tag tone-center">待开发</span><span class="tag tone-watch">有风险</span></div><div class="project-item-meta"><span>整机上市：TBD</span><span>软件交付：全面接入版本：排期待确认</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>送检版本（排期待确认）1. 整机：暂停供应商接入云端方案，并在8月14日前（已延后）提供供应商的全部技术资料给APP团队进行技术评估2. 产品：/3. 设计：/4. 开发：等供应商资料到位后进行评估，确认接入技术方案并评估排期5. 测试：/</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">光疗坐垫 Lumi1</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：更新时间：2026/10/30</span><span>软件交付：EVT优化需求版：7月4日已交付EVT迭代优化2版本：8月20日提供国内用户体验包（不含埋点）；8月25日提供含埋点的包</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>用户体验版本（计划8月20日提供给用户体验，8月25提供含埋点功能包）1. 整机：8月15日开始国内用户体验，20日需要APP控制设备2. 产品：/3. 设计：/4. 开发：预计8月13日提测（不含埋点功能），8月19日提测埋点功能5. 测试：8月10日已进行测试用例评审</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">电疗坐垫 PluseCare1</span><span class="tag tone-center">已交付</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/2/28</span><span>软件交付：EVT bug修复版本：7月28日已交付</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>EVT bug修复版本（7月28日已交付）1. 整机：/2. 产品：/3. 设计：/4. 开发：/</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">腰腹按摩仪 Remom1</span><span class="tag tone-center">测试中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：原定时间：2027/2/28</span><span>软件交付：EVT一期需求：8月21日（优先光疗仪开发，延后）</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>EVT一期需求版本（原计划8月17日，因开发优先光疗仪将延后至8月21日）1. 整机：已明确优先光疗仪版本交付2. 产品：/3. 设计：/4. 开发：8月5日提测，因开发优先完成光疗仪，延后至8月21日交付5. 测试：测试中</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">母乳分析仪</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：TBD</span><span>软件交付：TBD</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>1. 整机：准备PRD中2. 产品：等整机导入PRD后，准备软件需求PRD</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">胎教仪</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：TBD</span><span>软件交付：TBD</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>1. 整机：/2. 产品：进行需求对接</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">Megg2</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>整机上市：TBD</span><span>软件交付：TBD</span><span>App 版本：TBD</span></div><div class="project-item-progress"><strong>本周进展：</strong>1. 整机：8月11日项目启动2. 产品：进行需求对接</div></article></div></details>
-      <details class="project-fold tone-app"><summary><span>App 优化项目<span class="project-fold-count">6 项</span></span></summary><div class="project-items"><article class="project-item"><div class="project-item-head"><span class="project-item-title">吸奶器 M10 - App 优化 V1.1</span><span class="tag tone-pump">吸奶器</span><span class="tag tone-center">待启动</span></div><div class="project-item-meta"><span>软件交付：TBD</span><span>App 版本：TBD</span><span>整体状态：正常</span></div><div class="project-item-progress"><strong>本周进展：</strong>未填写</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">T31体温贴bug迭代优化</span><span class="tag tone-center">产品中心</span></div><div class="project-item-meta"><span>软件交付：计划8月</span><span>App 版本：TBD</span><span>整体状态：正常</span></div><div class="project-item-progress"><strong>本周进展：</strong>未填写</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">婴儿监视器 BM04 -新UI迁移</span><span class="tag tone-center">产品中心</span><span class="tag tone-center">开发中</span></div><div class="project-item-meta"><span>软件交付：2026/8/27（用研版本）；2026/9/17（正式上线版本）</span><span>App 版本：【26.09.17】V3.4.0</span><span>整体状态：有风险</span></div><div class="project-item-progress"><strong>本周进展：</strong>8/27用研版本1、用研：本周确认签署的协议并开始寄送设备；2、开发：8/10完成UI迁移的转测；3、测试：计划本周完成功能测试，下周完成多语言和机型兼容性测试，另扩充固件兼容性、配网专项测试4、产品：完成面向产品中心的产品showcase，本周完成内测问题的收集；9/17正式版本1、产品：本周输出需求：新老用户 UI 切换的开关；老用户切新 UI 之后的新手引导；埋点需求；2、设计：本周完成大改版U3.0适配，完成新手引导的设计，计划下周一澄清;3、开发：初步评估工时和技术可行性；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">白噪音WN02-Momcozy App接入Alexa</span><span class="tag tone-center">产品中心</span><span class="tag tone-center">开发中</span></div><div class="project-item-meta"><span>软件交付：9月17日</span><span>App 版本：【26.09.17】V3.4.0</span><span>整体状态：正常</span></div><div class="project-item-progress"><strong>本周进展：</strong>【WN02接入alexa】9月17日产品：PRD 7月30日评审完成； 费用方案已确认，采购走流程中，计划8月14日； 待输出具体语音指令，计划8月21日 多语言送翻、埋点需求，计划8月21日设计：待提供资源图，计划 8月19日开发：demo已调通，计划 8月20日-8月30日测试：测试方案+用例评审，计划 8月28日 测试环境测试，计划 9月1日-9月8日上线：计划9月17日</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">WN02白噪音-配网引导图优化</span><span class="tag tone-center">产品中心</span><span class="tag tone-center">开发中</span></div><div class="project-item-meta"><span>软件交付：待明确</span><span>App 版本：【26.08.27】V3.4.0</span><span>整体状态：正常</span></div><div class="project-item-progress"><strong>本周进展：</strong>【WN02配网图优化】8月27日 产品：8月10日已输出需求设计：8月12日完成设计开发：待供应商配合修改测试：TBD上线：计划8月27日</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">WN02/WN05 白噪音暗黑模式适配</span><span class="tag tone-care">产品中心</span><span class="tag tone-center">推进中</span></div><div class="project-item-meta"><span>完成时间：10月31日</span><span>设计节点：8月31日</span><span>研发节点：10月15日</span><span>测试节点：10月22日</span></div><div class="project-item-progress"><strong>本周进展：</strong>WN02、WN05 需求已提交；设计计划 8月31日 完成，研发计划 10月15日 完成，测试计划 10月22日 完成。</div></article></div></details>
-      <details class="project-fold tone-atom"><summary><span>原子化项目<span class="project-fold-count">15 项</span></span></summary><div class="project-items"><article class="project-item"><div class="project-item-head"><span class="project-item-title">配网优化需求埋点</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：8/13版本（V3.3.0）</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>未填写</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">吸奶器聚合卡片优化</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：8/27版本（V3.4.0）</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>8/27版本（V3.4.0）产品：已完成设计：已完成开发：开发中，进度正，8/13提测；测试：待测试；</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">App 设备助手 2.0</span><span class="tag tone-center">开发中</span><span class="tag tone-risk">风险</span></div><div class="project-item-meta"><span>上线版本：9/17版本(v3.5.0)</span><span>原子化能力：设备使用指引组件、产品百科组件、控制面板新手指引组件</span><span>项目目标：产品百科组件（FAQ）：统一设备常见问答（App使用、功能说明、故障处理），云端可更新。</span></div><div class="project-item-progress"><strong>本周进展：</strong>9/17版本(v3.5.0)项目：由于生命感知团队大模型测评结果较验收标准较远，调整到下个版本上线，已经提了需求变更流程产品：//设计：//后端开发：已经完成功能开发及联调算法开发：1. 联调完成，Agent基座接入设备助手的服务已经发布测试环境。2. 风险：生命感知团队优化回复延迟和服务qpm的计划还未完全明确， 生命感知团队计划8.21输出初步结论；效果评测的人工复核工作采购的外包标注人力在等着，需要确认优化完成时间，合理安排外包标注人力，避免资源浪费。生命感知团队预计8.12下班前输出APP开发：已经完成功能开发及联调（包含埋点）测试：8.7完成测试用例评审</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">用户反馈-【用户反馈与客服】上下文信息采集（升级客服/品质在线客服对接）</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：8/27版本（V3.4.0）</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>8/27版本（V3.4.0）产品：//设计：//开发：已经完成后端接口开发，各端联调中，预计8.13提测测试：8.11完成测试用例评审（包含埋点）@陈雄科</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">原子化-智能设备助手（通用版本BM08和AIR1）</span><span class="tag tone-center">开发中</span><span class="tag tone-risk">风险</span></div><div class="project-item-meta"><span>上线版本：8/27版本（V3.4.0）</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>8/27版本（V3.4.0）项目：//业务产品：8.10输出BM08素材，并完成给整机审核，目前未输出，版本火车素材输出截至时间是8.12@王博产品：8.12多语言已提供,目前未明确设备助手2.0是否延期,延期需要同步调整AI入口设计：//开发：8.10完成技术方案评审，预计8.13提测测试：8.11完成测试用例评审（包含埋点）@翁祖锋</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">原子化-设备配网优化（WiFi设备云端错误处理&amp;自动发现优化）自动发现优化先上IOS</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：8/27版本（V3.4.0）</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>8/27版本（V3.4.0）产品：7.27完成需求澄清设计：//开发：813提测全部测试：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">首页设备列表本地缓存与离线展示优化（不包含涂鸦、觅睿设备，包含吸奶器和T31）</span><span class="tag tone-center">测试中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：8/27版本（V3.4.0）</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>8/27版本（V3.4.0）产品：7.27完成需求澄清设计：//开发：811已经提测测试：8.12测试完成</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">原子化-配网&amp;下载二维码（用户数据归因）</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：不跟随版本</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>8/27版本（V3.4.0）运营：8.7完成拉通研发与供应商对接项目：8.12拉通各方领导决策供应商选型产品：//设计：//开发：目前已经完成了3家供应商对接，方案和服务都差不多，目前神策 &gt; growing io &gt; kochava ，主要是国内的私有化部署可以覆盖国外，而且私有化部署数据安全方面更好测试：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">App 原子化配网失败异常监控告警</span><span class="tag tone-center">交付中</span><span class="tag tone-risk">风险</span></div><div class="project-item-meta"><span>上线版本：不跟随版本</span><span>原子化能力：原子化- 自发现配网、手动配网流程的异常处理原子化- 异常监控与异常上报原子化- 异常错误码</span><span>项目目标：实时监控原子化配网全流程的失败异常，快速捕捉配网失败场景、定位失败根因。</span></div><div class="project-item-progress"><strong>本周进展：</strong>产品：//设计：//测试：测试完成L3接口放开测试可以验收日志系统；异常监控包含：监控控制成功率和设备在线率；指标1、控制成功率，4个接口打成功或失败日志实现（L1级别接口，要发布服务输出日志，并测试日志系统）transparent//transparent/thing/transparent/async/topic/transparent/thing/async/topicL2级别接口规划8月上线，L1级别接口规划9月上线一些2、设备在线率，与接口级别无关，但是要发布服务输出日志，并测试日志系统；设备服务设备上报在线或离线的日志/设备绑定总数（查用户设备绑定关系表）L3级别接口已经在亚太正式环境上线开发：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">App 设备助手 1.0（V3）</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：9/17版本(v3.5.0)</span><span>原子化能力：设备使用指引组件、产品百科组件、控制面板新手指引组件</span><span>项目目标：用户将吸奶器联网后，通过交互式的新手指引为用户带来零门槛的上手和操作体验</span></div><div class="project-item-progress"><strong>本周进展：</strong>7/30版本(v3.2.0)产品：//业务产品：air1：8.14完成视频素材剪切@郭嘉8.17完成更新视频配置发布@刘媛媛V3：整机说明书、彩卡及视频到 9.1输出，软件产品9.8梳理输出素材，完成配置，给整机验收；@刘媛媛设计：//前端开发：//APP测试：//后台测试：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">主线与IoT解耦</span><span class="tag tone-center">开发中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：9/17版本(v3.5.0)</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>9/17版本(v3.5.0)只完成IOS产品：//设计：//后端开发：//web端开发：8.5启动开发，8.7完成APP开发： iOS总进度50%；当前任务: RN拆包进度iOS ：70%。主流程开发已完成，待业务回归测试，待接入正式的Shiply环境，待补充指标埋点。Android：10%。主流程开发中。@谭康东测试：开发自测</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">原子化-设备配网（全流程适配3.0UI&amp;安卓端自动发现策略优化）</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：10/22版本(v3.6.0)</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>产品&amp;设计：本周内完成细节对齐，下周澄清开发：//测试：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">自研模组配网错误码（空气净化器，清洗机，调奶器， FD04/AP01/WN08/BW05/TW03）</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：不跟随版本</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>计划优先解决空气净化器的错误码提示”WIFI密码错“，8月14日；其他错误码需要团队进行场景梳理和排期开发：完成错误码开发，正在联调测试：测试中</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">原子化-权限优化</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：9/17版本(v3.5.0)</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>整体完成时间待定，在设备配网流程优化之后进行。产品：优先解决配网权限处理；其他主页面权限处理后续沟通；设计：//</div></article><article class="project-item"><div class="project-item-head"><span class="project-item-title">原子化-在线客服参数适配 V3 &amp; 设备助手通用版 V3</span><span class="tag tone-center">需求对接中</span><span class="tag tone-success">正常</span></div><div class="project-item-meta"><span>上线版本：9/17版本(v3.5.0)</span><span>原子化能力：待明确</span><span>项目目标：待明确</span></div><div class="project-item-progress"><strong>本周进展：</strong>产品:预计本周完成文档确认输出</div></article></div></details>
-      <!-- PROJECT_APPENDIX_END -->
-    </section>
-
-    <footer class="footer">
-      <span>App 生态中心 · IoT 产品部</span>
-      <span>数据源：IoT 产品项目表 · revision 3506</span>
-    </footer>
-  </main>
-</body>
-</html>
+    </div></section><section class="section"><header class="section-head">
+      <div class="section-label">SECTION 05</div>
+      <div class="section-title"><momcozy-icon name="inventory" size="24" aria-hidden="true"></momcozy-icon><div><h2>整体项目清单</h2></div></div>
+    </header><details class="inventory-fold tone-mom">
+      <summary><span><momcozy-icon name="wholeMachine" size="20" aria-hidden="true"></momcozy-icon><strong>整机项目</strong><small>46 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true"></momcozy-icon></span></summary>
+      <div class="inventory-list"><article class="inventory-row">
+          <div><h4>吸奶器 V3</h4><p>测试中 · 原定时间：2026/03/17；最新预估时间：2026/08/27</p></div>
+          <div><p>一、上市更新版（8/27交付）；【APP侧】；产品：需求已输出；设计：已输出；开发：bugfix中；测试：测试中，8/21封代码提交</p></div>
+        </article><article class="inventory-row">
+          <div><h4>吸奶器 V3  Pro</h4><p>开发中 · 原定时间：2026/05/30；最新预估时间：2026/08/27</p></div>
+          <div><p>一、DVT2用户体验版（整机侧8/14提出预期：8/26专家评审，APP需8/26给到，但APP 需求范围待对齐、工作量未评估、排期待定，8月开发测试无人力支持）；【固件端】；固件：8/19先提测一版，8/23输出全功能固件；【APP侧】；产品：已粗评；设计：已澄清；开发：待定；测试：待定；二、上市版（待定）；【固件侧】；1、范围和计划待定；【APP侧】；1、范围和计划待定</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>吸奶器 M5 Ultra</h4><p>开发中 · 原定时间：2026/07/15；最新预估时间：2026/08/27</p></div>
+          <div><p>一、DVT1用户体验更新版（8/14交付）；【APP侧】；1、已交付，品质测试中；二、PVT量产上市版（8/27交付）；【固件侧】；1、已对齐，已联调完固件；【APP侧】；1、产品：已澄清；2、设计：已输出；3、开发：开发中，8/13提测；4、测试：8/22封代码提交</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【上架中国区】M5 Ultra</h4><p>需求对接中 · 原定时间：待定；最新预估时间：/</p></div>
+          <div><p>与M5 Ultra 8月上架版一起上； 黄致伟 李雪平</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【上架中国区】M5 Smart</h4><p>需求对接中 · 原定时间：2026/7/15；最新预估时间：2026/8/27</p></div>
+          <div><p>一、上市版(8/27版本上市)；1、已提测，8/14完成一轮测试，走查已完成</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【上架中国区】V3 pro</h4><p>需求对接中 · 原定时间：2026/8/30；最新预估时间：2026/9/17</p></div>
+          <div><p>1、上架中国区暂无计划，原因在于V3 pro的整机计划暂无，依赖V3</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>【上架中国区】V3</h4><p>需求对接中 · 原定时间：2026/9/30；最新预估时间：2026/9/17</p></div>
+          <div><p>已对齐 9/17版本上线</p></div>
+        </article><article class="inventory-row">
+          <div><h4>Wellness Warm</h4><p>开发中 · 原定时间：2026/09/30；最新预估时间：2026/08/27</p></div>
+          <div><p>一、DVT版本调整为上市版（8/27交付），8月中旬出一个内部体验版给整机侧体验；1、产品：已输出需求；2、设计：已输出；3、开发：开发中，因改名影响，8/14提测；4、测试：8/22封代码提交</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【上架中国区】Wellness Warm</h4><p>需求对接中 · 原定时间：待定；最新预估时间：/</p></div>
+          <div><p>与Wellness Warm 8月上架版一起上； 黄致伟 李雪平</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【老品翻新】M9</h4><p>开发中 · 原定时间：7/16；最新预估时间：/</p></div>
+          <div><p>一、上市版（8/13交付）；产品：需求已澄清；设计：\；开发：已提测；测试：已交付；二、未结项，遗留品质Bug未关闭，9/17版本闭环</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【老品翻新】Air1</h4><p>开发中 · 原定时间：7/17；最新预估时间：/</p></div>
+          <div><p>一、上市版（8/13交付）；产品：需求已澄清；设计：\；开发：已提测；测试：已交付；二、未结项，遗留品质Bug未关闭，9/17版本闭环</p></div>
+        </article><article class="inventory-row">
+          <div><h4>Air 2</h4><p>需求对接中 · 原定时间：待定；最新预估时间：/</p></div>
+          <div><p>一、PDCP阶段（计划8/31交付）；1、APP 交互原型给设计设计中</p></div>
+        </article><article class="inventory-row">
+          <div><h4>W2</h4><p>需求对接中 · 原定时间：待定；最新预估时间：/</p></div>
+          <div><p>一、CDCP阶段（计划8/13交付）；1、SRS 已粗评。</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【老品治理】M9</h4><p>开发中 · 原定时间：待定；最新预估时间：2026/8/13</p></div>
+          <div><p>一、第一期OTA版本（计划7/24交付固件OTA、8/13交付APP版本）；1、APP 8/13版本已发版；二、未结项，遗留品质Bug未关闭，9/17版本闭环</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【老品治理】Air 1</h4><p>需求对接中 · 原定时间：待定；最新预估时间：2026/8/13</p></div>
+          <div><p>一、第一期OTA版本（计划7/24交付固件OTA、8/13交付APP版本）；1、APP 8/13版本已发版；二、未结项，遗留品质Bug未关闭，9/17版本闭环</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【老品治理】M10</h4><p>需求对接中 · 原定时间：待定；最新预估时间：2026/8/13</p></div>
+          <div><p>一、第一期OTA版本；1、固件埋点已开发、错误码待开发，待与APP联调，APP8月份无人力支持，待9月份确认</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【老品治理】M5 Smart</h4><p>开发中 · 原定时间：待定；最新预估时间：2026/8/13</p></div>
+          <div><p>暂无</p></div>
+        </article><article class="inventory-row">
+          <div><h4>吸奶器 Q1大主机</h4><p>开发中 · EVT：2026/8/17；立项评审：2026/10/12；DVT：2026/12/21；下单评审：2027/3/8；PVT：2027/3/30；上市前评审：2027/7/1</p></div>
+          <div><p>立项评审：10月12日（提供EVT版本），进度正常；整机侧主要改动：双泵改单泵；产品/UI：需求设计与整机对齐；开发：；测试：</p></div>
+        </article><article class="inventory-row">
+          <div><h4>盆底肌修复仪 Megg1 Pro</h4><p>需求对接中 · EVT bug修复版本：8月7日已交付；EVT 迭代3版本：排期待确认</p></div>
+          <div><p>EVT 迭代3版本（排期待确认）；1. 产品：8月14日完成需求澄清；2. 设计：游戏设计中；3. 开发：拆分工时中；4. 测试：/</p></div>
+        </article><article class="inventory-row">
+          <div><h4>（委外）盆底肌修复仪 Megg1</h4><p>待开发 · 全面接入版本：排期待确认</p></div>
+          <div><p>送检版本（排期待确认）；1. 整机：还在与供应商就合同问题磋商，目前距离原计划8月7日提供交付物已延期13天；2. 产品：/；3. 设计：/；4. 开发：等供应商资料到位后进行评估，确认接入技术方案并评估排期；5. 测试：/</p></div>
+        </article><article class="inventory-row">
+          <div><h4>光疗坐垫 Lumi1</h4><p>开发中 · EVT优化需求版：7月4日已交付；EVT迭代优化2版本：；8月20日提供国内用户体验包（不含埋点）；8月25日提供含埋点的包</p></div>
+          <div><p>用户体验版本（计划8月20日提供给用户体验，8月25提供含埋点功能包）；1. 整机：8月15日开始国内用户体验，20日需要APP控制设备；2. 产品：/；3. 设计：/；4. 开发：修复预发布环境的bug中；5. 测试：预发布环境测试中</p></div>
+        </article><article class="inventory-row">
+          <div><h4>腰腹按摩仪 Remom1</h4><p>测试中 · EVT一期需求：8月21日（优先光疗仪开发，延后）</p></div>
+          <div><p>EVT一期需求版本（原计划8月17日，因开发优先光疗仪将延后至8月21日）；1. 整机：已明确优先光疗仪版本交付；2. 产品：/；3. 设计：/；4. 开发：8月5日提测，因开发优先完成光疗仪，延后至8月21日交付；5. 测试：测试中</p></div>
+        </article><article class="inventory-row">
+          <div><h4>母乳分析仪</h4><p>需求对接中 · TBD</p></div>
+          <div><p>1. 整机：计划下周二进行APP相关PRD评审；2. 产品：等整机导入PRD后，准备软件需求PRD</p></div>
+        </article><article class="inventory-row">
+          <div><h4>胎教仪</h4><p>需求对接中 · TBD</p></div>
+          <div><p>1. 整机：8月20日项目启动会；2. 产品：计划下周四前完成Feature输出</p></div>
+        </article><article class="inventory-row">
+          <div><h4>Megg2</h4><p>需求对接中 · TBD</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>血氧仪</h4><p>需求对接中 · TBD</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>白噪音音箱 WN08</h4><p>测试中 · 第三次用户体验版本：4/17（已完成）；第四次用户体验版本版本：；8月24日</p></div>
+          <div><p>第四次用户体验版本-海外（计划9月24日-10月27日）；【整机】；产品：8月17日进行MCP评审，已确认修改CMF方案。；海外用户体验：9月25日-10月27日；【APP】8月19日（延期到8月24日）；开发：； 新UI基本开发完成，7月29日 转测； 背景图，7月31日 转测； 多语言（翻译返回延迟）、冷色灯，8月7日已转测； WIFI上下行异步， 8月7日 已转测； 首…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>婴儿监视器 BM05（已更名BM01P）</h4><p>开发中 · EVT-P0：5/30（已完成）；EVT-完整功能：7/20（已完成）；用户体验版本：待定；App上架应用商店：11/10；（待收到最新整机计划后调整App用户体验版本计划）</p></div>
+          <div><p>暂无进展，也未正式明确项目停止</p></div>
+        </article><article class="inventory-row">
+          <div><h4>婴儿监视器 BM04M
+极小化低功率</h4><p>开发中 · EVT-P0：6/15（已完成）；DVT版本：8/30（暂定）；用户体验版本：待定</p></div>
+          <div><p>一、EVT1 P0功能版本（计划5/30交付，已完成付）；二、EVT 全功能版本（待定，内部研发团队已完成）；【整机侧】；本周进度：本周完成TR4评审，计划月底前进行开模，定版样机预计延期到8月底提供；&quot;【App侧】；本周进度：；1. App开发：需等8月底拿到EVT样机后进行调试；三、用户体验版本（待定）</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>婴儿监视器 BM04S</h4><p>测试中 · App上架应用商店：跟随激进计划，改成9/30前</p></div>
+          <div><p>【整机侧】本周进度：；认证问题整改中；App上架应用商店（计划9/30,，待正式确认）&quot;；【App侧】本周进度：；1. App开发：完成新PID适配，修复3个P0bug；计划上架前完成新UI接入；2. 测试：本周完成第三版固件测试，7个P0及7个P2的固件bug待本周提供第四版固件后进行测试；3. 产品&amp;项目：设备暂不支持蓝牙配网，整机想要首单出货不带蓝牙配网，第二批出货带上…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>婴儿监视器 BM08S</h4><p>开发中 · 整机侧按双周迭代方式跑：；EVT-迭代版本：0728、0820（进行中）、0908、0929；国内用户体验版本：9月2日（暂定）</p></div>
+          <div><p>【App侧】；平板端本周进度：；1、产品：V1.1需求梳理中，进度20%；2、设计：MVP版本UX设计（控制中心&amp;设备管理），进度50%；MVP版本核心UI补全；3、开发：基于需求demo，完成主流程开发，预计下周开始基于设计稿进入开发；4、测试：梳理平板端的测试分工，待拿到硬件规格后明确关键节点准出标准； ； ；App本周进度：；1、App开发：基于二期需求，时间轴功能开发…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>调奶器 FD04</h4><p>开发中 · 海外用户体验版本交付：2026.9.28（全功能）</p></div>
+          <div><p>海外用户体验版本（计划交付时间：2026.9.28）；APP产品：；APP设计：；APP开发：双MCU方案开发中，预计8.21开发完成；web端开发：双MCU方案8.17启动，8.21启动联调，8.25提测，9.10测试完成；APP测试：0.2版本需求及OTA功能8.17交付给品质提测（安卓，IOS阻塞）；0.3版本（计划交付时间：2026.9.28）；云平台产品：；APP产…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>调奶器FD06</h4><p>需求对接中 · 国内用户体验版本交付：2026.8.28（核心功能）</p></div>
+          <div><p>国内用户体验版本（计划交付时间：2026.9.21）；APP产品：8.18完成第一版APP需求澄清 卢智智；APP设计：8.28完成屏幕端UI澄清；9.9完成功能UI澄清，9.16输出动效；APP开发：整机8月初提供板子调整到8.24，启动开发；APP测试：</p></div>
+        </article><article class="inventory-row">
+          <div><h4>智能清洗机 BW05S</h4><p>测试中 · EVT-完整功能：5/11（已完成）；EVT-App国内用户体验版本：7/15（已完成）；DVT1：10月12日；DVT2-海外用户体验：11月7日；APP上架：1月27日</p></div>
+          <div><p>一、EVT1 APP版本（计划5/11，已交付）；二、EVT2 APP版本（计划7/15，已交付）；三、DVT APP版本；【整机侧】；结构、工艺、合规、硬件层遗留S级问题，7月20日 TR4A评审不通过；整机关键里程碑：7月13日样机专家评审通过；7月16日入户测试；7月27日立项决策评审（预计延期到8月24日）；【App侧】DVT版本-10月12日；1、设计：动效、离线状…</p></div>
+        </article><article class="inventory-row">
+          <div><h4>智能清洗机 BW05P</h4><p>测试中 · DVT1-完整功能：（海外用户体验）；iOS：2026/09/04；安卓：2026/09/08；DVT2-完整功能：2026/09/29</p></div>
+          <div><p>【整机】（9月10日 海外用户体验样机送出）；8月7日提供3套样机（不可碰水），8月10日已提供4台样机；【APP】海外用户体验版本- iOS 9月4日 安卓9月8日；设计：动效设计，8月19日延期到8月21日；产品：多语言送翻 8月5日、埋点需求 8月7日； 埋点方案已输出，8月14日已评审；开发：；1、离线状态，8月5日 完成转测；2、加强洗（固件8月6日完成），8月7日…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>智能清洗机 BW06</h4><p>需求对接中 · EVT版本：TBD；DVT（国内体验）:TBD；DVT（海外体验）:TBD</p></div>
+          <div><p>BW06智能清洗机_EVT版本（TBD）；产品：；需求对接中</p></div>
+        </article><article class="inventory-row">
+          <div><h4>毛巾加热桶 TW03</h4><p>开发中 · EVT版本：9月22日；DVT（国内体验）:TBD；DVT（海外体验）:TBD</p></div>
+          <div><p>【整机】EVT （样机计划8月25日）；当前进展：8/19结构方案评审，计划8月底提供EVT样机。；里程碑：；TR4A 10/12；立项 10/19；DVT 12/30；下单 3/22；入中仓 4/23；上架5/31；TW03毛巾加热桶_EVT版本（9月22日）；产品：；8月4日已输出需求；设计：；功能UI：8月5日-8月12日设计完成，8月15日评审完成；开发：；开发：进行…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>尿布台体重秤 AZ03</h4><p>开发中 · EVT（国内体验）-全功能：；原定 2026/8/3；最新 2026/9/16；DVT（国内体验）：2026/10/29；DVT（海外体验）：2026/11/13；最新 2027…</p></div>
+          <div><p>【整机】EVT （样机计划8月20日）；ID设计完成，PRD/UX文档完成；7月20日 TR2/TR3评审 带风险通过。；【APP】EVT版本（9月16日）；产品：6月2日 需求中心评审完成； 7月29日 输出埋点需求；设计：6月18日 设计主流程评审完成； 6月30日 用研完成，7月6日设计澄清完成；开发：7月2日 和供应商对齐通讯协议； 7月13日 技术方案评审完成； 8…</p></div>
+        </article><article class="inventory-row">
+          <div><h4>智能空气净化器 AP01 Pro</h4><p>开发中 · DVT全功能：2026/6/23；用户体验：2026/7/7；PVT提审：2026/8/25</p></div>
+          <div><p>PVT版本交付（8月25日交付）：进度正常。；产品：；开发：问题修复中（8月19日晚提供包给品质）。；测试：跟进测试。；品质测试：等待验收。</p></div>
+        </article><article class="inventory-row">
+          <div><h4>智能婴儿床 BD010</h4><p>开发中 · 整机侧按双周迭代方式跑：EVT-迭代版本：0728（已完成）、0820（进行中）、0908、0929；国内用户体验版本：暂定9月20日</p></div>
+          <div><p>【App侧】本周进度：；产品：平板端需求梳理中；设计：智能床三期需求的设计进行中，预计下周三澄清；App开发：合入8月主线代码（包含宝宝信息和推荐页），完成二期需求功能开发以及联调，8.20转测；项目：待拿到EVT 板子后细化测试计划，需确认9.20用户体验前能完成功能测试及回归测试</p></div>
+        </article><article class="inventory-row">
+          <div><h4>智能婴儿床 BS-C1</h4><p>开发中</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>医院级V4大主机吸奶器</h4><p>需求对接中 · EVT版本：11月9日；DVT（国内体验）:TBD；DVT（海外体验）:TBD</p></div>
+          <div><p>【整机侧】计划9月20日；8月3日 概念决策评审 通过；EVT样机：计划9月20日；【APP侧】EVT版本 11月9日；产品：7月21日输出 概念决策评审材料，8月3日概念决策评审通过，已确认医院端APP需求不做。； 计划 8月21日北极星评审、8月25日APP中心评审。； 计划 8月25日输出 产品需求demo（for TR2/TR3评审）；设计：计划 8月26日-9月11…</p></div>
+        </article><article class="inventory-row">
+          <div><h4>智能空气净化器 AP02</h4><p>待启动 · TR3-概要设计评审：2026/9/15；EVT：2026/11/30；DVT：2027/3/11</p></div>
+          <div><p>EVT版本交付（11月30日）：进度正常；产品：内部PRD正常推进；下周与整机产品经理对齐；设计：/；开发：/；测试：/</p></div>
+        </article><article class="inventory-row">
+          <div><h4>智能空气净化器 AP03</h4><p>待启动 · TR3-概要设计评审：2026/9/30；EVT：2026/12/9；DVT：2027/4/13</p></div>
+          <div><p>EVT版本交付（12月9日）：进度正常；产品：内部PRD正常推进；下周与整机产品经理对齐；设计：/；开发：/；测试：/</p></div>
+        </article><article class="inventory-row">
+          <div><h4>冰淇淋机</h4><p>需求对接中 · 概念评审：9月7日；DVT1：2027/2/26</p></div>
+          <div><p>产品网页demo：26年11月12日 ；产品：初步需求沟通；设计：/；开发：/；测试：/</p></div>
+        </article><article class="inventory-row">
+          <div><h4>CM04 带电冻奶壶</h4><p>待启动 · 待定；产品介绍：；采用半导体制冷辅助保冷；APP功能：记录单天的储奶量，每瓶奶的一整天的温度曲线，存放时间。</p></div>
+          <div><p>【整机侧】；TBD；【APP侧】EVT版本 ；TBD</p></div>
+        </article></div>
+    </details><details class="inventory-fold tone-app">
+      <summary><span><momcozy-icon name="appOptimization" size="20" aria-hidden="true"></momcozy-icon><strong>App 优化</strong><small>7 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true"></momcozy-icon></span></summary>
+      <div class="inventory-list"><article class="inventory-row">
+          <div><h4>吸奶器 M10 -  App 优化 V1.1</h4><p>待启动 · TBD</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>T31体温贴bug迭代优化</h4><p>正常 · 计划8月</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>婴儿监视器 BM04 -新UI迁移</h4><p>开发中 · 2026/8/27（用研版本）；2026/9/17（正式上线版本）</p></div>
+          <div><p>8/27用研版本；1、用研：开始寄送设备，预计下周到用户手中；2、开发：预计本周前端封代码；3、测试：8.20前完成机型兼容性测试，8.24前完成bug回归；9/17正式版本；1、产品：新老用户 UI 切换的开关；老用户切新 UI 之后的新手引导；输出埋点需求；2、设计：完成新手引导的设计澄清；3、前后端开发：本周对齐前后端技术方案，预计8.27前完成开发…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>婴儿监视器 BM04 -BBM 用户打开 App 默认进入设备列表页需求</h4><p>PRD评审 · 计划2026/8/27</p></div>
+          <div><p>预计8.20做需求澄清，确认是否可8.27版本上线</p></div>
+        </article><article class="inventory-row">
+          <div><h4>白噪音WN02-Momcozy App接入Alexa</h4><p>开发中 · 9月17日</p></div>
+          <div><p>【WN02接入alexa】9月17日；产品：PRD 7月30日评审完成； 费用方案已确认，采购走流程中，计划8月14日； 具体语音指令，8月19日已完成； 多语言送翻、埋点需求，计划8月21日；设计：已提供资源图，8月19日 已完成；开发：demo已调通，计划 8月20日-8月30日；测试：测试方案+用例评审，计划 8月28日； 测试环境测试，计划 9月1…</p></div>
+        </article><article class="inventory-row">
+          <div><h4>WN02白噪音-配网引导图优化</h4><p>开发中 · /</p></div>
+          <div><p>【WN02配网图优化】8月27日 ；产品：8月10日已输出需求；设计：8月12日完成设计；开发：待供应商配合修改；测试：TBD；上线：计划8月27日</p></div>
+        </article><article class="inventory-row">
+          <div><h4>WN02 / WN05 暗黑模式适配</h4><p>开发中 · 10 月 31 日</p></div>
+          <div><p>按暗黑模式专项排期推进。</p></div>
+        </article></div>
+    </details><details class="inventory-fold tone-atom">
+      <summary><span><momcozy-icon name="atomization" size="20" aria-hidden="true"></momcozy-icon><strong>原子化能力</strong><small>17 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true"></momcozy-icon></span></summary>
+      <div class="inventory-list"><article class="inventory-row">
+          <div><h4>吸奶器聚合卡片优化</h4><p>测试中 · 8/27版本（V3.4.0）</p></div>
+          <div><p>8/27版本（V3.4.0）；产品：已完成；设计：已完成；开发：进度正常，bugfix中；测试：8/21封代码提交</p></div>
+        </article><article class="inventory-row">
+          <div><h4>用户反馈-【用户反馈与客服】上下文信息采集（升级客服/品质在线客服对接）</h4><p>测试中 · 8/27版本（V3.4.0）</p></div>
+          <div><p>8/27版本（V3.4.0）；产品：8.20产品可以验收以下 朱诗瑶；设计：；开发：8.13提测，暂无遗留问题；测试：完成测试环境测试 陈雄科</p></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-智能设备助手（通用版本BM08和AIR1）</h4><p>测试中 · 8/27版本（V3.4.0）</p></div>
+          <div><p>8/27版本（V3.4.0）；项目：；业务产品：8.20完成业务侧验收并将问题反馈给开发 王博；产品：8.20完成需求showcase；设计：；开发：目前遗留8个P2问题；4个P3问题；测试：已经完成测试环境测试</p></div>
+        </article><article class="inventory-row">
+          <div><h4>首页设备列表本地缓存与离线展示优化（不包含涂鸦、觅睿设备，包含吸奶器和T31）</h4><p>测试中 · 8/27版本（V3.4.0）</p></div>
+          <div><p>8/27版本（V3.4.0）；产品：7.27完成需求澄清；设计：；开发：811已经提测；测试：8.12测试完成</p></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-配网&amp;下载二维码（用户数据归因）</h4><p>需求对接中 · 不跟随版本</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>App 原子化配网失败异常监控告警</h4><p>交付中 · 不跟随版本</p></div>
+          <div><p>产品：；设计：；测试：测试完成L3接口放开测试可以验收日志系统；异常监控包含：监控控制成功率和设备在线率；指标；1、控制成功率，4个接口打成功或失败日志实现（L1级别接口，要发布服务输出日志，并测试日志系统）；transparent/；/transparent/thing；/transparent/async/topic；/transparent/thin…</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>App 设备助手 2.0</h4><p>测试中 · 9/17版本(v3.5.0)</p></div>
+          <div><p>9/17版本(v3.5.0)；产品：；设计：；后端开发：已经完成功能开发及联调；算法开发：8.19已经开始第二轮，目前看测评结果可以达到提测标准（9.1）；APP开发：8.19已经提测；测试：测试环境测试中</p></div>
+        </article><article class="inventory-row">
+          <div><h4>App 设备助手 1.0（V3）</h4><p>需求对接中 · 9/17版本(v3.5.0)</p></div>
+          <div><p>7/30版本(v3.2.0)；产品：；业务产品：；air1：8.20完成视频更新 刘媛媛 郭嘉；V3：整机说明书、彩卡及视频到 9.1输出，软件产品9.8梳理输出素材，完成配置，给整机验收； 刘媛媛；设计：；前端开发：；APP测试：；后台测试：</p></div>
+        </article><article class="inventory-row">
+          <div><h4>主线与IoT解耦</h4><p>开发中 · 9/17版本(v3.5.0)</p></div>
+          <div><p>9/17版本(v3.5.0)只完成IOS；产品：；设计：；后端开发：；web端开发：；APP开发：预计9.1提测 谭康东；测试：预计8.26完成测试用例评审</p></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-设备共享</h4><p>PRD评审 · 9/17版本(v3.5.0)</p></div>
+          <div><p>9/17版本(v3.5.0)；产品：预计8.20完成需求澄清，目前需求澄清的时间晚于版本火车节奏很多，不确定后续UI澄清、开发技术方案评审后，预留给开发、测试时间是否足够可以赶上最终上线节奏，当前计划拆分需求先上一部分 杨慧芳；设计：；后端开发：；web端开发：；APP开发：；测试：</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-在线客服参数适配 V3 &amp; 设备助手通用版 V3</h4><p>开发中 · 9/17版本(v3.5.0)</p></div>
+          <div><p>9/17版本(v3.5.0)；产品： 8.17已完成需求澄清；设计：；后端开发：；web端开发：；APP开发：预计9.1提测；测试：</p></div>
+        </article><article class="inventory-row">
+          <div><h4>【电量治理】三期优化，数字放到电池里</h4><p>开发中 · 9/17版本(v3.5.0)</p></div>
+          <div><p>9/17版本(v3.5.0)；产品： 8.17已完成需求澄清；设计：；后端开发：；web端开发：；APP开发：预计8.21完成技术方案评审、8.25提测；测试：</p></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-设备配网（全流程适配3.0UI&amp;安卓端自动发现策略优化）</h4><p>需求对接中 · 10/22版本(v3.6.0)</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>自研模组配网错误码（空气净化器，清洗机，调奶器， FD04/AP01/WN08/BW05/TW03）</h4><p>需求对接中 · 不跟随版本</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-权限优化</h4><p>需求对接中 · 9/17版本(v3.5.0)</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-在线客服参数适配 V3 &amp; 设备助手通用版 V3</h4><p>需求对接中 · 9/17版本(v3.5.0)</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article><article class="inventory-row">
+          <div><h4>原子化-设备配网优化（WiFi设备云端错误处理&amp;自动发现优化）自动发现优化先上IOS</h4><p>开发中 · 8/27版本（V3.4.0）</p></div>
+          <div><p>本周未更新具体进展</p></div>
+        </article></div>
+    </details><details class="inventory-fold tone-app">
+      <summary><span><momcozy-icon name="platform" size="20" aria-hidden="true"></momcozy-icon><strong>IoT 平台项目</strong><small>4 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true"></momcozy-icon></span></summary>
+      <div class="inventory-list"><article class="inventory-row">
+          <div><h4>IoT 设备接入平台线上内容变更的审批流程上线</h4><p>已上线 · 本周完成</p></div>
+          <div><p>IoT 设备的上架、下架及线上基础信息修改，统一经审批后生效。</p></div>
+        </article><article class="inventory-row">
+          <div><h4>IoT 设备接入平台产品经理及运维人员线上环境权限收敛与治理</h4><p>需求对接中 · 9 月</p></div>
+          <div><p>每位产品经理只拥有自己负责的产品配置及修改权限。</p></div>
+        </article><article class="inventory-row">
+          <div><h4>IoT 平台监控指标数据采集</h4><p>开发中 · 8 月</p></div>
+          <div><p>8 月 12 日已完成方案澄清，后端正在评估替代方案。</p><span class="badge risk">风险</span></div>
+        </article><article class="inventory-row">
+          <div><h4>线上配置先灰度验证再发布</h4><p>计划阶段 · 11 月</p></div>
+          <div><p>线上环境配置修改后小范围生效，待测试全面验收后全网发布。</p></div>
+        </article></div>
+    </details></section>
+    <footer><span>App 生态中心 · IoT 产品部</span><span>W34</span></footer></main></body></html>
