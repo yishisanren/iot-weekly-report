@@ -6,6 +6,12 @@ App 生态中心 · IoT 项目周报，托管在 GitHub Pages。
 
 [2026/08/17 - 08/21](./index.html)
 
+## 内部项目周报
+
+[2026/08/28 - 09/03](./internal-brief/index.html)
+
+- [2026/08/21 - 08/27](./archive/2026-08-28-internal.html)
+
 ## 往期归档
 
 - [2026/08/10 - 08/14](./archive/2026-08-14.html)
