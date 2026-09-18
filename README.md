@@ -1,6 +1,6 @@
 # IoT 项目周报
 
-App 生态中心 · IoT 项目周报，托管在 GitHub Pages。
+应用生态体验与研发中心 · IoT 项目周报，托管在 GitHub Pages。
 
 ## 最新一期
 
@@ -8,8 +8,10 @@ App 生态中心 · IoT 项目周报，托管在 GitHub Pages。
 
 ## 内部项目周报
 
-[2026/09/07 - 09/11](./internal-brief/index.html)
+[2026/09/14 - 09/18](./internal-brief/index.html)
 
+- [W38 · 2026/09/14 - 09/18](./archive/2026-09-18-internal.html)
+- [2026/09/07 - 09/11](./archive/2026-09-11-internal.html)
 - [2026/08/28 - 09/03](./archive/2026-09-04-internal.html)
 - [2026/08/21 - 08/27](./archive/2026-08-28-internal.html)
 
