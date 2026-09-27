@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>W39 · IoT 周报</title>
+<script>(function(){try{var t=localStorage.getItem('iot-weekly-theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}})()</script>
+<style>
+/* Momcozy 3.0 tokens - synced from current design-system skill */
+@font-face{font-family:"Exposure[-10]";src:local("Exposure[-10]");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Aeonik Soft Pro";src:local("Aeonik Soft Pro");font-style:normal;font-weight:300 600;font-display:swap}
+
+:root{
+  color-scheme:light;
+  --font-brand:"Exposure[-10]","Songti SC",serif;
+  --font-plain:"Aeonik Soft Pro","PingFang SC",system-ui,sans-serif;
+
+  --colors-backgrouds-primary:#F9F7F5;
+  --colors-backgrouds-secondary:#FFFFFF;
+  --colors-text-color-text-primary:#240F1B;
+  --colors-text-color-text-secondary:#9F969B;
+  --colors-text-color-text-tertiary:#BDB7BA;
+  --colors-text-color-text-quaternary:#E4E2E3;
+  --colors-text-color-text-inverse:#FFFFFF;
+  --colors-border-primary:#E4E2E3;
+  --colors-border-secondary:#F0EEEF;
+  --colors-border-width-primary:.5px;
+  --colors-border-width-secondary:.5px;
+
+  --colors-grays-1000:#000000;
+  --colors-grays-900:#240F1B;
+  --colors-grays-600:#9F969B;
+  --colors-grays-500:#BDB7BA;
+  --colors-grays-300:#D3CFD1;
+  --colors-grays-200:#E4E2E3;
+  --colors-grays-150:#E9E8E7;
+  --colors-grays-100:#F0EEEF;
+  --colors-grays-50:#F9F7F5;
+  --colors-grays-0:#FFFFFF;
+
+  --colors-brands-mom-50:#FFF7F8;
+  --colors-brands-mom-75:#FFF1F3;
+  --colors-brands-mom-100:#FFDDE1;
+  --colors-brands-mom-300:#FFC0CB;
+  --colors-brands-mom-500:#EE9CA7;
+  --colors-brands-mom-700:#770523;
+  --colors-brands-mom-900:#3E0010;
+  --colors-brands-care-100:#F4F2FF;
+  --colors-brands-care-300:#C8BDFF;
+  --colors-brands-care-400:#A490DE;
+  --colors-brands-care-500:#8568C2;
+  --colors-brands-care-700:#552C95;
+  --colors-brands-care-900:#160038;
+  --colors-brands-parenting-50:#FEFBF1;
+  --colors-brands-parenting-100:#FFF7BD;
+  --colors-brands-parenting-200:#FCEE9D;
+  --colors-brands-parenting-300:#F0CB58;
+  --colors-brands-parenting-500:#DDA448;
+  --colors-brands-parenting-700:#7E451F;
+  --colors-brands-parenting-900:#401B0D;
+  --colors-brands-family-100:#F0F9F0;
+  --colors-brands-family-300:#B7E5BA;
+  --colors-brands-family-400:#5CA87C;
+  --colors-brands-family-500:#288760;
+  --colors-brands-family-700:#1A5140;
+  --colors-brands-family-900:#002D1F;
+
+  --colors-semantic-fills-mom-primary:#770523;
+  --colors-semantic-fills-mom-secondary:#FFFFFF;
+  --colors-semantic-fills-mom-disabled:#E4E2E3;
+  --colors-semantic-fills-mom-pressed:#3E0010;
+  --colors-semantic-labels-mom-primary:#FFFFFF;
+  --colors-semantic-labels-mom-secondary:#770523;
+  --colors-semantic-labels-mom-disabled:#BDB7BA;
+
+  --colors-semantic-fills-care-default:#552C95;
+  --colors-semantic-fills-care-secondary:#FFFFFF;
+  --colors-semantic-fills-care-disabled:#E4E2E3;
+  --colors-semantic-fills-care-pressed:#160038;
+  --colors-semantic-labels-care-primary:#FFFFFF;
+  --colors-semantic-labels-care-secondary:#552C95;
+  --colors-semantic-labels-care-disabled:#BDB7BA;
+
+  --colors-semantic-fills-parenting-default:#7E451F;
+  --colors-semantic-fills-parenting-secondary:#FFFFFF;
+  --colors-semantic-fills-parenting-disabled:#E4E2E3;
+  --colors-semantic-fills-parenting-pressed:#401B0D;
+  --colors-semantic-labels-parenting-primary:#FFFFFF;
+  --colors-semantic-labels-parenting-secondary:#7E451F;
+  --colors-semantic-labels-parenting-disabled:#BDB7BA;
+
+  --colors-semantic-fills-family-default:#1A5140;
+  --colors-semantic-fills-family-secondary:#FFFFFF;
+  --colors-semantic-fills-family-disabled:#E4E2E3;
+  --colors-semantic-fills-family-pressed:#002D1F;
+  --colors-semantic-labels-family-primary:#FFFFFF;
+  --colors-semantic-labels-family-secondary:#1A5140;
+  --colors-semantic-labels-family-disabled:#BDB7BA;
+
+  --status-info-25:#58244340;
+  --status-info-50:#58244380;
+  --status-info-75:#582443BF;
+  --status-warning-25:#F3824540;
+  --status-warning-50:#F3824580;
+  --status-warning-75:#F38245BF;
+  --status-danger-25:#D2030740;
+  --status-danger-50:#D2030780;
+  --status-danger-75:#D20307BF;
+  --status-success-25:#009E3D40;
+  --status-success-50:#009E3D80;
+  --status-success-75:#009E3DBF;
+  --status-discovery-25:#8568C240;
+  --status-discovery-50:#8568C280;
+  --status-discovery-75:#8568C2BF;
+
+  --space-0:0px;--space-px:1px;--space-0-5:2px;--space-1:4px;--space-2:8px;
+  --space-2-5:10px;--space-3:12px;--space-3-5:14px;--space-4:16px;
+  --space-5:20px;--space-6:24px;--space-7:28px;--space-8:32px;
+  --space-9:36px;--space-10:40px;--space-12:48px;--space-14:56px;
+  --space-16:64px;--space-18:72px;--space-20:80px;
+
+  --radius-none:0px;--radius-xs:2px;--radius-sm:4px;--radius-md:8px;
+  --radius-lg:10px;--radius-xl:12px;--radius-2xl:16px;--radius-3xl:24px;
+  --radius-4xl:32px;--radius-full:9999px;
+
+  --type-heading-xl-font-family:var(--font-brand);--type-heading-xl-font-weight:400;
+  --type-heading-xl-font-size:32px;--type-heading-xl-line-height:38px;
+  --type-heading-l-font-family:var(--font-brand);--type-heading-l-font-weight:300;
+  --type-heading-l-font-size:24px;--type-heading-l-line-height:29px;
+  --type-heading-m-font-family:var(--font-brand);--type-heading-m-font-weight:400;
+  --type-heading-m-font-size:20px;--type-heading-m-line-height:26px;
+  --type-title-l-font-family:var(--font-plain);--type-title-l-font-weight:500;
+  --type-title-l-font-size:18px;--type-title-l-line-height:22px;
+  --type-title-m-font-family:var(--font-plain);--type-title-m-font-weight:500;
+  --type-title-m-font-size:16px;--type-title-m-line-height:22px;
+  --type-title-s-font-family:var(--font-plain);--type-title-s-font-weight:500;
+  --type-title-s-font-size:14px;--type-title-s-line-height:18px;
+  --type-body-l-font-family:var(--font-plain);--type-body-l-font-weight:400;
+  --type-body-l-font-size:16px;--type-body-l-line-height:22px;
+  --type-body-m-font-family:var(--font-plain);--type-body-m-font-weight:400;
+  --type-body-m-font-size:14px;--type-body-m-line-height:18px;
+  --type-body-s-font-family:var(--font-plain);--type-body-s-font-weight:400;
+  --type-body-s-font-size:12px;--type-body-s-line-height:18px;
+  --type-caption-m-font-family:var(--font-plain);--type-caption-m-font-weight:500;
+  --type-caption-m-font-size:10px;--type-caption-m-line-height:17px;
+  --type-caption-m-letter-spacing:2px;
+}
+
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --colors-backgrouds-primary:#000000;
+  --colors-backgrouds-secondary:#1C1C1E;
+  --colors-text-color-text-primary:#F7F3F6;
+  --colors-text-color-text-secondary:#938E93;
+  --colors-text-color-text-tertiary:#676267;
+  --colors-text-color-text-quaternary:#3C3A3C;
+  --colors-text-color-text-inverse:#1C1C1E;
+  --colors-border-primary:#3C3A3C;
+  --colors-border-secondary:#1E1C1E;
+
+  --colors-grays-1000:#FFFFFF;
+  --colors-grays-900:#F7F3F6;
+  --colors-grays-600:#938E93;
+  --colors-grays-500:#676267;
+  --colors-grays-300:#4A484A;
+  --colors-grays-200:#3C3A3C;
+  --colors-grays-150:#2E2C2E;
+  --colors-grays-100:#1E1C1E;
+  --colors-grays-50:#000000;
+  --colors-grays-0:#1C1C1E;
+
+  --colors-brands-mom-50:#291316;
+  --colors-brands-mom-75:#33191D;
+  --colors-brands-mom-100:#3D1E23;
+  --colors-brands-mom-300:#804C54;
+  --colors-brands-mom-500:#C7828B;
+  --colors-brands-mom-700:#DA5876;
+  --colors-brands-mom-900:#F9C9CF;
+  --colors-brands-care-100:#2C2145;
+  --colors-brands-care-300:#64518E;
+  --colors-brands-care-400:#816BB4;
+  --colors-brands-care-500:#A088D9;
+  --colors-brands-care-700:#9871D5;
+  --colors-brands-care-900:#DBCFFF;
+  --colors-brands-parenting-50:#261700;
+  --colors-brands-parenting-100:#392400;
+  --colors-brands-parenting-200:#533703;
+  --colors-brands-parenting-300:#7A5615;
+  --colors-brands-parenting-500:#BF8E40;
+  --colors-brands-parenting-700:#CD7032;
+  --colors-brands-parenting-900:#F2D2A4;
+  --colors-brands-family-100:#0B3121;
+  --colors-brands-family-300:#2F6B50;
+  --colors-brands-family-400:#448B6A;
+  --colors-brands-family-500:#5EAB86;
+  --colors-brands-family-700:#329A7A;
+  --colors-brands-family-900:#B6E4CC;
+
+  --colors-semantic-fills-mom-primary:#DA5876;
+  --colors-semantic-fills-mom-secondary:#1C1C1E;
+  --colors-semantic-fills-mom-disabled:#3C3A3C;
+  --colors-semantic-fills-mom-pressed:#F9C9CF;
+  --colors-semantic-labels-mom-primary:#1C1C1E;
+  --colors-semantic-labels-mom-secondary:#DA5876;
+  --colors-semantic-labels-mom-disabled:#676267;
+
+  --colors-semantic-fills-care-default:#9871D5;
+  --colors-semantic-fills-care-secondary:#1C1C1E;
+  --colors-semantic-fills-care-disabled:#3C3A3C;
+  --colors-semantic-fills-care-pressed:#DBCFFF;
+  --colors-semantic-labels-care-primary:#1C1C1E;
+  --colors-semantic-labels-care-secondary:#9871D5;
+  --colors-semantic-labels-care-disabled:#676267;
+
+  --colors-semantic-fills-parenting-default:#CD7032;
+  --colors-semantic-fills-parenting-secondary:#1C1C1E;
+  --colors-semantic-fills-parenting-disabled:#3C3A3C;
+  --colors-semantic-fills-parenting-pressed:#F2D2A4;
+  --colors-semantic-labels-parenting-primary:#1C1C1E;
+  --colors-semantic-labels-parenting-secondary:#CD7032;
+  --colors-semantic-labels-parenting-disabled:#676267;
+
+  --colors-semantic-fills-family-default:#329A7A;
+  --colors-semantic-fills-family-secondary:#1C1C1E;
+  --colors-semantic-fills-family-disabled:#3C3A3C;
+  --colors-semantic-fills-family-pressed:#B6E4CC;
+  --colors-semantic-labels-family-primary:#1C1C1E;
+  --colors-semantic-labels-family-secondary:#329A7A;
+  --colors-semantic-labels-family-disabled:#676267;
+}
+
+/* Report aliases: values always resolve through Momcozy 3.0 tokens. */
+:root{
+  --report-bg:var(--colors-backgrouds-primary);
+  --report-surface:var(--colors-backgrouds-secondary);
+  --report-surface-soft:var(--colors-grays-100);
+  --report-text:var(--colors-text-color-text-primary);
+  --report-muted:var(--colors-text-color-text-secondary);
+  --report-tertiary:var(--colors-text-color-text-tertiary);
+  --report-border:var(--colors-border-primary);
+  --report-border-width:var(--colors-border-width-primary);
+  --report-accent:var(--colors-grays-900);
+  --report-accent-fill:var(--colors-grays-900);
+  --report-accent-label:var(--colors-grays-0);
+  --report-accent-soft:var(--colors-grays-100);
+  --item-accent:var(--colors-grays-900);
+  --item-fill:var(--colors-grays-900);
+  --item-label:var(--colors-grays-0);
+  --item-soft:var(--colors-grays-100);
+  --chart-primary:var(--colors-grays-900);
+  --chart-secondary:color-mix(in srgb,var(--colors-grays-900) 75%,var(--report-bg));
+  --chart-tertiary:var(--colors-text-color-text-tertiary);
+}
+[data-product-line="grays"]{
+  --item-accent:var(--colors-grays-900);
+  --item-fill:var(--colors-grays-900);
+  --item-label:var(--colors-grays-0);
+  --item-soft:var(--colors-grays-100);
+}
+[data-product-line="mom"]{
+  --item-accent:var(--colors-brands-mom-700);
+  --item-fill:var(--colors-semantic-fills-mom-primary);
+  --item-label:var(--colors-semantic-labels-mom-primary);
+  --item-soft:var(--colors-brands-mom-75);
+}
+[data-product-line="care"]{
+  --item-accent:var(--colors-brands-care-700);
+  --item-fill:var(--colors-semantic-fills-care-default);
+  --item-label:var(--colors-semantic-labels-care-primary);
+  --item-soft:var(--colors-brands-care-100);
+}
+[data-product-line="parenting"]{
+  --item-accent:var(--colors-brands-parenting-700);
+  --item-fill:var(--colors-semantic-fills-parenting-default);
+  --item-label:var(--colors-semantic-labels-parenting-primary);
+  --item-soft:var(--colors-brands-parenting-50);
+}
+[data-product-line="family"]{
+  --item-accent:var(--colors-brands-family-700);
+  --item-fill:var(--colors-semantic-fills-family-default);
+  --item-label:var(--colors-semantic-labels-family-primary);
+  --item-soft:var(--colors-brands-family-100);
+}
+.page[data-product-line="grays"]{
+  --report-accent:var(--colors-grays-900);
+  --report-accent-fill:var(--colors-grays-900);
+  --report-accent-label:var(--colors-grays-0);
+  --report-accent-soft:var(--colors-grays-100);
+}
+.page[data-product-line="mom"]{
+  --report-accent:var(--colors-brands-mom-700);
+  --report-accent-fill:var(--colors-semantic-fills-mom-primary);
+  --report-accent-label:var(--colors-semantic-labels-mom-primary);
+  --report-accent-soft:var(--colors-brands-mom-75);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--space-20)}
+body{
+  margin:0;
+  background:var(--report-bg);
+  color:var(--report-text);
+  font-family:var(--font-plain);
+  font-size:var(--type-body-m-font-size);
+  line-height:1.65;
+  text-rendering:optimizeLegibility;
+}
+button,a,summary{font:inherit}
+a{color:inherit}
+.page{width:min(1180px,calc(100% - 40px));margin:0 auto;padding:var(--space-7) 0 var(--space-18)}
+.topbar{display:flex;align-items:center;justify-content:space-between;min-height:44px;margin-bottom:var(--space-4)}
+.brand{color:var(--report-accent);font-size:var(--type-caption-m-font-size);font-weight:600;letter-spacing:.16em}
+.theme-toggle{display:grid;place-items:center;width:44px;height:44px;padding:0;border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-full);background:var(--report-surface);color:var(--report-text);cursor:pointer}
+.theme-toggle:hover{background:var(--report-surface-soft)}
+.theme-toggle:focus-visible,.report-nav a:focus-visible,summary:focus-visible,.edit-action:focus-visible{outline:3px solid color-mix(in srgb,var(--report-accent) 30%,transparent);outline-offset:3px}
+.theme-toggle .sun{display:none}
+:root[data-theme="dark"] .theme-toggle .sun{display:block}
+:root[data-theme="dark"] .theme-toggle .moon{display:none}
+momcozy-icon{display:inline-flex;flex:0 0 auto}
+
+.hero{position:relative;isolation:isolate;min-height:238px;overflow:hidden;padding:var(--space-10) var(--space-12);border-radius:var(--radius-4xl);background:var(--report-accent-fill);color:var(--report-accent-label)}
+.hero::before,.hero::after{content:"";position:absolute;z-index:-1;border-radius:var(--radius-full);background:color-mix(in srgb,currentColor 10%,transparent)}
+.hero::before{width:300px;height:300px;right:-90px;top:-150px}
+.hero::after{width:190px;height:190px;right:120px;bottom:-142px}
+.hero-meta{display:flex;justify-content:space-between;gap:var(--space-6);color:color-mix(in srgb,currentColor 74%,transparent);font-size:var(--type-body-s-font-size);font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.hero h1{max-width:780px;margin:var(--space-14) 0 0;font-family:var(--type-heading-xl-font-family);font-size:44px;line-height:1.15;font-weight:var(--type-heading-xl-font-weight);letter-spacing:0}
+
+.report-nav{position:sticky;top:var(--space-2);z-index:30;display:flex;align-items:center;gap:var(--space-1);overflow-x:auto;margin:var(--space-4) 0 var(--space-7);padding:var(--space-2);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-2xl);background:color-mix(in srgb,var(--report-surface) 92%,transparent);backdrop-filter:blur(14px);scrollbar-width:none}
+.report-nav::-webkit-scrollbar{display:none}
+.report-nav a{display:inline-flex;align-items:center;min-height:36px;padding:0 var(--space-3);border-radius:var(--radius-lg);color:var(--report-muted);font-size:var(--type-body-s-font-size);font-weight:500;text-decoration:none;white-space:nowrap}
+.report-nav a:hover,.report-nav a.is-active{background:var(--report-accent-soft);color:var(--report-accent)}
+
+.metrics{display:grid;gap:var(--space-3);margin:0 0 var(--space-4)}
+.metrics.five{grid-template-columns:1.55fr repeat(4,minmax(0,1fr))}
+.metrics.three{grid-template-columns:1.5fr repeat(2,minmax(0,1fr))}
+.metric{position:relative;min-width:0;min-height:138px;padding:var(--space-6);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-2xl);background:var(--report-surface)}
+.metric p{display:flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-5);color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.metric p::before{content:"";width:7px;height:7px;border-radius:var(--radius-full);background:var(--report-tertiary)}
+.metric.primary{background:var(--report-accent-fill);color:var(--report-accent-label);border-color:transparent}
+.metric.primary p{color:color-mix(in srgb,currentColor 72%,transparent)}
+.metric.primary p::before{background:currentColor}
+.metric-value{display:flex;align-items:baseline;gap:var(--space-2);min-height:48px;font-variant-numeric:tabular-nums}
+.metric-value strong{font-family:var(--font-brand);font-size:42px;line-height:1;font-weight:400}
+.metric-value>span{font-size:var(--type-body-s-font-size)}
+.metric small{display:block;margin-top:var(--space-3);color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.metric.primary small{color:color-mix(in srgb,currentColor 72%,transparent)}
+
+.badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:3px var(--space-2);border-radius:var(--radius-full);background:var(--report-surface-soft);color:var(--report-muted);font-size:11px;line-height:18px;font-weight:600;white-space:nowrap}
+.badge.up,.badge.progress{background:var(--status-success-25);color:var(--status-success-75)}
+.badge.down,.badge.risk{background:var(--status-danger-25);color:var(--status-danger-75)}
+.badge.flat{background:var(--report-surface-soft);color:var(--report-muted)}
+.metric.primary .badge{background:color-mix(in srgb,currentColor 16%,transparent);color:currentColor}
+
+.composition-panel{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.5fr);gap:var(--space-8);align-items:center;margin:0 0 var(--space-14);padding:var(--space-6);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-3xl);background:var(--report-surface)}
+.composition-copy{display:grid;gap:var(--space-1)}
+.composition-copy span{color:var(--report-muted);font-size:var(--type-caption-m-font-size);font-weight:600;letter-spacing:.14em}
+.composition-copy strong{font-family:var(--font-brand);font-size:var(--type-heading-l-font-size);line-height:var(--type-heading-l-line-height);font-weight:400}
+.composition-chart{min-width:0}
+.composition-bar{display:flex;width:100%;height:20px;overflow:hidden;border-radius:var(--radius-full);background:var(--report-surface-soft)}
+.composition-segment{width:var(--share);min-width:2px}
+.composition-segment.primary{background:var(--chart-primary)}
+.composition-segment.secondary{background:var(--chart-secondary)}
+.composition-segment.tertiary{background:var(--chart-tertiary)}
+.composition-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-3);margin-top:var(--space-3)}
+.composition-legend-item{display:grid;grid-template-columns:8px minmax(0,1fr);gap:var(--space-2);align-items:start}
+.composition-legend-item i{width:8px;height:8px;margin-top:5px;border-radius:var(--radius-full)}
+.composition-legend-item:nth-child(1) i{background:var(--chart-primary)}
+.composition-legend-item:nth-child(2) i{background:var(--chart-secondary)}
+.composition-legend-item:nth-child(3) i{background:var(--chart-tertiary)}
+.composition-legend-item span{display:block;color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.composition-legend-item strong{display:block;color:var(--report-text);font-size:var(--type-title-s-font-size);font-variant-numeric:tabular-nums}
+
+.block{margin:var(--space-14) 0}
+.block-head{display:grid;grid-template-columns:112px minmax(0,1fr);gap:var(--space-5);align-items:center;margin:0 0 var(--space-6);padding:0 0 var(--space-5);border-bottom:var(--report-border-width) solid var(--report-border)}
+.sec-no{display:grid;gap:var(--space-0-5);color:var(--report-muted);font-family:var(--font-plain);letter-spacing:0}
+.sec-no small{font-size:var(--type-caption-m-font-size);line-height:1.4;font-weight:600;letter-spacing:.18em}
+.sec-no strong{color:var(--report-text);font-family:var(--font-brand);font-size:30px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
+.block-head h2{display:flex;align-items:center;gap:var(--space-3);margin:0;color:var(--report-text);font-family:var(--font-brand);font-size:28px;line-height:1.25;font-weight:400}
+.block-head h2 momcozy-icon{color:var(--report-accent)}
+.section-intro{max-width:920px;margin:0 0 var(--space-7);color:var(--report-muted);font-size:15px;line-height:1.75}
+.section-intro strong{color:var(--report-text);font-weight:600}
+
+.change-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)}
+.change-panel{display:grid;grid-template-columns:88px minmax(0,1fr);gap:var(--space-5);min-width:0;padding:var(--space-6);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-3xl);background:var(--report-surface)}
+.change-count{display:grid;align-content:start;justify-items:center;gap:var(--space-2);padding:var(--space-4) var(--space-2);border-radius:var(--radius-2xl);background:var(--report-accent-soft);color:var(--report-accent)}
+.change-count strong{font-family:var(--font-brand);font-size:34px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
+.change-count span{font-size:var(--type-body-s-font-size);font-weight:600}
+.change-panel[data-change="new"] .change-count{background:var(--status-discovery-25);color:var(--status-discovery-75)}
+.change-panel[data-change="done"] .change-count{background:var(--status-success-25);color:var(--status-success-75)}
+.change-content h3{margin:0 0 var(--space-4);font-size:var(--type-title-m-font-size);line-height:var(--type-title-m-line-height);font-weight:600}
+.change-content ul{display:grid;gap:var(--space-3);margin:0;padding:0;list-style:none}
+.change-content li{color:var(--report-muted);font-size:var(--type-body-m-font-size);line-height:1.65}
+.change-content li strong{color:var(--report-text)}
+
+.scene-group{margin:0 0 var(--space-10)}
+.scene-group:last-child{margin-bottom:0}
+.scene-title{display:flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-4);color:var(--item-accent);font-family:var(--font-plain);font-size:var(--type-title-l-font-size);font-weight:600}
+.scene-title::before{content:"";width:10px;height:10px;border-radius:var(--radius-full);background:var(--item-fill)}
+.scene-count{margin-left:auto;color:var(--report-muted);font-size:var(--type-body-s-font-size);font-weight:500}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);align-items:stretch}
+.subsection-grid{margin-top:var(--space-5)}
+
+.proj{display:flex;flex-direction:column;min-width:0;min-height:210px;overflow:hidden;border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-3xl);background:var(--report-surface)}
+.proj>header{display:grid;gap:var(--space-3);padding:var(--space-5) var(--space-6);background:var(--item-soft);border-bottom:var(--report-border-width) solid var(--report-border)}
+.proj-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4)}
+.proj h3{margin:0;color:var(--report-text);font-size:var(--type-title-l-font-size);line-height:1.4;font-weight:600;overflow-wrap:anywhere}
+.proj-status{display:inline-flex;align-items:center;gap:var(--space-2);flex-wrap:wrap}
+.stage-badge{display:inline-flex;align-items:center;min-height:24px;padding:3px var(--space-2);border-radius:var(--radius-full);background:var(--item-fill);color:var(--item-label);font-size:11px;line-height:18px;font-weight:600}
+.proj-meta{margin:0;color:var(--report-muted);font-size:var(--type-body-s-font-size);font-variant-numeric:tabular-nums}
+.proj-body{flex:1 1 auto;padding:var(--space-5) var(--space-6)}
+.proj-points{display:flex;flex-direction:column;gap:var(--space-3);margin:0;padding:0;list-style:none}
+.proj-points li{position:relative;padding-left:var(--space-5);color:var(--report-text);font-size:13.5px;line-height:1.65}
+.proj-points li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;border-radius:var(--radius-full);background:var(--item-accent)}
+.risk-note{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-3);align-items:start;margin:0 var(--space-6) var(--space-6);padding:var(--space-4);border-radius:var(--radius-xl);background:var(--status-danger-25)}
+.risk-note p{margin:0;color:var(--report-text);font-size:12.8px;line-height:1.65}
+.first-whole{font-weight:600}
+
+.rate-chart{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
+.rate-group{min-width:0;padding:var(--space-6);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-3xl);background:var(--report-surface)}
+.rate-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-5);margin-bottom:var(--space-5)}
+.rate-head p{margin:0;color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.rate-head strong{display:block;margin-top:var(--space-1);font-family:var(--font-brand);font-size:30px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
+.rate-head strong small{font-family:var(--font-plain);font-size:var(--type-body-s-font-size);font-weight:500}
+.rate-delta{display:grid;justify-items:end;gap:var(--space-1)}
+.rate-delta span{color:var(--report-muted);font-size:var(--type-caption-m-font-size);letter-spacing:.08em}
+.rate-delta b{color:var(--status-success-75);font-size:var(--type-title-s-font-size);font-variant-numeric:tabular-nums}
+.rate-delta.negative b{color:var(--status-danger-75)}
+.rate-bars{display:grid;gap:var(--space-3)}
+.rate-row{display:grid;grid-template-columns:38px minmax(0,1fr) 54px;gap:var(--space-3);align-items:center}
+.rate-row>span{color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.rate-row>strong{text-align:right;font-size:var(--type-body-s-font-size);font-variant-numeric:tabular-nums}
+.rate-track{height:10px;overflow:hidden;border-radius:var(--radius-full);background:var(--report-surface-soft)}
+.rate-track i{display:block;width:var(--value);height:100%;border-radius:inherit;background:var(--chart-tertiary)}
+.rate-row.current .rate-track i{background:var(--chart-primary)}
+.rate-row.current>strong{color:var(--report-text)}
+
+.delivered{overflow:hidden;border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-2xl);background:var(--report-surface)}
+.delivered table{width:100%;border-collapse:collapse}
+.delivered th,.delivered td{padding:var(--space-4) var(--space-5);text-align:left;vertical-align:top;border-bottom:var(--report-border-width) solid var(--report-border);font-size:13.5px;line-height:1.65}
+.delivered th{background:var(--report-surface-soft);color:var(--report-muted);font-size:var(--type-body-s-font-size);font-weight:600;letter-spacing:.04em}
+.delivered tr:last-child td{border-bottom:0}
+.delivered td:first-child strong{color:var(--item-accent)}
+
+.ver-group{position:relative;margin-top:var(--space-4);padding-top:var(--space-4);border-top:var(--report-border-width) solid var(--report-border)}
+.ver-group:first-child{margin-top:0;padding-top:0;border-top:0}
+.ver-group h4{margin:0 0 var(--space-2);color:var(--item-accent);font-size:var(--type-title-s-font-size);line-height:1.45}
+.ver-group p{margin:var(--space-2) 0 0;color:var(--report-muted);font-size:13.5px;line-height:1.65}
+.pump-group{margin-top:var(--space-8)}
+.pump-group:first-child{margin-top:0}
+.pump-group-head{display:flex;align-items:baseline;gap:var(--space-3);margin:0 0 var(--space-4)}
+.pump-group-head h3{margin:0;color:var(--report-text);font-size:var(--type-title-l-font-size)}
+.pump-group-head span{color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.pump-work-list{display:grid;gap:var(--space-4)}
+.pump-work-list .proj{min-height:0}
+.platform-list{display:grid;gap:var(--space-3)}
+.platform-item{display:grid;grid-template-columns:minmax(220px,.75fr) minmax(0,1.4fr);gap:var(--space-6);padding:var(--space-5) var(--space-6);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-2xl);background:var(--report-surface)}
+.platform-item h3{margin:0 0 var(--space-2);font-size:var(--type-title-m-font-size);line-height:1.45}
+.platform-item .proj-meta{color:var(--item-accent)}
+.platform-item>p{margin:0;color:var(--report-muted);line-height:1.7}
+
+.inventory-fold{margin:0 0 var(--space-3);overflow:hidden;border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-2xl);background:var(--report-surface)}
+.inventory-fold summary{display:flex;align-items:center;justify-content:space-between;min-height:64px;padding:var(--space-4) var(--space-5);list-style:none;cursor:pointer}
+.inventory-fold summary::-webkit-details-marker{display:none}
+.inventory-fold summary>span:first-child{display:flex;align-items:center;gap:var(--space-3)}
+.inventory-fold summary>span:first-child momcozy-icon{color:var(--item-accent)}
+.inventory-fold small{color:var(--report-muted);font-weight:400}
+.fold-action{display:flex;align-items:center;gap:var(--space-1);color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.inventory-fold[open] .fold-action momcozy-icon{transform:rotate(90deg)}
+.inventory-list{border-top:var(--report-border-width) solid var(--report-border)}
+.inventory-row{display:grid;grid-template-columns:minmax(220px,36%) minmax(0,1fr);gap:var(--space-6);padding:var(--space-4) var(--space-5);border-bottom:var(--report-border-width) solid var(--report-border)}
+.inventory-row:last-child{border-bottom:0}
+.inventory-row h4{margin:0;color:var(--report-text);font-size:var(--type-title-s-font-size);line-height:1.45;overflow-wrap:anywhere}
+.inventory-row p{margin:var(--space-1) 0 0;color:var(--report-muted);font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.inventory-row>div:last-child{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-3);min-width:0}
+.inventory-row>div:last-child p{margin:0;color:var(--report-text)}
+.foot{margin:var(--space-16) 0 var(--space-2);padding-top:var(--space-5);border-top:var(--report-border-width) solid var(--report-border);color:var(--report-muted);font-size:var(--type-body-s-font-size);text-align:center}
+
+/* Boss report: one scanning axis, local product-line accents. */
+.external-report .block{margin:var(--space-16) 0}
+.executive-brief{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:var(--report-border-width);overflow:hidden;margin:0 0 var(--space-6);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-3xl);background:var(--report-border)}
+.executive-brief.project-scale-only{grid-template-columns:1fr}
+.project-scale-only .brief-item{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:center;gap:var(--space-5);padding:var(--space-5) var(--space-6)}
+.project-scale-only .brief-item span{margin:0}
+.brief-item{min-width:0;padding:var(--space-6);background:var(--report-surface)}
+.brief-item span{display:block;margin:0 0 var(--space-2);color:var(--report-muted);font-size:var(--type-caption-m-font-size);font-weight:600;letter-spacing:.12em}
+.brief-item p{margin:0;color:var(--report-text);font-size:var(--type-body-m-font-size);line-height:1.75}
+.brief-item.primary{background:var(--report-accent-fill);color:var(--report-accent-label)}
+.brief-item.primary span,.brief-item.primary p{color:currentColor}
+.boss-project-list,.boss-delivered-list{display:grid;gap:var(--space-3);align-items:stretch}
+.boss-project-list.cols-1,.boss-delivered-list.cols-1{grid-template-columns:1fr}
+.boss-project-list.cols-2,.boss-delivered-list.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.boss-project-list.cols-3,.boss-delivered-list.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.boss-project,.boss-delivered{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-3xl);background:var(--report-surface)}
+.boss-project-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-6);min-height:92px;padding:var(--space-5) var(--space-6)}
+.project-heading{min-width:0}
+.boss-project-head h3{margin:0;color:var(--report-text);font-size:var(--type-title-l-font-size);line-height:1.4;font-weight:600;overflow-wrap:anywhere}
+.boss-project-head h3>span{display:block;margin-top:6px;color:var(--report-text);font-size:15px;line-height:1.55;font-weight:400!important}
+.delivered-category{display:block;margin:0 0 var(--space-1);color:var(--item-accent);font-size:var(--type-caption-m-font-size);line-height:1.4;font-weight:600;letter-spacing:.08em}
+.delivery-tags{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2) var(--space-4);margin-top:var(--space-2)}
+.delivery-tag{display:inline-flex;align-items:baseline;gap:var(--space-1);min-width:0;color:var(--report-muted);font-size:var(--type-caption-m-font-size);line-height:1.5;white-space:nowrap}
+.delivery-tag::before{content:"";width:5px;height:5px;border-radius:var(--radius-full);background:var(--item-accent);align-self:center}
+.delivery-tag small{font-size:var(--type-caption-m-font-size);font-weight:500;letter-spacing:.04em}
+.delivery-tag strong{color:var(--report-text);font-size:var(--type-body-s-font-size);font-weight:600;font-variant-numeric:tabular-nums}
+.delivery-tag.is-pending::before{background:var(--status-danger-75)}
+.delivery-tag.is-pending strong{color:var(--status-danger-75)}
+.software-status{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-height:28px;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);font-size:var(--type-body-s-font-size);line-height:1.4;font-weight:600;white-space:nowrap}
+.software-status.is-success{background:var(--status-success-25);color:var(--status-success-75)}
+.software-status.is-info{background:var(--status-info-25);color:var(--status-info-75)}
+.software-status.is-warning{background:var(--status-warning-25);color:var(--status-warning-75)}
+.software-status.is-discovery{background:var(--status-discovery-25);color:var(--status-discovery-75)}
+.software-status.is-neutral{background:var(--report-surface-soft);color:var(--report-muted)}
+.project-update{display:grid;grid-template-columns:1fr;align-items:start;gap:var(--space-2);margin-top:auto;padding:var(--space-4) var(--space-6);border-top:var(--report-border-width) solid var(--report-border);background:var(--report-surface-soft)}
+.update-label{display:inline-flex;align-items:center;gap:var(--space-2);color:var(--item-accent);font-size:var(--type-caption-m-font-size);line-height:1.4;font-weight:600;letter-spacing:.08em}
+.project-update p{margin:0;color:var(--report-text);font-size:var(--type-body-m-font-size);line-height:1.6;font-weight:600;overflow-wrap:anywhere}
+.boss-risk{display:grid;grid-template-columns:176px minmax(0,1fr);gap:var(--space-5);align-items:start;padding:var(--space-4) var(--space-6);background:var(--status-danger-25);border-top:var(--report-border-width) solid var(--report-border)}
+.boss-risk-label{display:grid;justify-items:start;gap:var(--space-1)}
+.boss-risk-label small{color:var(--status-danger-75);font-size:11px;font-weight:600}
+.boss-risk p{margin:0;color:var(--report-text);font-size:13px;line-height:1.7}
+.external-report .scene-title{padding:0;border:0}
+.external-report .scene-title::before{width:10px;height:10px}
+.scene-name{color:var(--item-accent)}
+
+.edit-toolbar{position:fixed;right:var(--space-5);bottom:var(--space-5);z-index:80;display:flex;gap:var(--space-2)}
+.edit-action{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 var(--space-4);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-full);background:var(--report-surface);color:var(--report-text);font-size:var(--type-body-s-font-size);font-weight:600;cursor:pointer}
+.edit-action.primary{border-color:transparent;background:var(--report-accent-fill);color:var(--report-accent-label)}
+.edit-action.danger{border-color:transparent;background:var(--status-danger-25);color:var(--status-danger-75)}
+.edit-hint{position:fixed;left:50%;bottom:var(--space-6);z-index:79;max-width:calc(100% - 300px);padding:var(--space-2) var(--space-4);transform:translateX(-50%);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-full);background:var(--report-surface);color:var(--report-muted);font-size:var(--type-body-s-font-size);opacity:0;pointer-events:none;transition:opacity .2s}
+body.edit-mode .edit-hint{opacity:1}
+.editing{outline:2px solid var(--report-accent);outline-offset:3px;border-radius:var(--radius-sm);cursor:text}
+p,li,h1,h2,h3,h4,h5,h6,dt,dd,td,th,span,label{overflow-wrap:anywhere}
+
+@media(max-width:1040px){
+  .metrics.five{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metrics.five .metric:first-child{grid-column:1/-1}
+  .boss-project-list.cols-3,.boss-delivered-list.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid2{grid-template-columns:1fr}
+}
+@media(max-width:820px){
+  .page{width:min(100% - 24px,1180px);padding-top:var(--space-5)}
+  .hero{min-height:214px;padding:var(--space-8) var(--space-6)}
+  .hero h1{margin-top:var(--space-12);font-size:34px}
+  .composition-panel{grid-template-columns:1fr;gap:var(--space-5)}
+  .change-board,.rate-chart,.executive-brief{grid-template-columns:1fr}
+  .project-scale-only .brief-item{grid-template-columns:1fr;gap:var(--space-2)}
+  .brief-item+ .brief-item{border:0}
+  .platform-item{grid-template-columns:1fr;gap:var(--space-3)}
+  .inventory-row{grid-template-columns:1fr;gap:var(--space-2)}
+  .boss-risk{grid-template-columns:1fr;gap:var(--space-2)}
+  .edit-hint{display:none}
+}
+@media(max-width:620px){
+  html{scroll-padding-top:var(--space-18)}
+  .hero-meta{flex-direction:column;gap:var(--space-1)}
+  .hero h1{font-size:30px;line-height:1.2}
+  .report-nav{margin-top:var(--space-3)}
+  .metrics.five,.metrics.three{grid-template-columns:1fr}
+  .boss-project-list,.boss-delivered-list{grid-template-columns:1fr}
+  .metrics.five .metric:first-child{grid-column:auto}
+  .metric{min-height:120px}
+  .composition-legend{grid-template-columns:1fr}
+  .block{margin:var(--space-12) 0}
+  .block-head{grid-template-columns:76px minmax(0,1fr);gap:var(--space-3);margin-bottom:var(--space-5);padding-bottom:var(--space-4)}
+  .sec-no strong{font-size:26px}
+  .block-head h2{font-size:24px}
+  .change-panel{grid-template-columns:72px minmax(0,1fr);gap:var(--space-4);padding:var(--space-5)}
+  .proj>header,.proj-body{padding-left:var(--space-5);padding-right:var(--space-5)}
+  .risk-note{grid-template-columns:1fr;margin-left:var(--space-5);margin-right:var(--space-5)}
+  .boss-project-head{flex-direction:column;gap:var(--space-4);padding:var(--space-5)}
+  .project-update{grid-template-columns:1fr;gap:var(--space-2);padding:var(--space-4) var(--space-5)}
+  .delivery-tags{gap:var(--space-2) var(--space-3)}
+  .inventory-fold summary{align-items:flex-start}
+  .fold-action{font-size:0}
+  .fold-action momcozy-icon{margin-top:3px}
+  .edit-toolbar{right:var(--space-3);bottom:var(--space-3)}
+}
+@media print{
+  .theme-toggle,.report-nav,.edit-toolbar,.edit-hint{display:none!important}
+  .page{width:100%;padding:0}
+  .block{break-inside:avoid}
+}
+
+.page[data-product-line="grays"]{
+  --report-accent:var(--colors-brands-mom-700);
+  --report-accent-fill:var(--colors-semantic-fills-mom-primary);
+  --report-accent-label:var(--colors-semantic-labels-mom-primary);
+  --report-accent-soft:var(--colors-brands-mom-75);
+  --chart-primary:var(--colors-brands-mom-700);
+  --chart-secondary:color-mix(in srgb,var(--colors-brands-mom-700) 75%,var(--report-bg));
+}
+
+/* W38_PROVISIONING_METRICS */
+.provisioning-metrics .rate-head{margin-bottom:0}
+.provisioning-metrics .rate-delta b{color:var(--report-accent)}
+.provisioning-data-note{margin:var(--space-3) 0 0;color:var(--report-muted);font-size:var(--type-caption-m-font-size);line-height:1.6}
+
+
+.provisioning-model-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.provisioning-model-grid .rate-head{height:100%;flex-direction:column;gap:var(--space-4)}
+.provisioning-model-grid .rate-delta{width:100%;text-align:left}
+.model-note{display:block;margin-top:6px;color:var(--report-muted);font-size:11px;line-height:1.45}
+@media(max-width:1100px){.provisioning-model-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.provisioning-model-grid{grid-template-columns:1fr}}
+
+
+.provisioning-progress{margin-top:var(--space-12)}
+.provisioning-topic{margin-bottom:var(--space-12)}
+.provisioning-topic+.provisioning-topic{padding-top:var(--space-10);border-top:var(--report-border-width) solid var(--report-border)}
+.provisioning-voc-brief{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:var(--space-4)}
+.provisioning-voc-brief .brief-item strong{display:block;color:var(--report-text);font-family:var(--font-brand);font-size:var(--type-heading-m-font-size);line-height:var(--type-heading-m-line-height);font-weight:400;font-variant-numeric:tabular-nums}
+.provisioning-voc-brief .brief-item strong small{font-family:var(--font-plain);font-size:var(--type-body-s-font-size);font-weight:600}
+.provisioning-voc-brief .brief-item p{margin-top:var(--space-2);color:var(--report-muted);font-size:var(--type-body-s-font-size);line-height:1.6}
+.provisioning-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.provisioning-case-card{display:flex;flex-direction:column;gap:0;padding:0;overflow:hidden}
+.provisioning-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-5);min-height:92px;padding:var(--space-5) var(--space-6)}
+.provisioning-card-head h4{margin:0;color:var(--report-text);font-size:var(--type-title-l-font-size);line-height:1.4;font-weight:600}
+.provisioning-card-head p{margin:var(--space-1) 0 0;color:var(--item-accent);font-size:var(--type-body-s-font-size);font-weight:600}
+.provisioning-status{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-height:28px;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);font-size:var(--type-body-s-font-size);line-height:1.4;font-weight:600;white-space:nowrap}
+.provisioning-status.is-success{background:var(--status-success-25);color:var(--status-success-75)}
+.provisioning-status.is-info{background:var(--status-info-25);color:var(--status-info-75)}
+.provisioning-status.is-warning{background:var(--status-warning-25);color:var(--status-warning-75)}
+@media(max-width:820px){
+  .provisioning-voc-brief,.provisioning-card-grid{grid-template-columns:1fr}
+  .provisioning-card-head{flex-direction:column;gap:var(--space-4);padding:var(--space-5)}
+}
+
+.archive-nav{width:min(calc(100% - 40px),1280px);margin:var(--space-16) auto var(--space-10);padding-top:var(--space-6);border-top:var(--report-border-width) solid var(--report-border)}
+.archive-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-5);margin-bottom:var(--space-4)}
+.archive-eyebrow{margin:0 0 var(--space-1);color:var(--report-accent);font-size:var(--type-caption-m-font-size);font-weight:600;letter-spacing:.16em}
+.archive-head h2{margin:0;color:var(--report-text);font-size:var(--type-title-l-font-size);font-weight:600}
+.archive-head>span{color:var(--report-muted);font-size:var(--type-body-s-font-size)}
+.archive-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-3)}
+.archive-link{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);min-height:52px;padding:var(--space-3) var(--space-4);border:var(--report-border-width) solid var(--report-border);border-radius:var(--radius-2xl);background:var(--report-surface);color:var(--report-text);text-decoration:none}
+.archive-link:hover{border-color:color-mix(in srgb,var(--report-accent) 32%,var(--report-border));background:var(--report-accent-soft)}
+.archive-link:focus-visible{outline:3px solid color-mix(in srgb,var(--report-accent) 30%,transparent);outline-offset:3px}
+.archive-link span{color:var(--report-accent);font-weight:600}
+.archive-link strong{color:var(--report-muted);font-size:var(--type-body-s-font-size);font-weight:500;font-variant-numeric:tabular-nums}
+
+.inventory-row.compact{grid-template-columns:1fr}
+.boss-project-list.cols-2>article:last-child:nth-child(odd){grid-column:1/-1}
+.binding-feature{margin-bottom:var(--space-4);border-color:color-mix(in srgb,var(--report-accent) 32%,var(--report-border))}
+.binding-feature .provisioning-card-head{background:var(--report-accent-soft)}
+.binding-logic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-6);padding:var(--space-6)}
+.binding-logic h5{margin:0 0 var(--space-2);color:var(--report-text);font-size:var(--type-body-m-font-size);font-weight:600}
+.binding-logic p,.binding-benefit p{margin:0;color:var(--report-text);font-size:var(--type-body-s-font-size);line-height:1.75}
+.binding-benefit{padding:0 var(--space-6) var(--space-6)}
+.binding-benefit strong{display:block;margin-bottom:var(--space-2);color:var(--report-accent);font-size:var(--type-body-s-font-size)}
+.provisioning-card-grid>article:last-child:nth-child(odd){grid-column:1/-1}
+@media(max-width:820px){.binding-logic{grid-template-columns:1fr}}
+</style></head>
+<body class="">
+<main class="page stage external-report" data-product-line="grays">
+<div class="topbar"><div class="brand">MOMCOZY · 应用生态体验与研发中心</div>
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换为暗黑模式" title="切换为暗黑模式" aria-pressed="false">
+<span class="moon"><momcozy-icon name="themeDark" size="20" aria-hidden="true" style="width: 20px; height: 20px;"></momcozy-icon></span><span class="sun"><momcozy-icon name="themeLight" size="20" aria-hidden="true" style="width: 20px; height: 20px;"></momcozy-icon></span></button></div>
+<header class="hero"><div class="hero-meta"><span>W39</span><span>2026/09/21 - 2026/09/25</span></div><h1>IoT 周报</h1></header>
+<nav class="report-nav" aria-label="周报章节"><a href="#sec-01" class="is-active">重点项目</a><a href="#sec-02" class="">配网攻坚</a><a href="#sec-03">完整清单</a></nav>
+<section class="metrics five overview-metrics">
+<article class="metric primary"><p>进行中项目</p><div class="metric-value"><strong>63</strong><span>项</span></div></article>
+<article class="metric default"><p>整机配套项目</p><div class="metric-value"><strong>42</strong><span>项</span></div></article>
+<article class="metric default"><p>App 优化</p><div class="metric-value"><strong>8</strong><span>项</span></div></article>
+<article class="metric default"><p>跨品类公共能力</p><div class="metric-value"><strong>13</strong><span>项</span></div></article>
+<article class="metric default"><p>累计完成</p><div class="metric-value"><strong>57</strong><span>项</span></div></article>
+</section>
+<div class="executive-brief project-scale-only" data-report-role="card"><section class="brief-item">
+<span>项目盘点</span><p class="">整机配套 42 项，其中吸奶器 12 项、孕产康 8 项、产品中心 22 项。</p>
+</section></div>
+<section class="block" id="sec-01"><header class="block-head"><span class="sec-no"><small>SECTION</small><strong>01</strong></span><h2 class=""><momcozy-icon name="focus" size="24" aria-hidden="true" style="width: 24px; height: 24px;"></momcozy-icon>进展中重点项目</h2></header>
+<div class="scene-group" data-product-line="mom"><h3 class="scene-title"><span class="scene-name">哺乳场景</span></h3><div class="boss-project-list cols-2">
+<article class="boss-project" data-report-role="card" data-product-line="mom"><header class="boss-project-head"><div class="project-heading"><h3>医院级吸奶器 V4</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>10 月 12 日 关键功能设计</strong></span></span></div><span class="software-status is-info">UI 设计中</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">1.佩戴检测及最大舒适负压（MVC）设计中，计划 10 月 12 日完成。<br>2.配合 EVT3 样机的体验版本计划 12 月 27 日输出。</p></div></article>
+<article class="boss-project" data-report-role="card" data-product-line="mom"><header class="boss-project-head"><div class="project-heading"><h3>V3 Pro</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>10 月 22 日 PVT 上市版</strong></span></span></div><span class="software-status is-info">品质验证中</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">1. DVT2 体验包 9 月 24 日提交品质测试。<br>2. PVT 上市版已提前转测，计划 10 月 13 日提交品质测试。</p></div></article>
+<article class="boss-project" data-report-role="card" data-product-line="mom"><header class="boss-project-head"><div class="project-heading"><h3>M5 Ultra 新控制页</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>10 月 10 日上线</strong></span></span></div><span class="software-status is-info">测试中</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">新版控制页完成开发，测试中，预计 10 月 10 日版本交付。</p></div></article>
+</div></div>
+<div class="scene-group" data-product-line="care"><h3 class="scene-title"><span class="scene-name">睡眠与看护场景</span></h3><div class="boss-project-list cols-2">
+<article class="boss-project" data-report-role="card" data-product-line="care"><header class="boss-project-head"><div class="project-heading"><h3>BM04S 婴儿监视器</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>10 月 22 日 App 上架</strong></span></span></div><span class="software-status is-info">全功能测试与品质验收</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p>全功能测试及 App 问题回归完成；9 月 23 日完成最新固件回归，连接稳定性测试进行中。</p></div></article>
+<article class="boss-project" data-report-role="card" data-product-line="care"><header class="boss-project-head"><div class="project-heading"><h3>BM08S 婴儿监视器</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>9 月 29 日 版本测试</strong></span></span></div><span class="software-status is-info">开发中</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">1. 平板端 P0 和 P1 功能需求文档已完成；<br>2. App 端完成视频流票据加密开发，9 月 21 日版本测试进行中，计划 9 月 29 日前完成。</p></div></article>
+</div></div>
+<div class="scene-group" data-product-line="parenting"><h3 class="scene-title"><span class="scene-name">婴童健康场景</span></h3><div class="boss-project-list cols-2">
+<article class="boss-project" data-report-role="card" data-product-line="parenting"><header class="boss-project-head"><div class="project-heading"><h3>调奶器 FD04</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>10 月 12 日 海外体验样机寄出</strong></span></span></div><span class="software-status is-info">品质验收中</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">用户体验版本产品与设计走查已完成，当前品质验收中</p></div></article>
+<article class="boss-project" data-report-role="card" data-product-line="parenting"><header class="boss-project-head"><div class="project-heading"><h3>清洗机 BW05P</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>10 月 22 日 主线完整功能</strong></span></span></div><span class="software-status is-info">用户体验中</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">1. 海外用户体验 9 月 24 日启动，当前全力配合用户体验中。<br>2. 上线版本测试继续推进，完整功能计划 10 月 22 日合入。</p></div></article>
+</div></div>
+<div class="scene-group" data-product-line="care"><h3 class="scene-title"><span class="scene-name">孕产康场景</span></h3><div class="boss-project-list cols-1">
+<article class="boss-project" data-report-role="card" data-product-line="care"><header class="boss-project-head"><div class="project-heading"><h3>光疗坐垫 Lumi1</h3><span class="delivery-tags"><span class="delivery-tag"><small>下一节点</small><strong>10 月 22 日 提审</strong></span></span></div><span class="software-status is-info">上架版测试</span></header><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p>剩余多语言已交开发，9 月 24 日提供缺陷修复及多语言提测包，计划 9 月 30 日前完成内部测试。</p></div></article>
+</div></div></section>
+<section class="block" id="sec-02"><header class="block-head"><span class="sec-no"><small>SECTION</small><strong>02</strong></span><h2><momcozy-icon name="provisioning" size="24" aria-hidden="true" style="width: 24px; height: 24px;"></momcozy-icon>IoT 配网攻坚</h2></header>
+<div class="scene-group provisioning-metrics" data-product-line="grays"><h3 class="scene-title"><span class="scene-name">一次配网成功率</span><span class="scene-count">9 月 18 日至 24 日</span></h3>
+<div class="rate-chart">
+<article class="rate-group" data-report-role="card"><div class="rate-head"><div><p>四款吸奶器 BLE</p><strong>20,242 <small>次配网</small></strong></div><div class="rate-delta"><span>一次配网成功率</span><b>91.92%</b></div></div></article>
+<article class="rate-group" data-report-role="card"><div class="rate-head"><div><p>BM08 Wi-Fi</p><strong>506 <small>次配网</small></strong></div><div class="rate-delta"><span>一次配网成功率</span><b>50.40%</b></div></div></article>
+</div></div>
+<div class="scene-group provisioning-topic" data-product-line="grays"><h3 class="scene-title"><span class="scene-name">产品体验与绑定机制</span></h3>
+<article class="rate-group provisioning-case-card binding-feature" data-product-line="grays" data-report-role="card">
+<div class="provisioning-card-head"><div><h4>BM04 / BM04S：强绑定改为中绑定</h4><p>减少设备换主后的解绑等待，让新用户顺利接入</p></div><span class="provisioning-status is-info">通知功能推进中</span></div>
+<div class="binding-logic"><div><h5>让新用户完成接入</h5><p>二手设备流转后，新用户无需旧账号先移除设备或申请解绑，即可重新配网并绑定至新账号，减少对原用户配合和客服处理的依赖。</p></div>
+<div><h5>随绑定切换访问权限</h5><p>新账号绑定成功后，系统解除设备与旧账号的关联，旧账号不能再查看或控制设备，兼顾设备转交便利与使用隐私。</p></div>
+<div><h5>告知结果，减少打扰</h5><p>绑定生效后向原用户发送 Push、站内信和邮件；通知不设审批或阻断入口，避免再次依赖旧用户同意。同账号重新配网不发送通知。</p></div></div>
+<div class="binding-benefit"><strong>预期效果</strong><p>减少旧账号占用引发的配网受阻、解绑等待和客服介入，让设备转交后能顺利继续使用。实际改善幅度需在上线后验证。</p></div>
+<div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">已完成需求澄清，技术计划评估。预计9.28上线</p></div></article>
+<div class="rate-chart provisioning-card-grid">
+<article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4>Wi-Fi 选择流程</h4></div><span class="provisioning-status is-info">遗留问题回归中</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p>Android 页面配图调整已完成，遗留问题按 10 月 10 日版本继续回归，最终验收结果待确认。</p></div></article>
+<article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4 class="">配网接入规范：路特所有IoT设备拥有相同的操作指引，避免用户不会操作或上手较难</h4></div><span class="provisioning-status is-info">方案整理中</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">继续整理接入规范和现有设备流程基线，对齐设备发现、引导、状态反馈及失败处理的全链路体验方案。</p></div></article>
+</div></div>
+<div class="scene-group provisioning-topic" data-product-line="grays"><h3 class="scene-title"><span class="scene-name">上周 VOC 的闭环</span></h3><div class="rate-chart provisioning-card-grid"><article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4 class="">VOC定位中<br></h4></div><span class="provisioning-status is-info">逐条排查</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">针对 W38 清单中的 50 条定位中 VOC，已明确初筛、日志或受控复现、分析及厂商协同流程。</p></div></article><article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4 class="">M5 Smart 与 M9 小范围配网问题</h4></div><span class="provisioning-status is-info">修复与回归</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p>M5 Smart 问题单仍在修复，M9 待回归；继续核对日志和版本结果，补齐回归版本及验收时间。</p></div></article></div></div>
+<div class="scene-group provisioning-topic" data-product-line="grays"><h3 class="scene-title"><span class="scene-name">线上问题修复</span></h3><div class="rate-chart provisioning-card-grid"><article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4>BM08 与 BM04</h4></div><span class="provisioning-status is-info">定位与验证</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">BM08 配网失败仍在修复。BM04 已复盘测试环境的重复涂鸦账号样本。</p></div></article><article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4>配网埋点质量</h4></div><span class="provisioning-status is-info">测试中</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p>针对终态漏报、重复上报及设备卡片链路关联问题，双端测试包已于 9 月 24 日提供，正在验证配网与设备使用不受影响。计划进入十月版本，上线日期待测试确认。</p></div></article></div></div>
+<div class="scene-group provisioning-topic" data-product-line="grays"><h3 class="scene-title"><span class="scene-name">开发中产品进展</span></h3><div class="rate-chart provisioning-card-grid"><article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4>BM04S 原子化配网</h4></div><span class="provisioning-status is-info">首轮压测完成</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">9 月 24 日完成一轮压测，继续修复与回归；68% 异常仍在跨端核查。专项计划为 9 月 30 日问题修复、10 月 11 日首轮品质回归、10 月 22 日上线。</p></div></article><article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4>BM04 原子化配网</h4></div><span class="provisioning-status is-info">开发中</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p>9 月 24 日开发进度报至 70%，引导页已完成，后端接口继续对接；专项计划为 9 月 30 日后端适配、10 月 10 日双端提测。</p></div></article><article class="rate-group provisioning-case-card" data-product-line="grays" data-report-role="card"><div class="provisioning-card-head"><div><h4>自研模组与 Mesh</h4></div><span class="provisioning-status is-info">持续定位</span></div><div class="project-update"><span class="update-label"><momcozy-icon name="progress" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon>本周进展</span><p class="">BW05P 配网稳定性、设备扫描异常及 Mesh 从节点控制问题继续排查。</p></div></article></div></div>
+</section>
+<section class="block" id="sec-03"><header class="block-head"><span class="sec-no"><small>SECTION</small><strong>03</strong></span><h2><momcozy-icon name="inventory" size="24" aria-hidden="true" style="width: 24px; height: 24px;"></momcozy-icon>完整项目清单</h2></header>
+<details class="inventory-fold tone-mom" data-product-line="grays"><summary><span><momcozy-icon name="wholeMachine" size="20" aria-hidden="true" style="width: 20px; height: 20px;"></momcozy-icon><strong>整机项目</strong><small>42 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon></span></summary><div class="inventory-list"><article class="inventory-row compact"><div><h4>【上架中国区】V3</h4><p>吸奶器 · 验收中</p></div></article><article class="inventory-row"><div><h4>吸奶器 V3  Pro</h4><p>吸奶器 · 开发中</p></div><div><p>DVT2 体验包 9 月 24 日提交品质测试；PVT 上市版按 10 月 22 日交付推进。</p></div></article><article class="inventory-row"><div><h4>吸奶器 M5 Ultra</h4><p>吸奶器 · 开发中</p></div><div><p>新控制页在测试中，计划 10 月 10 日上线。</p></div></article><article class="inventory-row compact"><div><h4>【上架中国区】V3 pro</h4><p>吸奶器 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>Wellness Warm</h4><p>吸奶器 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>【老品翻新】M9</h4><p>吸奶器 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>【老品翻新】Air1</h4><p>吸奶器 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>Air 2</h4><p>吸奶器 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>W2</h4><p>吸奶器 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>【老品治理】M9</h4><p>吸奶器 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>【老品治理】Air 1</h4><p>吸奶器 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>【老品治理】W1</h4><p>吸奶器 · 待开发</p></div></article><article class="inventory-row compact"><div><h4>吸奶器 Q1大主机</h4><p>产品中心 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>盆底肌修复仪 Megg1 Pro</h4><p>孕产康 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>（委外）盆底肌修复仪 Megg1</h4><p>孕产康 · 联调中</p></div></article><article class="inventory-row"><div><h4>光疗坐垫 Lumi1</h4><p>孕产康 · 测试中</p></div><div><p>9 月 24 日提供缺陷修复及剩余多语言提测包，计划 9 月 30 日前完成内部测试。</p></div></article><article class="inventory-row compact"><div><h4>电疗坐垫 PluseCare1</h4><p>孕产康 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>母乳分析仪</h4><p>孕产康 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>胎教仪</h4><p>孕产康 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>Megg2</h4><p>孕产康 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>血氧仪</h4><p>产品中心 · 需求对接中</p></div></article><article class="inventory-row"><div><h4>弹力带</h4><p>孕产康 · 需求对接中</p></div><div><p>本期纳入；计划 9 月底前梳理整机需求待定项。</p></div></article><article class="inventory-row compact"><div><h4>白噪音音箱 WN08</h4><p>产品中心 · 验收中</p></div></article><article class="inventory-row compact"><div><h4>婴儿监视器 BM04M
+极小化低功率</h4><p>产品中心 · 开发中</p></div></article><article class="inventory-row"><div><h4>婴儿监视器 BM04S</h4><p>产品中心 · 测试中</p></div><div><p>全功能测试与 App 问题回归已完成，9 月 23 日完成最新固件回归，连接稳定性测试进行中。</p></div></article><article class="inventory-row"><div><h4>婴儿监视器 BM08S</h4><p>产品中心 · 开发中</p></div><div><p>平板端 P1 需求完成梳理；App 端视频流票据加密功能完成开发，9 月 21 日版本测试进行中。</p></div></article><article class="inventory-row"><div><h4>调奶器 FD04</h4><p>产品中心 · 测试中</p></div><div><p>产品与设计走查 9 月 23 日完成，v0.3 功能测试进行中；海外体验样机计划 10 月 12 日寄出。</p></div></article><article class="inventory-row compact"><div><h4>调奶器FD06</h4><p>产品中心 · UI 设计中</p></div></article><article class="inventory-row compact"><div><h4>智能清洗机 BW05S</h4><p>产品中心 · 测试中</p></div></article><article class="inventory-row"><div><h4>智能清洗机 BW05P</h4><p>产品中心 · 测试中</p></div><div><p>海外用户体验 9 月 24 日启动；完整功能合入主线按 10 月 22 日推进。</p></div></article><article class="inventory-row compact"><div><h4>智能清洗机 BW06</h4><p>产品中心 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>毛巾加热桶 TW03</h4><p>产品中心 · 联调中</p></div></article><article class="inventory-row compact"><div><h4>尿布台体重秤 AZ03</h4><p>产品中心 · 验收中</p></div></article><article class="inventory-row compact"><div><h4>智能空气净化器 AP01 Pro</h4><p>产品中心 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>智能婴儿床 BD010</h4><p>产品中心 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>智能婴儿床 BS-C1</h4><p>产品中心 · 开发中</p></div></article><article class="inventory-row"><div><h4>医院级V4大主机吸奶器</h4><p>产品中心 · UI 设计中</p></div><div><p>设置页设计已完成；佩戴检测及最大舒适负压（MVC）设计中，计划 10 月 12 日完成。EVT 提测版本计划 12 月 14 日输出，配合 EVT3 样机的体验版本计划 12 月 27 日输出。</p></div></article><article class="inventory-row compact"><div><h4>智能空气净化器 AP02</h4><p>产品中心 · 待启动</p></div></article><article class="inventory-row compact"><div><h4>智能空气净化器 AP03</h4><p>产品中心 · 待启动</p></div></article><article class="inventory-row compact"><div><h4>冰淇淋机</h4><p>产品中心 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>CM04 带电冻奶壶</h4><p>产品中心 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>T31 PRO温度贴</h4><p>产品中心 · 需求对接中</p></div></article></div></details>
+<details class="inventory-fold tone-atom" data-product-line="grays"><summary><span><momcozy-icon name="atomization" size="20" aria-hidden="true" style="width: 20px; height: 20px;"></momcozy-icon><strong>App 优化</strong><small>8 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon></span></summary><div class="inventory-list"><article class="inventory-row compact"><div><h4>吸奶器 M10 -  App 优化 V1.1</h4><p>吸奶器 · 待启动</p></div></article><article class="inventory-row compact"><div><h4>【吸奶器旅程优化】记录组件治理统一</h4><p>吸奶器 · 待启动</p></div></article><article class="inventory-row compact"><div><h4>【吸奶器控制页重构】吸乳方案卡片及韵律可视化</h4><p>吸奶器 · 待启动</p></div></article><article class="inventory-row compact"><div><h4>聚合卡片优化-解决多设备卡片遮挡问题</h4><p>吸奶器 · 待启动</p></div></article><article class="inventory-row compact"><div><h4>T31体温贴bug迭代优化</h4><p>产品中心 · 阶段未更新</p></div></article><article class="inventory-row"><div><h4>BM04/04S--暗黑模式</h4><p>产品中心 · 开发中</p></div><div><p>9 月 21 日完成 UI 3.0 和暗黑模式澄清；首页卡片及设备页适配已开发，测试用例已设计。</p></div></article><article class="inventory-row"><div><h4>白噪音WN02-Momcozy App接入Alexa</h4><p>产品中心 · 开发中</p></div><div><p>9 月 23 日提交 Alexa 审核材料；计划 10 月 22 日交付。</p></div></article><article class="inventory-row"><div><h4>BM08-TR6评审前问题修复</h4><p>产品中心 · 测试中</p></div><div><p>主流程及品质回归完成；9 月 24 日继续回归开发提测包。</p></div></article></div></details>
+<details class="inventory-fold tone-atom" data-product-line="grays"><summary><span><momcozy-icon name="atomization" size="20" aria-hidden="true" style="width: 20px; height: 20px;"></momcozy-icon><strong>原子化能力</strong><small>13 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon></span></summary><div class="inventory-list"><article class="inventory-row compact"><div><h4>原子化-配网&amp;下载二维码（用户数据归因）</h4><p>原子化 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>App 原子化配网失败异常监控告警</h4><p>原子化 · 交付中</p></div></article><article class="inventory-row"><div><h4>App 设备助手 1.0（V3）</h4><p>原子化 · 交付中</p></div><div><p>V3 设备助手素材已梳理并完成测试环境配置测试，正式配置上线时间仍待核实。</p></div></article><article class="inventory-row compact"><div><h4>主线与IoT解耦(M5smart、W1、V3)</h4><p>原子化 · 测试中</p></div></article><article class="inventory-row compact"><div><h4>原子化-在线客服参数适配 V3 &amp; 设备助手通用版 V3</h4><p>原子化 · 开发中</p></div></article><article class="inventory-row"><div><h4>【电量治理】三期优化，数字放到电池里（10.22先上WN02；吸奶器和T31后续业务侧需要自行排期创建EPIC跟进）</h4><p>原子化 · 测试中</p></div><div><p>电量组件已完成开发；T31 完成测试和产品验收，WN02 按 10 月版本推进。</p></div></article><article class="inventory-row compact"><div><h4>原子化专项-设备Tab页暗黑模式（BM04/BM04S）</h4><p>原子化 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>原子化专项-吸奶器卡片优化（解决多设备卡片遮挡问题）</h4><p>原子化 · UI中</p></div></article><article class="inventory-row"><div><h4>原子化-设备共享二期（BBM、白噪音、空净、体温贴、05P清洗机）</h4><p>原子化 · 开发中</p></div><div><p>设备共享二期 9 月 21 日启动后端联调，按 10 月 22 日版本推进。</p></div></article><article class="inventory-row"><div><h4>原子化专项-设备Tab页新增新品试用入口</h4><p>原子化 · UX中</p></div><div><p>设备 Tab 新品试用入口 9 月 22 日完成需求澄清。</p></div></article><article class="inventory-row"><div><h4>原子化专项-设备Tab页启动提速</h4><p>原子化 · 需求对接中</p></div><div><p>设备 Tab 启动提速 9 月 23 日形成方案初稿。</p></div></article><article class="inventory-row compact"><div><h4>官方韵律未发布的韵律支持白名单用户获取资源</h4><p>原子化 · 需求对接中</p></div></article><article class="inventory-row compact"><div><h4>自研模组配网错误码（空气净化器，清洗机，调奶器， FD04/AP01/WN08/BW05/TW03）</h4><p>原子化 · 需求对接中</p></div></article></div></details>
+<details class="inventory-fold tone-plat" data-product-line="grays"><summary><span><momcozy-icon name="platform" size="20" aria-hidden="true" style="width: 20px; height: 20px;"></momcozy-icon><strong>IoT 平台项目</strong><small>5 项</small></span><span class="fold-action">展开全部项目 <momcozy-icon name="next" size="16" aria-hidden="true" style="width: 16px; height: 16px;"></momcozy-icon></span></summary><div class="inventory-list"><article class="inventory-row compact"><div><h4>IoT平台监控指标数据采集-8月</h4><p>IoT 平台 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>产品数据权限控制</h4><p>IoT 平台 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>扩展程序迁移和优化</h4><p>IoT 平台 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>固件管理/OTA迁移和优化</h4><p>IoT 平台 · 开发中</p></div></article><article class="inventory-row compact"><div><h4>产品变更后的灰度发布策略</h4><p>IoT 平台 · 需求对接中</p></div></article></div></details>
+</section>
+<nav class="archive-nav" aria-label="历史周报"><header class="archive-head"><div><p class="archive-eyebrow">ARCHIVE</p><h2>历史周报</h2></div><span>W20-W38</span></header>
+<div class="archive-links"><a class="archive-link" href="/iot-weekly-report/archive/2026-09-18.html"><span>W38</span><strong>09/14-09/18</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-09-11.html"><span>W37</span><strong>09/07-09/11</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-09-04.html"><span>W36</span><strong>08/28-09/04</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-08-28.html"><span>W35</span><strong>08/24-08/28</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-08-21.html"><span>W34</span><strong>08/17-08/21</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-08-14.html"><span>W33</span><strong>08/10-08/14</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-08-07.html"><span>W32</span><strong>08/03-08/07</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-07-31.html"><span>W31</span><strong>07/27-07/31</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-07-24.html"><span>W30</span><strong>07/20-07/24</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-07-17.html"><span>W29</span><strong>07/13-07/17</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-07-09.html"><span>W28</span><strong>07/07-07/11</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-07-02.html"><span>W27</span><strong>06/29-07/03</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-06-25.html"><span>W26</span><strong>06/22-06/26</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-06-18.html"><span>W25</span><strong>06/15-06/19</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-06-11.html"><span>W24</span><strong>06/08-06/12</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-06-04.html"><span>W23</span><strong>06/01-06/05</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-05-28.html"><span>W22</span><strong>05/25-05/29</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-05-21.html"><span>W21</span><strong>05/18-05/22</strong></a>
+<a class="archive-link" href="/iot-weekly-report/archive/2026-05-14.html"><span>W20</span><strong>05/11-05/15</strong></a></div></nav>
+<p class="foot">应用生态体验与研发中心 · IoT 产品部　W39</p></main>
+<div class="edit-toolbar"><button class="edit-action" id="editBtn" type="button" style="display: inline-flex;">编辑</button><button class="edit-action danger" id="cancelBtn" type="button" style="display: none;">取消</button><button class="edit-action primary" id="saveBtn" type="button" style="display: none;">保存</button></div><div class="edit-hint" id="editHint">单击文字直接修改 · 回车换行 · 列表条目回车新增 · Esc 取消当前编辑</div>
+<script>/* Generated from @hugeicons/core-free-icons@4.2.3 (MIT). */
+(() => {
+  const ICONS = {"overview":[["path",{"d":"M21 6.75C21 4.67893 19.3211 3 17.25 3C15.1789 3 13.5 4.67893 13.5 6.75C13.5 8.82107 15.1789 10.5 17.25 10.5C19.3211 10.5 21 8.82107 21 6.75Z","stroke":"currentColor","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M10.5 6.75C10.5 4.67893 8.82107 3 6.75 3C4.67893 3 3 4.67893 3 6.75C3 8.82107 4.67893 10.5 6.75 10.5C8.82107 10.5 10.5 8.82107 10.5 6.75Z","stroke":"currentColor","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M21 17.25C21 15.1789 19.3211 13.5 17.25 13.5C15.1789 13.5 13.5 15.1789 13.5 17.25C13.5 19.3211 15.1789 21 17.25 21C19.3211 21 21 19.3211 21 17.25Z","stroke":"currentColor","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}],["path",{"d":"M10.5 17.25C10.5 15.1789 8.82107 13.5 6.75 13.5C4.67893 13.5 3 15.1789 3 17.25C3 19.3211 4.67893 21 6.75 21C8.82107 21 10.5 19.3211 10.5 17.25Z","stroke":"currentColor","strokeLinejoin":"round","strokeWidth":"1.5","key":"3"}]],"focus":[["path",{"d":"M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7","stroke":"currentColor","strokeLinecap":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M14 2.20004C13.3538 2.06886 12.6849 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 11.3151 21.9311 10.6462 21.8 10","stroke":"currentColor","strokeLinecap":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M12.0303 11.9625L16.5832 7.4096M19.7404 4.34462L19.1872 2.35748C19.0853 2.03011 18.6914 1.89965 18.4259 2.11662C16.9898 3.29018 15.4254 4.87091 16.703 7.36419C19.2771 8.56455 20.7466 6.94584 21.8733 5.5853C22.0975 5.3146 21.9623 4.90767 21.6247 4.81005L19.7404 4.34462Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}]],"platform":[["path",{"d":"M9 5C9 6.65685 7.65685 8 6 8C4.34315 8 3 6.65685 3 5C3 3.34315 4.34315 2 6 2C7.65685 2 9 3.34315 9 5Z","stroke":"currentColor","strokeWidth":"1.5","key":"0"}],["path",{"d":"M21 14C21 15.6569 19.6569 17 18 17C16.3431 17 15 15.6569 15 14C15 12.3431 16.3431 11 18 11C19.6569 11 21 12.3431 21 14Z","stroke":"currentColor","strokeWidth":"1.5","key":"1"}],["path",{"d":"M9 19C9 20.6569 7.65685 22 6 22C4.34315 22 3 20.6569 3 19C3 17.3431 4.34315 16 6 16C7.65685 16 9 17.3431 9 19Z","stroke":"currentColor","strokeWidth":"1.5","key":"2"}],["path",{"d":"M6 8V16","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"3"}],["path",{"d":"M15 14H12C8.68629 14 6 11.3137 6 8","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"4"}]],"provisioning":[["path",{"d":"M8.25 14.5C10.25 12.5 13.75 12.5 15.75 14.5","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M18.5 11.5C14.7324 8.16667 9.5 8.16667 5.5 11.5","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M2 8.5C8.31579 3.16669 15.6842 3.16668 22 8.49989","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}],["circle",{"cx":"12","cy":"18","r":"1.5","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"3"}]],"inventory":[["path",{"d":"M12 11H16","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M12 16H16","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M8 11H8.01","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}],["path",{"d":"M8 16H8.01","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"3"}],["path",{"d":"M14.5 2H9.5C8.67157 2 8 2.67157 8 3.5C8 4.32843 8.67157 5 9.5 5H14.5C15.3284 5 16 4.32843 16 3.5C16 2.67157 15.3284 2 14.5 2Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"4"}],["path",{"d":"M16 3.5C17.5535 3.54681 18.48 3.72007 19.1213 4.36137C20 5.24004 20 6.65424 20 9.48263L20 15.9995C20 18.8279 20 20.2421 19.1213 21.1208C18.2426 21.9995 16.8284 21.9995 14 21.9995L10 21.9995C7.17158 21.9995 5.75737 21.9995 4.87869 21.1208C4.00001 20.2421 4.00001 18.8279 4 15.9995L4.00001 9.48269C4.00001 6.65425 4 5.24004 4.87868 4.36136C5.51997 3.72007 6.44651 3.54681 7.9999 3.5","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"5"}]],"wholeMachine":[["path",{"d":"M21 7V12M3 7C3 10.0645 3 16.7742 3 17.1613C3 18.5438 4.94564 19.3657 8.83693 21.0095C10.4002 21.6698 11.1818 22 12 22L12 11.3548","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M15 19C15 19 15.875 19 16.75 21C16.75 21 19.5294 16 22 15","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M8.32592 9.69138L5.40472 8.27785C3.80157 7.5021 3 7.11423 3 6.5C3 5.88577 3.80157 5.4979 5.40472 4.72215L8.32592 3.30862C10.1288 2.43621 11.0303 2 12 2C12.9697 2 13.8712 2.4362 15.6741 3.30862L18.5953 4.72215C20.1984 5.4979 21 5.88577 21 6.5C21 7.11423 20.1984 7.5021 18.5953 8.27785L15.6741 9.69138C13.8712 10.5638 12.9697 11 12 11C11.0303 11 10.1288 10.5638 8.32592 9.69138Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}],["path",{"d":"M6 12L8 13","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"3"}],["path",{"d":"M17 4L7 9","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"4"}]],"appOptimization":[["path",{"d":"M13.5 2H10.5C8.14298 2 6.96447 2 6.23223 2.73223C5.5 3.46447 5.5 4.64298 5.5 7V17C5.5 19.357 5.5 20.5355 6.23223 21.2678C6.96447 22 8.14298 22 10.5 22H13.5C15.857 22 17.0355 22 17.7678 21.2678C18.5 20.5355 18.5 19.357 18.5 17V7C18.5 4.64298 18.5 3.46447 17.7678 2.73223C17.0355 2 15.857 2 13.5 2Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M12.125 19H12M12.25 19C12.25 19.1381 12.1381 19.25 12 19.25C11.8619 19.25 11.75 19.1381 11.75 19C11.75 18.8619 11.8619 18.75 12 18.75C12.1381 18.75 12.25 18.8619 12.25 19Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}]],"atomization":[["path",{"d":"M8.64298 3.14559L6.93816 3.93362C4.31272 5.14719 3 5.75397 3 6.75C3 7.74603 4.31272 8.35281 6.93817 9.56638L8.64298 10.3544C10.2952 11.1181 11.1214 11.5 12 11.5C12.8786 11.5 13.7048 11.1181 15.357 10.3544L17.0618 9.56638C19.6873 8.35281 21 7.74603 21 6.75C21 5.75397 19.6873 5.14719 17.0618 3.93362L15.357 3.14559C13.7048 2.38186 12.8786 2 12 2C11.1214 2 10.2952 2.38186 8.64298 3.14559Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M20.788 11.0972C20.9293 11.2959 21 11.5031 21 11.7309C21 12.7127 19.6873 13.3109 17.0618 14.5072L15.357 15.284C13.7048 16.0368 12.8786 16.4133 12 16.4133C11.1214 16.4133 10.2952 16.0368 8.64298 15.284L6.93817 14.5072C4.31272 13.3109 3 12.7127 3 11.7309C3 11.5031 3.07067 11.2959 3.212 11.0972","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M20.3767 16.2661C20.7922 16.5971 21 16.927 21 17.3176C21 18.2995 19.6873 18.8976 17.0618 20.0939L15.357 20.8707C13.7048 21.6236 12.8786 22 12 22C11.1214 22 10.2952 21.6236 8.64298 20.8707L6.93817 20.0939C4.31272 18.8976 3 18.2995 3 17.3176C3 16.927 3.20778 16.5971 3.62334 16.2661","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}]],"archived":[["path",{"d":"M10.0001 17V7C10.0001 5.11438 10.0001 4.17157 9.41427 3.58579C8.82849 3 7.88568 3 6.00005 3C4.11444 3 3.17163 3 2.58584 3.58578C2.00006 4.17157 2.00005 5.11437 2.00004 6.99998L2 17C1.99999 18.8856 1.99999 19.8284 2.58577 20.4142C3.17156 21 4.11438 21 6.00003 21C7.88567 21 8.82849 21 9.41427 20.4142C10.0001 19.8284 10.0001 18.8856 10.0001 17Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M21.4558 15.7091L19.0473 7.19224C18.572 5.51165 18.3343 4.67135 17.6838 4.2617C17.6312 4.22861 17.5772 4.19796 17.5218 4.16986C16.8358 3.82199 15.9877 4.04691 14.2916 4.49674C12.5529 4.95783 11.6836 5.18838 11.2632 5.84738C11.2293 5.90053 11.198 5.95524 11.1693 6.01134C10.8134 6.70684 11.057 7.5682 11.5442 9.2909L13.9527 17.8078C14.428 19.4884 14.6657 20.3287 15.3162 20.7383C15.3688 20.7714 15.4228 20.802 15.4782 20.8301C16.1642 21.178 17.0123 20.9531 18.7084 20.5033C20.4471 20.0422 21.3164 19.8116 21.7368 19.1526C21.7707 19.0995 21.802 19.0448 21.8307 18.9887C22.1866 18.2932 21.943 17.4318 21.4558 15.7091Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M2 7H10","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}],["path",{"d":"M12 9.00019L19 7","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"3"}],["path",{"d":"M6.125 17H6M6.25 17C6.25 17.1381 6.13807 17.25 6 17.25C5.86193 17.25 5.75 17.1381 5.75 17C5.75 16.8619 5.86193 16.75 6 16.75C6.13807 16.75 6.25 16.8619 6.25 17Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"4"}],["path",{"d":"M17.7307 16.75H17.6057M17.8557 16.75C17.8557 16.8881 17.7437 17 17.6057 17C17.4676 17 17.3557 16.8881 17.3557 16.75C17.3557 16.6119 17.4676 16.5 17.6057 16.5C17.7437 16.5 17.8557 16.6119 17.8557 16.75Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"5"}]],"goal":[["path",{"d":"M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7","stroke":"currentColor","strokeLinecap":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M14 2.20004C13.3538 2.06886 12.6849 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 11.3151 21.9311 10.6462 21.8 10","stroke":"currentColor","strokeLinecap":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M12.0303 11.9625L16.5832 7.4096M19.7404 4.34462L19.1872 2.35748C19.0853 2.03011 18.6914 1.89965 18.4259 2.11662C16.9898 3.29018 15.4254 4.87091 16.703 7.36419C19.2771 8.56455 20.7466 6.94584 21.8733 5.5853C22.0975 5.3146 21.9623 4.90767 21.6247 4.81005L19.7404 4.34462Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}]],"progress":[["path",{"d":"M21 21H10C6.70017 21 5.05025 21 4.02513 19.9749C3 18.9497 3 17.2998 3 14V3","stroke":"currentColor","strokeLinecap":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M7.99707 16.999C11.5286 16.999 18.9122 15.5348 18.6979 6.43269M16.4886 8.04302L18.3721 6.14612C18.5656 5.95127 18.8798 5.94981 19.0751 6.14286L20.9971 8.04302","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}]],"analytics":[["path",{"d":"M7 18V16M12 18V15M17 18V13M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M5.99219 11.4863C8.14729 11.5581 13.0341 11.2328 15.8137 6.82132M13.9923 6.28835L15.8678 5.98649C16.0964 5.95738 16.432 6.13785 16.5145 6.35298L17.0104 7.99142","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}]],"app":[["path",{"d":"M13.5 2H10.5C8.14298 2 6.96447 2 6.23223 2.73223C5.5 3.46447 5.5 4.64298 5.5 7V17C5.5 19.357 5.5 20.5355 6.23223 21.2678C6.96447 22 8.14298 22 10.5 22H13.5C15.857 22 17.0355 22 17.7678 21.2678C18.5 20.5355 18.5 19.357 18.5 17V7C18.5 4.64298 18.5 3.46447 17.7678 2.73223C17.0355 2 15.857 2 13.5 2Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M12.125 19H12M12.25 19C12.25 19.1381 12.1381 19.25 12 19.25C11.8619 19.25 11.75 19.1381 11.75 19C11.75 18.8619 11.8619 18.75 12 18.75C12.1381 18.75 12.25 18.8619 12.25 19Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}]],"testing":[["path",{"d":"M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z","stroke":"currentColor","strokeWidth":"1.5","key":"0"}],["path",{"d":"M8 12.5L10.5 15L16 9","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}]],"milestone":[["path",{"d":"M21 7V12M3 7C3 10.0645 3 16.7742 3 17.1613C3 18.5438 4.94564 19.3657 8.83693 21.0095C10.4002 21.6698 11.1818 22 12 22L12 11.3548","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}],["path",{"d":"M15 19C15 19 15.875 19 16.75 21C16.75 21 19.5294 16 22 15","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"1"}],["path",{"d":"M8.32592 9.69138L5.40472 8.27785C3.80157 7.5021 3 7.11423 3 6.5C3 5.88577 3.80157 5.4979 5.40472 4.72215L8.32592 3.30862C10.1288 2.43621 11.0303 2 12 2C12.9697 2 13.8712 2.4362 15.6741 3.30862L18.5953 4.72215C20.1984 5.4979 21 5.88577 21 6.5C21 7.11423 20.1984 7.5021 18.5953 8.27785L15.6741 9.69138C13.8712 10.5638 12.9697 11 12 11C11.0303 11 10.1288 10.5638 8.32592 9.69138Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"2"}],["path",{"d":"M6 12L8 13","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"3"}],["path",{"d":"M17 4L7 9","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"4"}]],"next":[["path",{"d":"M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}]],"themeDark":[["path",{"d":"M21.5 14.0784C20.3003 14.7189 18.9301 15.0821 17.4751 15.0821C12.7491 15.0821 8.91792 11.2509 8.91792 6.52485C8.91792 5.06986 9.28105 3.69968 9.92163 2.5C5.66765 3.49698 2.5 7.31513 2.5 11.8731C2.5 17.1899 6.8101 21.5 12.1269 21.5C16.6849 21.5 20.503 18.3324 21.5 14.0784Z","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"1.5","key":"0"}]],"themeLight":[["path",{"d":"M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z","stroke":"currentColor","strokeWidth":"1.5","key":"0"}],["path",{"d":"M12 2V3.5M12 20.5V22M19.0708 19.0713L18.0101 18.0106M5.98926 5.98926L4.9286 4.9286M22 12H20.5M3.5 12H2M19.0713 4.92871L18.0106 5.98937M5.98975 18.0107L4.92909 19.0714","stroke":"currentColor","strokeLinecap":"round","strokeWidth":"1.5","key":"1"}]]};
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const ATTRIBUTE_MAP = {
+    strokeLinecap: "stroke-linecap",
+    strokeLinejoin: "stroke-linejoin",
+    strokeWidth: "stroke-width",
+    fillRule: "fill-rule",
+    clipRule: "clip-rule",
+  };
+
+  class MomcozyIcon extends HTMLElement {
+    static get observedAttributes() { return ["name", "size"]; }
+
+    connectedCallback() { this.render(); }
+    attributeChangedCallback() { if (this.isConnected) this.render(); }
+
+    render() {
+      const definition = ICONS[this.getAttribute("name")];
+      const requestedSize = Number(this.getAttribute("size"));
+      const size = [16, 20, 24].includes(requestedSize) ? requestedSize : 20;
+      this.replaceChildren();
+      this.style.width = size + "px";
+      this.style.height = size + "px";
+
+      if (!definition) return;
+
+      const svg = document.createElementNS(SVG_NS, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("width", String(size));
+      svg.setAttribute("height", String(size));
+      svg.setAttribute("fill", "none");
+      svg.setAttribute("stroke", "currentColor");
+      svg.setAttribute("aria-hidden", "true");
+      svg.setAttribute("focusable", "false");
+
+      for (const [elementName, attributes] of definition) {
+        const node = document.createElementNS(SVG_NS, elementName);
+        for (const [name, value] of Object.entries(attributes)) {
+          if (name === "key") continue;
+          const attributeName = ATTRIBUTE_MAP[name] || name;
+          node.setAttribute(attributeName, name === "strokeWidth" ? "1.7" : String(value));
+        }
+        svg.appendChild(node);
+      }
+
+      this.appendChild(svg);
+    }
+  }
+
+  if (!customElements.get("momcozy-icon")) {
+    customElements.define("momcozy-icon", MomcozyIcon);
+  }
+
+  for (const fold of document.querySelectorAll(".project-fold")) {
+    const label = fold.querySelector("summary > span");
+    if (!label || label.querySelector(":scope > momcozy-icon")) continue;
+    const icon = document.createElement("momcozy-icon");
+    icon.setAttribute("name", fold.classList.contains("tone-app") ? "appOptimization" : fold.classList.contains("tone-atom") ? "atomization" : "wholeMachine");
+    icon.setAttribute("size", "20");
+    icon.setAttribute("aria-hidden", "true");
+    label.prepend(icon);
+  }
+})();
+</script>
+<script>(() => {
+  const NO_EDIT = [
+    '.report-nav', '.topbar', '.edit-toolbar', '.edit-hint', '.save-toast', 'button',
+    'script', 'style', 'svg', 'momcozy-icon', '.composition-bar',
+    '.composition-segment', '.rate-track', '.flow-arrow', '.stage-dot'
+  ].join(',');
+  const TEXT_TAGS = /^(P|H1|H2|H3|H4|H5|H6|LI|A|SPAN|EM|B|STRONG|DIV|DT|DD|TD|TH|LABEL)$/;
+  let editMode = false;
+  let preEditSnapshot = null;
+
+  const stageEl = () => document.querySelector('.stage');
+  const hasOwnText = el => [...el.childNodes].some(n => n.nodeType === 3 && n.nodeValue.trim());
+  const hasElementChildren = el => [...el.childNodes].some(n => n.nodeType === 1);
+
+  function editableBlock(target) {
+    let el = target;
+    while (el && el !== document.body) {
+      if (el.closest(NO_EDIT)) return null;
+      if (TEXT_TAGS.test(el.tagName)) {
+        if (hasOwnText(el)) return el;
+        if (!hasElementChildren(el) && /^(P|H1|H2|H3|H4|H5|H6|LI|SPAN|DT|DD|TD|TH|LABEL)$/.test(el.tagName) && el.closest('.stage')) return el;
+      }
+      el = el.parentElement;
+    }
+    return null;
+  }
+
+  function commitEditing(el) {
+    if (!el) return;
+    el.removeAttribute('contenteditable');
+    el.classList.remove('editing');
+  }
+
+  function remember(el) {
+    el._focusOrig = el.innerHTML;
+  }
+
+  function setToolbar(editing) {
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    if (editBtn) editBtn.style.display = editing ? 'none' : 'inline-flex';
+    if (saveBtn) saveBtn.style.display = editing ? 'inline-flex' : 'none';
+    if (cancelBtn) cancelBtn.style.display = editing ? 'inline-flex' : 'none';
+  }
+
+  function exitEditMode() {
+    editMode = false;
+    document.body.classList.remove('edit-mode');
+    setToolbar(false);
+    commitEditing(document.querySelector('[contenteditable="true"]'));
+  }
+
+  function enterEditMode() {
+    const stage = stageEl();
+    if (!stage) return;
+    preEditSnapshot = stage.innerHTML;
+    editMode = true;
+    document.body.classList.add('edit-mode');
+    setToolbar(true);
+  }
+
+  function cancelEdit() {
+    commitEditing(document.querySelector('[contenteditable="true"]'));
+    const stage = stageEl();
+    if (stage && preEditSnapshot !== null) stage.innerHTML = preEditSnapshot;
+    preEditSnapshot = null;
+    exitEditMode();
+  }
+
+  function pad(value) {
+    return String(value).padStart(2, '0');
+  }
+
+  function exportFileName() {
+    const now = new Date();
+    const stamp = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+    const week = document.querySelector('.hero-meta span')?.textContent.trim() || '周报';
+    const title = document.querySelector('.hero h1')?.textContent.trim() || document.title || '周报';
+    return `${week}_${title}_${stamp}.html`.replace(/[\\/:*?"<>|]/g, '-');
+  }
+
+  function showToast(fileName) {
+    let toast = document.getElementById('saveToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'saveToast';
+      toast.className = 'save-toast';
+      Object.assign(toast.style, {
+        position: 'fixed', left: '50%', bottom: '32px', zIndex: '120',
+        transform: 'translate(-50%, 12px)', padding: '10px 16px', borderRadius: '999px',
+        background: '#111827', color: '#fff', fontSize: '14px', opacity: '0',
+        pointerEvents: 'none', transition: 'opacity .2s ease, transform .2s ease',
+        boxShadow: '0 10px 28px rgba(0,0,0,.18)'
+      });
+      document.body.appendChild(toast);
+    }
+    toast.textContent = `已导出 ${fileName}`;
+    requestAnimationFrame(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translate(-50%, 0)';
+    });
+    window.setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translate(-50%, 12px)';
+    }, 2600);
+  }
+
+  function exportHtml() {
+    const clone = document.documentElement.cloneNode(true);
+    clone.querySelector('body')?.classList.remove('edit-mode');
+    clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+    clone.querySelectorAll('.editing').forEach(el => el.classList.remove('editing'));
+    clone.querySelectorAll('momcozy-icon > svg').forEach(svg => svg.remove());
+    clone.querySelectorAll('.save-toast').forEach(el => el.remove());
+    const editBtn = clone.querySelector('#editBtn');
+    const saveBtn = clone.querySelector('#saveBtn');
+    const cancelBtn = clone.querySelector('#cancelBtn');
+    if (editBtn) editBtn.style.display = 'inline-flex';
+    if (saveBtn) saveBtn.style.display = 'none';
+    if (cancelBtn) cancelBtn.style.display = 'none';
+    const fileName = exportFileName();
+    const blob = new Blob(['<!DOCTYPE html>\n', clone.outerHTML], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast(fileName);
+  }
+
+  function saveEdit() {
+    commitEditing(document.querySelector('[contenteditable="true"]'));
+    preEditSnapshot = null;
+    exitEditMode();
+    exportHtml();
+  }
+
+  document.addEventListener('click', event => {
+    if (!editMode || event.target.closest('.edit-toolbar, button')) return;
+    const link = event.target.closest('a');
+    if (link) event.preventDefault();
+    const el = event.target instanceof Element ? editableBlock(event.target) : null;
+    if (!el || el.getAttribute('contenteditable') === 'true') return;
+    remember(el);
+    el.setAttribute('contenteditable', 'true');
+    el.classList.add('editing');
+    el.focus();
+  });
+
+  document.addEventListener('keydown', event => {
+    const el = document.activeElement;
+    if (!el?.isContentEditable) return;
+    if (event.key === 'Escape') {
+      if (Object.prototype.hasOwnProperty.call(el, '_focusOrig')) el.innerHTML = el._focusOrig;
+      commitEditing(el);
+      return;
+    }
+    if (event.key === 'Backspace' && el.closest('[data-addlist]') && !el.textContent.trim()) {
+      event.preventDefault();
+      const target = el.previousElementSibling || el.nextElementSibling;
+      el.remove();
+      if (target) {
+        remember(target);
+        target.setAttribute('contenteditable', 'true');
+        target.classList.add('editing');
+        target.focus();
+      }
+      return;
+    }
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      if (el.closest('[data-addlist]')) {
+        const clone = el.cloneNode(false);
+        el.after(clone);
+        commitEditing(el);
+        clone.setAttribute('contenteditable', 'true');
+        clone.classList.add('editing');
+        clone.focus();
+      } else {
+        document.execCommand('insertLineBreak', false);
+      }
+    }
+  });
+
+  document.addEventListener('focusout', event => {
+    if (event.target?.isContentEditable) commitEditing(event.target);
+  });
+
+  document.getElementById('editBtn')?.addEventListener('click', enterEditMode);
+  document.getElementById('cancelBtn')?.addEventListener('click', cancelEdit);
+  document.getElementById('saveBtn')?.addEventListener('click', saveEdit);
+})();
+</script>
+<script>(() => {
+  const root = document.documentElement;
+  const themeButton = document.getElementById("theme-toggle");
+
+  const updateThemeButton = () => {
+    if (!themeButton) return;
+    const isDark = root.dataset.theme === "dark";
+    const label = isDark ? "切换为日间模式" : "切换为暗黑模式";
+    themeButton.setAttribute("aria-label", label);
+    themeButton.setAttribute("title", label);
+    themeButton.setAttribute("aria-pressed", String(isDark));
+  };
+
+  themeButton?.addEventListener("click", () => {
+    const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = nextTheme;
+    try {
+      localStorage.setItem("iot-weekly-theme", nextTheme);
+    } catch (_) {
+      // The selected mode still applies for this page view when storage is unavailable.
+    }
+    updateThemeButton();
+  });
+
+  updateThemeButton();
+
+  const navLinks = [...document.querySelectorAll('.report-nav a[href^="#"]')];
+  const setActive = id => {
+    for (const link of navLinks) {
+      link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+    }
+  };
+
+  for (const link of navLinks) {
+    link.addEventListener('click', event => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setActive(id);
+      try { history.replaceState(null, '', `#${id}`); } catch (_) {}
+    });
+  }
+
+  if ('IntersectionObserver' in window && navLinks.length) {
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (visible) setActive(visible.target.id);
+    }, { rootMargin: '-18% 0px -70% 0px', threshold: 0 });
+    for (const link of navLinks) {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) observer.observe(target);
+    }
+  }
+})();
+</script>
+
+
+</body></html>
