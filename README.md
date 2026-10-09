@@ -8,8 +8,9 @@
 
 ## 内部项目周报
 
-[2026/09/14 - 09/18](./internal-brief/index.html)
+[W41 · 2026/09/28 - 10/08](./internal-brief/index.html)
 
+- [W41 · 2026/09/28 - 10/08](./archive/2026-10-09-internal.html)
 - [W38 · 2026/09/14 - 09/18](./archive/2026-09-18-internal.html)
 - [2026/09/07 - 09/11](./archive/2026-09-11-internal.html)
 - [2026/08/28 - 09/03](./archive/2026-09-04-internal.html)
